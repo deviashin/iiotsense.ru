@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ru" data-bs-theme="light">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="generator" content="">
+  <title>IIoT Sense</title>
+
+  <!-- Bootstrap 5.3.0 alpha 1 -->
+  <link href="css/bootstrap.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet">
+
+  <!-- Font Awesome Pro 6.1.0 web -->
+  <link href="assets/css/fontawesome.css" rel="stylesheet">
+  <link href="assets/css/brands.css" rel="stylesheet">
+  <link href="assets/css/duotone.css" rel="stylesheet">
+  <!-- <link href="assets/css/light.css" rel="stylesheet">
+  <link href="assets/css/regular.css" rel="stylesheet">
+  <link href="assets/css/solid.css" rel="stylesheet">
+  <link href="assets/css/thin.css" rel="stylesheet"> -->
+
+  <link href="css/fonts.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+  <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1"
+    style="display: none; shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+    xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+    <symbol id="logo_icon" viewBox="0 0 212 187.8">
+      <path class="fil0"
+        d="M211.66 98.96c-1.27,-14.16 -3.55,-24.28 -8.77,-35.88 -2.31,-5.13 -5.05,-10.12 -7.77,-14.38 -1.48,-2.31 -2.91,-4.17 -4.45,-6.34 -1.69,-2.38 -3.41,-4.08 -5.1,-6.24 -2.11,-2.69 -2.93,-3.1 -5.28,-5.53 -5.05,-5.23 -12.43,-11.02 -18.63,-14.8 -53.02,-32.29 -120.58,-13.14 -149.09,40.09 -11.26,21.02 -15.81,47.32 -10.08,74.14 3.67,17.18 17.95,45.72 33.58,54.96 12.24,7.24 24.78,-0.54 29.03,-9.43 6.9,-14.44 -4.32,-23.34 -9.61,-30.59 -31.36,-42.86 -2.5,-101.04 48.83,-102.08 28.06,-0.57 47.26,15.16 56.78,31.84 21.77,38.16 -5.18,78.72 -15.27,78.53 -2.26,-0.04 -10.3,-3.96 -2.44,-12.66 25.19,-27.87 12.4,-72.63 -23.24,-83.15 -27.8,-8.2 -50.42,9.18 -58.85,25.68 -8.62,16.88 -8.23,35.45 2.76,51.62 2.86,4.21 6.69,10.46 12.02,9.64 6.1,-0.94 8.82,-8.26 4.33,-13.06 -3.54,-3.78 -6.28,-7.83 -8.29,-13.85 -4.28,-12.76 -0.2,-27.32 6.63,-34.7 17.5,-18.89 46.35,-15.48 58.29,5.82 6.08,10.86 6.24,24.69 0.06,35.42 -4.91,8.51 -16.62,15.83 -10.31,31.08 3.86,9.31 15.73,17.22 28.33,10.78 8.47,-4.33 15.78,-14.11 20.58,-23.68 22.21,-44.31 -0.83,-98.24 -48.77,-111.55 -26.9,-7.47 -52.4,0.51 -69.11,13.85 -2.91,2.33 -9.14,7.83 -11.42,10.69 -10.92,13.66 -18.1,28.49 -18.76,47.84 -0.61,17.8 5.19,38.52 16,50.61 2.42,2.71 8.89,8.2 8.53,13.7 -0.25,3.83 -5.37,9.18 -13.05,1.64 -9.94,-9.76 -19.46,-29.58 -22.48,-43.99 -10.01,-47.68 19.1,-94.24 66.28,-107.22 25.72,-7.07 53.12,-0.76 71.63,11.13 47.15,30.27 56.34,94.18 21.46,135.75 -4.51,5.37 -9.37,8.37 -7.11,14.16 0.96,2.46 2.9,4.38 6.08,4.82 5.03,0.69 9.64,-5.97 12.61,-9.5 14.91,-17.78 26.56,-47.31 24.08,-75.14z" />
+    </symbol>
+    <symbol id="logo_text" viewBox="0 0 4456.5 678.7">
+      <path class="fil0"
+        d="M3768.54 579.53c13.4,0 24.71,-4.78 33.97,-14.31 9.23,-9.56 13.87,-20.69 13.87,-33.42 0,-13.36 -4.63,-24.65 -13.87,-33.9 -9.26,-9.22 -20.57,-13.83 -33.97,-13.83l-153.07 0c-19.77,0 -38.43,-3.82 -55.95,-11.46 -17.54,-7.65 -32.69,-17.82 -45.45,-30.55 -12.76,-12.75 -22.95,-27.86 -30.61,-45.35 -7.65,-17.52 -11.47,-36.13 -11.47,-55.85 0,-19.74 3.83,-38.37 11.47,-55.86 7.66,-17.51 17.85,-32.62 30.61,-45.36 12.76,-12.73 27.91,-22.91 45.45,-30.54 17.53,-7.65 36.19,-11.45 55.95,-11.45l253.53 0c9.55,0 14.34,4.76 14.34,14.31l0 66.83c0,9.55 -4.79,14.33 -14.34,14.33l-253.53 0c-13.39,0 -24.71,4.62 -33.96,13.84 -9.23,9.23 -13.87,20.52 -13.87,33.91 0,12.72 4.64,23.85 13.87,33.4 9.25,9.56 20.57,14.33 33.96,14.33l153.07 0c19.77,0 38.43,3.81 55.95,11.46 17.55,7.65 32.7,17.81 45.46,30.54 12.76,12.72 22.95,27.84 30.61,45.36 7.65,17.51 11.48,36.13 11.48,55.85 0,19.72 -3.83,38.36 -11.48,55.86 -7.66,17.51 -17.85,32.62 -30.61,45.35 -12.76,12.73 -27.91,22.91 -45.46,30.55 -17.53,7.64 -36.18,11.46 -55.95,11.46l-254.47 0c-9.56,0 -14.35,-4.77 -14.35,-14.31l0 -66.85c0,-9.52 4.79,-14.31 14.35,-14.31l254.47 0z" />
+      <path class="fil0"
+        d="M4313.01 197.65c19.77,0 38.43,3.8 55.96,11.45 17.54,7.64 32.69,17.81 45.43,30.54 12.76,12.73 22.97,27.84 30.63,45.36 7.65,17.49 11.48,36.11 11.48,55.86l0 128.87c0,9.55 -4.77,14.34 -14.35,14.34l-315.7 0c-9.55,0 -14.35,4.76 -14.35,14.31l0 33.42c0,13.38 4.62,24.66 13.87,33.88 9.26,9.25 20.57,13.86 33.97,13.86l263.07 0c9.56,0 14.35,4.79 14.35,14.31l0 66.85c0,9.55 -4.79,14.31 -14.35,14.31l-263.07 0c-19.77,0 -38.43,-3.82 -55.98,-11.46 -17.52,-7.65 -32.67,-17.82 -45.43,-30.55 -12.74,-12.73 -22.95,-27.84 -30.61,-45.35 -7.65,-17.5 -11.47,-36.14 -11.47,-55.86l0 -190.93c0,-19.74 3.83,-38.37 11.47,-55.86 7.66,-17.51 17.87,-32.62 30.61,-45.36 12.76,-12.73 27.91,-22.91 45.43,-30.54 17.56,-7.65 36.21,-11.45 55.98,-11.45l153.06 0zm-153.06 95.46c-13.4,0 -24.71,4.62 -33.97,13.84 -9.26,9.23 -13.87,20.52 -13.87,33.91l0 47.73 248.74 0 0 -47.73c0,-13.39 -4.62,-24.68 -13.87,-33.91 -9.26,-9.22 -20.57,-13.84 -33.97,-13.84l-153.06 0z" />
+      <path class="fil0"
+        d="M3231.53 197.65c19.77,0 38.43,3.8 55.97,11.45 17.53,7.64 32.68,17.81 45.44,30.54 12.76,12.73 22.95,27.84 30.61,45.36 7.64,17.49 11.47,36.11 11.47,55.86l0 319.83c0,9.55 -4.79,14.31 -14.34,14.31l-66.97 0c-9.56,0 -14.35,-4.77 -14.35,-14.31l0 -319.83c0,-13.39 -4.62,-24.68 -13.86,-33.91 -9.26,-9.22 -20.59,-13.84 -33.97,-13.84l-186.56 0c-9.55,0 -14.34,4.77 -14.34,14.31l0 353.26c0,9.55 -4.77,14.31 -14.35,14.31l-66.97 0c-9.55,0 -14.34,-4.77 -14.34,-14.31l0 -448.73c0,-9.55 4.79,-14.31 14.34,-14.31l282.23 0z" />
+      <path class="fil0"
+        d="M2679.58 197.65c19.77,0 38.4,3.8 55.95,11.45 17.54,7.64 32.7,17.81 45.44,30.54 12.76,12.73 22.97,27.84 30.63,45.36 7.65,17.49 11.48,36.11 11.48,55.86l0 128.87c0,9.55 -4.8,14.34 -14.35,14.34l-315.7 0c-9.56,0 -14.35,4.76 -14.35,14.31l0 33.42c0,13.38 4.62,24.66 13.87,33.88 9.25,9.25 20.57,13.86 33.96,13.86l263.08 0c9.55,0 14.35,4.79 14.35,14.31l0 66.85c0,9.55 -4.8,14.31 -14.35,14.31l-263.08 0c-19.77,0 -38.43,-3.82 -55.98,-11.46 -17.52,-7.65 -32.68,-17.82 -45.43,-30.55 -12.76,-12.73 -22.95,-27.84 -30.61,-45.35 -7.67,-17.5 -11.47,-36.14 -11.47,-55.86l0 -190.93c0,-19.74 3.8,-38.37 11.47,-55.86 7.66,-17.51 17.85,-32.62 30.61,-45.36 12.75,-12.73 27.91,-22.91 45.43,-30.54 17.55,-7.65 36.21,-11.45 55.98,-11.45l153.07 0zm-153.07 95.46c-13.39,0 -24.71,4.62 -33.96,13.84 -9.26,9.23 -13.87,20.52 -13.87,33.91l0 47.73 248.73 0 0 -47.73c0,-13.39 -4.62,-24.68 -13.87,-33.91 -9.26,-9.22 -20.58,-13.84 -33.97,-13.84l-153.07 0z" />
+      <path class="fil0"
+        d="M2274.87 532.11l-0.96 0c0,19.81 -3.87,38.36 -11.58,55.63 -7.73,17.27 -18.02,32.44 -30.89,45.56 -12.87,13.1 -28.01,23.33 -45.38,30.68 -17.37,7.35 -36.03,11.03 -55.97,11.03l-313.7 0c-9.67,0 -14.48,-4.79 -14.48,-14.38l0 -67.15c0,-9.56 4.81,-14.37 14.48,-14.37l313.7 0c12.87,0 23.97,-4.62 33.3,-13.92 9.32,-9.26 13.99,-20.59 13.99,-34.03l0.96 0 0 -95.9c0,-13.41 -4.83,-24.76 -14.48,-34.05 -9.66,-9.26 -20.91,-13.9 -33.78,-13.9l-216.22 0c-18.67,0 -35.87,-4.15 -51.64,-12.46 -15.77,-8.31 -29.6,-19.36 -41.51,-33.09 -11.88,-13.75 -21.21,-29.25 -27.98,-46.51 -6.76,-17.24 -10.13,-34.51 -10.13,-51.78l0 -95.89c0,-19.83 3.69,-38.54 11.09,-56.1 7.41,-17.59 17.71,-32.77 30.89,-45.56 13.18,-12.78 28.48,-23.03 45.84,-30.68 17.38,-7.68 36.05,-11.53 55.99,-11.53l300.19 0c9.64,0 14.48,4.8 14.48,14.4l0 67.12c0,9.59 -4.83,14.4 -14.48,14.4l-300.19 0c-12.87,0 -23.96,4.63 -33.3,13.9 -9.33,9.26 -13.98,20.62 -13.98,34.06l0 95.89c0,13.42 4.65,24.76 13.98,34.03 9.34,9.28 20.43,13.91 33.3,13.91l216.22 0c18.01,0 34.9,4.31 50.67,12.94 15.75,8.64 29.74,19.66 41.98,33.09 12.24,13.42 21.88,28.59 28.98,45.53 7.07,16.96 10.61,34.05 10.61,51.32l0 97.8z" />
+      <path class="fil0"
+        d="M1521.56 85.38c0,5.87 -1.57,10.4 -4.71,13.56 -3.14,3.15 -7.61,4.74 -13.43,4.74l-166.26 0c-6.88,0 -10.35,3.5 -10.35,10.45l0 546.31c0,5.84 -1.57,10.38 -4.71,13.54 -3.14,3.17 -7.62,4.76 -13.43,4.76l-66.49 0c-5.8,0 -10.29,-1.59 -13.43,-4.76 -3.13,-3.15 -4.71,-7.7 -4.71,-13.54l0 -546.31c0,-3.71 -0.81,-6.38 -2.4,-8 -1.62,-1.63 -4.28,-2.45 -7.95,-2.45l-166.26 0c-5.82,0 -10.31,-1.59 -13.43,-4.74 -3.13,-3.16 -4.71,-7.69 -4.71,-13.56l0 -67.08c0,-12.22 6.06,-18.3 18.14,-18.3l456 0c5.82,0 10.29,1.59 13.43,4.74 3.13,3.17 4.71,7.69 4.71,13.56l0 67.08z" />
+      <path class="fil0"
+        d="M921.53 193.92c5.86,0 10.35,1.57 13.51,4.74 3.15,3.14 4.74,7.65 4.74,13.48l0 319.58c0,10.08 -1,19.92 -2.95,29.53 -1.95,9.56 -4.95,18.87 -8.85,27.84 -3.92,9 -8.51,17.37 -13.72,25.07 -5.25,7.76 -11.14,14.92 -17.69,21.44 -13.05,13.05 -28.62,23.51 -46.59,31.34 -9,3.92 -18.34,6.88 -27.91,8.83 -9.58,1.96 -19.46,2.97 -29.56,2.97l-152.95 0c-10.11,0 -19.97,-1.01 -29.57,-2.97 -9.58,-1.95 -18.89,-4.92 -27.92,-8.83 -9,-3.92 -17.38,-8.5 -25.1,-13.69 -7.75,-5.21 -14.92,-11.12 -21.47,-17.65 -6.57,-6.53 -12.46,-13.71 -17.71,-21.46 -5.2,-7.67 -9.79,-16.05 -13.7,-25.05 -3.92,-8.97 -6.9,-18.28 -8.85,-27.84 -1.96,-9.61 -2.96,-19.44 -2.96,-29.53l0 -190.78c0,-10.08 1,-19.94 2.96,-29.54 1.95,-9.56 4.94,-18.86 8.85,-27.84 3.91,-9 8.5,-17.37 13.7,-25.08 5.24,-7.72 11.14,-14.89 17.68,-21.43 6.57,-6.53 13.75,-12.44 21.52,-17.65 7.7,-5.19 16.07,-9.78 25.08,-13.69 9.03,-3.92 18.34,-6.88 27.92,-8.83 9.61,-1.97 19.46,-2.96 29.57,-2.96l281.98 0zm-281.98 103.2c-12.31,0 -22.7,4.24 -31.17,12.68 -8.46,8.46 -12.7,18.84 -12.7,31.13l0 190.78c0,12.29 4.24,22.67 12.7,31.11 8.47,8.45 18.86,12.69 31.17,12.69l152.95 0c12.31,0 22.71,-4.24 31.18,-12.69 4.26,-4.27 7.43,-8.95 9.54,-14.09 2.1,-5.17 3.16,-10.85 3.16,-17.02l0 -224.19c0,-6.92 -3.49,-10.4 -10.42,-10.4l-186.41 0z" />
+      <path class="fil0"
+        d="M339.59 0c5.89,0 10.46,1.59 13.63,4.74 3.18,3.17 4.8,7.69 4.8,13.56l0 642.14c0,5.84 -1.61,10.38 -4.8,13.54 -3.18,3.17 -7.74,4.76 -13.63,4.76l-67.55 0c-5.91,0 -10.47,-1.59 -13.65,-4.76 -3.18,-3.15 -4.79,-7.7 -4.79,-13.54l0 -642.14c0,-5.87 1.6,-10.39 4.79,-13.56 3.18,-3.15 7.74,-4.74 13.65,-4.74l67.55 0z" />
+      <path class="fil0"
+        d="M85.99 0c5.88,0 10.46,1.59 13.63,4.74 3.19,3.17 4.8,7.69 4.8,13.56l0 642.14c0,5.84 -1.6,10.38 -4.8,13.54 -3.18,3.17 -7.75,4.76 -13.63,4.76l-67.57 0c-5.91,0 -10.47,-1.59 -13.66,-4.76 -3.18,-3.15 -4.77,-7.7 -4.77,-13.54l0 -642.14c0,-5.87 1.58,-10.39 4.77,-13.56 3.18,-3.15 7.75,-4.74 13.66,-4.74l67.57 0z" />
+    </symbol>
+  </svg>
+
+  <main class="container-lg">
+    <h1 class="visually-hidden">text1</h1>
+
+    <div class="container-fluid py-3 px-6 shadow-sm">
+      <header class="container d-flex flex-wrap justify-content-center align-items-center">
+
+        <a href="/" class="d-flex">
+          <svg class="bi me-2" width="15.8000mm" height="14.0000mm" role="img" aria-label="logo_icon">
+            <use xlink:href="#logo_icon" />
+          </svg>
+          <span class="fs-4 visually-hidden">logo icon</span>
+        </a>
+
+        <a href="/" class="d-flex me-md-auto">
+          <svg class="bi me-2" width="59.8000mm" height="9.1000mm" role="img" aria-label="logo_text">
+            <use xlink:href="#logo_text" />
+          </svg>
+          <span class="fs-4 visually-hidden">logo text</span>
+        </a>
+
+        <ul class="nav nav-pills fs-5">
+          <li class="nav-item">
+            <a href="#" class="nav-link">О нас</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">Решения</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">Партнёрам</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link active" aria-current="Связаться">Связаться</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">RU | EN</a>
+          </li>
+        </ul>
+
+      </header>
+    </div>
+
+    <div class="container pt-2">
+      <div id="secondaryCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#secondaryCarousel" data-bs-slide-to="0" class="active"
+            aria-current="true" aria-label="Slide 1">
+          </button>
+          <button type="button" data-bs-target="#secondaryCarousel" data-bs-slide-to="1" aria-label="Slide 2">
+          </button>
+          <button type="button" data-bs-target="#secondaryCarousel" data-bs-slide-to="2" aria-label="Slide 3">
+          </button>
+        </div>
+
+        <div class="carousel-inner">
+          <div class="carousel-item active" data-bs-interval="10000">
+            <div class="container my-5">
+              <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border -shadow-sm">
+                <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
+                  <h1 class="display-4 fw-bold lh-1">Border hero with cropped image and shadows</h1>
+                  <p class="lead">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s
+                    most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid
+                    system, extensive prebuilt components, and powerful JavaScript plugins.</p>
+                  <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+                    <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Primary</button>
+                    <button type="button" class="btn btn-outline-secondary btn-lg px-4">Default</button>
+                  </div>
+                </div>
+                <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden -shadow-sm">
+                  <img class="rounded-lg-3" src="bootstrap-docs.png" alt="" width="720">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <div class="container my-5">
+              <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border -shadow-sm">
+                <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
+                  <h1 class="display-4 fw-bold lh-1">Border hero with cropped image and shadows</h1>
+                  <p class="lead">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s
+                    most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid
+                    system, extensive prebuilt components, and powerful JavaScript plugins.</p>
+                  <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+                    <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Primary</button>
+                    <button type="button" class="btn btn-outline-secondary btn-lg px-4">Default</button>
+                  </div>
+                </div>
+                <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden -shadow-sm">
+                  <img class="rounded-lg-3" src="bootstrap-docs.png" alt="" width="720">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <div class="container my-5">
+              <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border -shadow-sm">
+                <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
+                  <h1 class="display-4 fw-bold lh-1">Border hero with cropped image and shadows</h1>
+                  <p class="lead">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s
+                    most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid
+                    system, extensive prebuilt components, and powerful JavaScript plugins.</p>
+                  <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+                    <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Primary</button>
+                    <button type="button" class="btn btn-outline-secondary btn-lg px-4">Default</button>
+                  </div>
+                </div>
+                <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden -shadow-sm">
+                  <img class="rounded-lg-3" src="bootstrap-docs.png" alt="" width="720">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#secondaryCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#secondaryCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Карточка с картинкой -->
+    <div class="container  px-4 py-5">
+      <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+        <div class="col-10 col-sm-8 col-lg-6">
+          <img src="fan.jpg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500"
+            loading="lazy">
+        </div>
+        <div class="col-lg-6">
+          <h1 class="mb-3">Разработаем готовое решение под ваши задачи!</h1>
+          <p class="">
+            Сегодня поддерживаются следующие направления:
+            - Контроль микроклимата в хранилищах, складских комплексах, производственных помещениях.
+            - Мониторинг параметров объектов на открытых площадках.
+            - Вибрационный и температурный контроль узлов агрегатов и машин.
+            - Контроль технологических параметров распределённых сетей.
+            - Сбор исходных данных для цифровых двойников технологических процессов.
+            - Дистанционный технический учёт и многое другое.
+          </p>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+            <button type="button" class="btn btn-primary btn px-4">Primary</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row g-5">
+
+        <div class="col-md-4 col-lg-5 order-md-first">
+          <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-primary">Нужно коммерческое предложение?</span>
+          </h4>
+          <p>Оставьте здесь свои контакты, и мы свяжемся с вами, чтобы рассказать, как цифровые
+            решения могут повысить безопасность и эффективность вашего предприятия.</p>
+        </div>
+
+        <div class="col-md-8 col-lg-7">
+          <form class="needs-validation" novalidate>
+            <div class="row g-3">
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="firstName" placeholder="Имя *" value="" required>
+                <div class="invalid-feedback">Требуется действительное имя!</div>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="lastName" placeholder="Фамилия *" value="" required>
+                <div class="invalid-feedback">Требуется действительная фамилия!</div>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="jobTitle" placeholder="Должность *" value="" required>
+                <div class="invalid-feedback">Требуется действительная должность!</div>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="organization" placeholder="Организация *" value="" required>
+                <div class="invalid-feedback">Требуется действительная организация!</div>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="phone" placeholder="Телефон *" value="" required>
+                <div class="invalid-feedback">Пожалуйста, введите действительный номер телефона!</div>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="email" placeholder="Email *" value="" required>
+                <div class="invalid-feedback">Пожалуйста, введите действительный Email-адрес!</div>
+              </div>
+
+              <div class="col-12">
+                <input type="text" class="form-control" id="comment" placeholder="Комментарий">
+              </div>
+
+              <div class="col-md-5">
+                <select class="form-select" id="country" required>
+                  <option value="">Страна</option>
+                  <option>Россия</option>
+                  <option>Беларусь</option>
+                  <option>Казахстан</option>
+                </select>
+                <div class="invalid-feedback">Пожалуйста, выберите существующую страну!</div>
+              </div>
+
+              <div class="col-md-4">
+                <select class="form-select" id="state" required>
+                  <option value="">Город</option>
+                  <option>Челябинск</option>
+                  <option>Копейск</option>
+                  <option>Магнитогорск</option>
+                  <option>Курган</option>
+                </select>
+                <div class="invalid-feedback">Пожалуйста, выберите существующий город!</div>
+              </div>
+
+              <div class="col-md-3">
+                <input type="text" class="form-control" id="zip" placeholder="Индекс" required>
+                <div class="invalid-feedback">Пожалуйста, введите существующий индекс!</div>
+              </div>
+
+              <!-- <hr class="my-4"> -->
+
+              <div class="col-12">
+                <div class="row mb-4">
+                  <div class="col-md-4 mt-0">
+                    <small class="" id="">* Обязательные поля</small>
+                    <button class="btn btn-primary my-2 me-auto" type="submit">Отправить</button>
+                  </div>
+
+                  <div class="col-md-8">
+                    <p class="text-muted mb-0">
+                      <small>
+                        Нажимая кнопку «Отправить», вы соглашаетесь с нашей
+                        <a class="link-dark" href="#">Политикой конфиденциальности.</a>
+                      </small>
+                    </p>
+                    <p class="text-muted mb-0">
+                      <small>
+                        Мы не делимся информацией с третьими лицами.
+                      </small>
+                    </p>
+                    <p class="text-muted mb-0">
+                      <small>
+                        Стоимость услуг
+                        <a class="link-dark" href="#"> рассчитывается </a>
+                        по запросу.
+                      </small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+  </main>
+  </div>
+
+  <!-- Футер -->
+  <div class="container col-xl-10 col-xxl-8 px-4 py-4 border-top">
+    <footer class="">
+      <div class="row justify-content-center">
+        <div class="col-6 col-md-2 mb-3">
+          <h5>Продукты</h5>
+          <ul class="nav flex-column">
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">Каталог</a>
+            </li>
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">Разработка</a>
+            </li>
+          </ul>
+          <h5 class="mt-4">Карьера</h5>
+          <ul class="nav flex-column">
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">Вакансии</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-6 col-md-2 mb-3">
+          <h5>Деятельность</h5>
+          <ul class="nav flex-column">
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">Новости и события</a>
+            </li>
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">Проекты</a>
+            </li>
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">Готовые решения</a>
+            </li>
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">О нас</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-6 col-md-2 mb-3">
+          <h5>Помощь</h5>
+          <ul class="nav flex-column">
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">О технологии IIoT Sense</a>
+            </li>
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">Документация</a>
+            </li>
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">Техническая поддержка</a>
+            </li>
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">Гарантия и ремонт</a>
+            </li>
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">Сертификаты</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-md-5 offset-md-1">
+          <div class="d-flex flex-wrap align-items-center">
+            <a href="/" class="d-flex">
+              <svg class="bi me-2" width="15.8000mm" height="14.0000mm" role="img" aria-label="logo_icon">
+                <use xlink:href="#logo_icon" />
+              </svg>
+              <span class="fs-4 visually-hidden">logo icon</span>
+            </a>
+            <a href="/" class="d-flex me-md-auto">
+              <svg class="bi me-2" width="59.8000mm" height="9.1000mm" role="img" aria-label="logo_text">
+                <use xlink:href="#logo_text" />
+              </svg>
+              <span class="fs-4 visually-hidden">logo text</span>
+            </a>
+
+            <p class="ms-1 my-3">ООО "Конструкторское бюро цифровых радиосистем"</p>
+          </div>
+
+          <div class="">
+            <p class="ms-1">
+              <a class="link-dark text-decoration-none"
+                href="https://2gis.ru/chelyabinsk/geo/2111697980517277/61.363725%2C55.158184?m=61.364042%2C55.158412%2F18.86">
+                <i class="fa-duotone fa-map-location-dot fa-xl"></i>
+                <span class="ps-2">454080, г. Челябинск, пр-кт Ленина 89, офис 317</span>
+              </a>
+            </p>
+            <p class="ms-1">
+              <!-- <a class="link-dark text-decoration-none" href="tel:+73517555040"> -->
+              <a class="link-dark text-decoration-none" href="tel:+79310184221"></a>
+              <i class="fa-duotone fa-phone fa-xl"></i>
+              <span class="ps-2">+7 (351) 755-50-40</span>
+              </a>
+            </p>
+            <p class="ms-1">
+              <a class="link-dark text-decoration-none" href="mailto:info@iiotsense.ru">
+                <i class="fa-duotone fa-envelope fa-xl"></i>
+                <span class="ps-2">info@iiotsense.ru</span>
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column flex-sm-row justify-content-between py-3 border-top">
+        <p class="my-auto">
+          <span class="">© 2023 Все права защищены.</span>
+          <a class="link-dark" href="#">
+            <span class="">Политика конфиденциальности.</span>
+          </a>
+        </p>
+        <ul class="list-unstyled d-flex my-auto">
+          <li class="me-3">
+            <a class="link-dark" href="#">
+              <i class="fa-brands fa-vk fa-2xl"></i>
+          </li>
+          <li class="me-3">
+            <a class="link-dark" href="#">
+              <i class="fa-brands fa-youtube fa-2xl"></i>
+            </a>
+          </li>
+          <li class="me-3">
+            <a class="link-dark" href="#">
+              <i class="fa-brands fa-telegram fa-2xl"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </footer>
+  </div>
+
+  </main>
+
+  <!-- <script src="js/popper.min.js"></script> -->
+  <script src="js/bootstrap.js"></script>
+  <!-- <script src="js/masonry.pkgd.js"></script>
+  <script src="js/chart.js"></script> -->
+</body>
+
+</html>
