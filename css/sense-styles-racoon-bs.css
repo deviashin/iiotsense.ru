@@ -1,21 +1,21 @@
 :root,
 [data-bs-theme="light"] {
     --bd-purple: #4c0bce;
-    --bd-violet: #712cf9;
-    --bd-accent: #ffe484;
-    --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-    --bd-accent-rgb: 255, 228, 132;
+    --sense-dark: #282830;
+    --sense-accent: #14A03C;
+    --sense-dark-rgb: 40, 40, 48;
+    --sense-accent-rgb: 20, 160, 60;
     --bd-pink-rgb: 214, 51, 132;
     --bd-teal-rgb: 32, 201, 151;
-    --docsearch-primary-color: var(--bd-violet);
-    --docsearch-logo-color: var(--bd-violet);
-    --bd-violet-bg: var(--bd-violet);
-    --bd-sidebar-link-bg: rgba(var(--bd-violet-rgb), .1)
+    --docsearch-primary-color: var(--sense-dark);
+    --docsearch-logo-color: var(--sense-dark);
+    --sense-dark-bg: var(--sense-dark);
+    --bd-sidebar-link-bg: rgba(var(--sense-dark-rgb), .1)
 }
 
 [data-bs-theme="dark"] {
-    --bd-violet: #9461fb;
-    --bd-violet-bg: #712cf9;
+    --sense-dark: #9461fb;
+    --sense-dark-bg: #282830;
     --bd-sidebar-link-bg: rgba(84, 33, 187, .5)
 }
 
@@ -600,7 +600,7 @@
     z-index: -1;
     display: block;
     content: "";
-    background-image: linear-gradient(to bottom, rgba(var(--bd-violet-rgb), 1), rgba(var(--bd-violet-rgb), 0.95))
+    background-image: linear-gradient(to bottom, rgba(var(--sense-dark-rgb), 1), rgba(var(--sense-dark-rgb), 0.95))
 }
 
 @media (max-width: 991.98px) {
@@ -633,9 +633,9 @@
     transition: .2s ease-in-out transform
 }
 
-.bd-navbar .navbar-brand:hover {
+/* .bd-navbar .navbar-brand:hover {
     transform: rotate(-5deg) scale(1.1)
-}
+} */
 
 .bd-navbar .navbar-toggler,
 .bd-navbar .nav-link {
@@ -663,7 +663,7 @@
 }
 
 .bd-navbar .offcanvas-lg {
-    background-color: var(--bd-violet-bg);
+    background-color: var(--sense-dark-bg);
     border-left: 0
 }
 
@@ -681,8 +681,8 @@
     --bs-dropdown-min-width: 12rem;
     --bs-dropdown-padding-x: .25rem;
     --bs-dropdown-padding-y: .25rem;
-    --bs-dropdown-link-hover-bg: rgba(var(--bd-violet-rgb), .1);
-    --bs-dropdown-link-active-bg: rgba(var(--bd-violet-rgb), 1);
+    --bs-dropdown-link-hover-bg: rgba(var(--sense-dark-rgb), .1);
+    --bs-dropdown-link-active-bg: rgba(var(--sense-dark-rgb), 1);
     --bs-dropdown-font-size: .875rem;
     font-size: .875rem;
     border-radius: .5rem;
@@ -751,7 +751,7 @@
     --docsearch-searchbox-background: rgba(0, 0, 0, 0.1);
     --docsearch-searchbox-color: #fff;
     --docsearch-searchbox-focus-background: rgba(0, 0, 0, 0.25);
-    --docsearch-searchbox-shadow: 0 0 0 0.25rem rgba(255, 228, 132, 0.4);
+    --docsearch-searchbox-shadow: 0 0 0 0.25rem rgba(20, 160, 60, 0.4);
     --docsearch-text-color: #fff;
     --docsearch-muted-color: rgba(255, 255, 255, 0.65);
     width: 100%;
@@ -768,7 +768,7 @@
 .DocSearch-Button:active,
 .DocSearch-Button:focus,
 .DocSearch-Button:hover {
-    border-color: #ffe484
+    border-color: #14A03C
 }
 
 .DocSearch-Button:active .DocSearch-Search-Icon,
@@ -865,7 +865,7 @@
 .bd-masthead {
     --bd-pink-rgb: 214, 51, 132;
     padding: 3rem 0;
-    background-image: linear-gradient(180deg, rgba(var(--bs-body-bg-rgb), 0.01), rgba(var(--bs-body-bg-rgb), 1) 85%), radial-gradient(ellipse at top left, rgba(var(--bs-primary-rgb), 0.5), transparent 50%), radial-gradient(ellipse at top right, rgba(var(--bd-accent-rgb), 0.5), transparent 50%), radial-gradient(ellipse at center right, rgba(var(--bd-violet-rgb), 0.5), transparent 50%), radial-gradient(ellipse at center left, rgba(var(--bd-pink-rgb), 0.5), transparent 50%)
+    background-image: linear-gradient(180deg, rgba(var(--bs-body-bg-rgb), 0.01), rgba(var(--bs-body-bg-rgb), 1) 85%), radial-gradient(ellipse at top left, rgba(var(--bs-primary-rgb), 0.5), transparent 50%), radial-gradient(ellipse at top right, rgba(var(--sense-accent-rgb), 0.5), transparent 50%), radial-gradient(ellipse at center right, rgba(var(--sense-dark-rgb), 0.5), transparent 50%), radial-gradient(ellipse at center left, rgba(var(--bd-pink-rgb), 0.5), transparent 50%)
 }
 
 .bd-masthead h1 {
@@ -960,7 +960,7 @@
 }
 
 .masthead-notice {
-    background-color: var(--bd-accent);
+    background-color: var(--sense-accent);
     box-shadow: inset 0 -1px 1px rgba(var(--bs-body-color-rgb), 0.15), 0 0.25rem 1.5rem rgba(var(--bs-body-bg-rgb), 0.75)
 }
 
@@ -1396,14 +1396,14 @@ details[open]>.bd-summary-link {
     .bd-toc-toggle:focus,
     .bd-toc-toggle:active,
     .bd-toc-toggle[aria-expanded="true"] {
-        color: var(--bd-violet);
+        color: var(--sense-dark);
         background-color: var(--bs-body-bg);
-        border-color: var(--bd-violet)
+        border-color: var(--sense-dark)
     }
 
     .bd-toc-toggle:focus,
     .bd-toc-toggle[aria-expanded="true"] {
-        box-shadow: 0 0 0 3px rgba(var(--bd-violet-rgb), 0.25)
+        box-shadow: 0 0 0 3px rgba(var(--sense-dark-rgb), 0.25)
     }
 }
 
@@ -1549,8 +1549,8 @@ details[open]>.bd-summary-link {
 .bd-example-cssgrid [class*="grid"]>* {
     padding-top: .75rem;
     padding-bottom: .75rem;
-    background-color: rgba(var(--bd-violet-rgb), 0.15);
-    border: 1px solid rgba(var(--bd-violet-rgb), 0.3)
+    background-color: rgba(var(--sense-dark-rgb), 0.15);
+    border: 1px solid rgba(var(--sense-dark-rgb), 0.3)
 }
 
 .bd-example-row .row+.row,
@@ -1560,12 +1560,12 @@ details[open]>.bd-summary-link {
 
 .bd-example-row-flex-cols .row {
     min-height: 10rem;
-    background-color: rgba(var(--bd-violet-rgb), 0.15)
+    background-color: rgba(var(--sense-dark-rgb), 0.15)
 }
 
 .bd-example-flex div {
-    background-color: rgba(var(--bd-violet-rgb), 0.15);
-    border: 1px solid rgba(var(--bd-violet-rgb), 0.3)
+    background-color: rgba(var(--sense-dark-rgb), 0.15);
+    border: 1px solid rgba(var(--sense-dark-rgb), 0.3)
 }
 
 .example-container {
@@ -1700,7 +1700,7 @@ details[open]>.bd-summary-link {
 }
 
 .simple-list-example-scrollspy .active {
-    background-color: rgba(var(--bd-violet-rgb), 0.15)
+    background-color: rgba(var(--sense-dark-rgb), 0.15)
 }
 
 .bd-example-border-utils [class^="border"] {
@@ -1842,13 +1842,13 @@ details[open]>.bd-summary-link {
 .btn-bd-primary {
     --bs-btn-font-weight: 600;
     --bs-btn-color: var(--bs-white);
-    --bs-btn-bg: var(--bd-violet);
-    --bs-btn-border-color: var(--bd-violet);
+    --bs-btn-bg: var(--sense-dark);
+    --bs-btn-border-color: var(--sense-dark);
     --bs-btn-border-radius: .5rem;
     --bs-btn-hover-color: var(--bs-white);
     --bs-btn-hover-bg: #6528e0;
     --bs-btn-hover-border-color: #6528e0;
-    --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+    --bs-btn-focus-shadow-rgb: var(--sense-dark-rgb);
     --bs-btn-active-color: var(--bs-btn-hover-color);
     --bs-btn-active-bg: #5a23c8;
     --bs-btn-active-border-color: #5a23c8
@@ -1856,12 +1856,12 @@ details[open]>.bd-summary-link {
 
 .btn-bd-accent {
     --bs-btn-font-weight: 600;
-    --bs-btn-color: var(--bd-accent);
-    --bs-btn-border-color: var(--bd-accent);
-    --bs-btn-hover-color: var(--bd-dark);
-    --bs-btn-hover-bg: var(--bd-accent);
-    --bs-btn-hover-border-color: var(--bd-accent);
-    --bs-btn-focus-shadow-rgb: var(--bd-accent-rgb);
+    --bs-btn-color: var(--sense-accent);
+    --bs-btn-border-color: var(--sense-accent);
+    --bs-btn-hover-color: var(--sense-dark);
+    --bs-btn-hover-bg: var(--sense-accent);
+    --bs-btn-hover-border-color: var(--sense-accent);
+    --bs-btn-focus-shadow-rgb: var(--sense-accent-rgb);
     --bs-btn-active-color: var(--bs-btn-hover-color);
     --bs-btn-active-bg: var(--bs-btn-hover-bg);
     --bs-btn-active-border-color: var(--bs-btn-hover-border-color)
@@ -1877,7 +1877,7 @@ details[open]>.bd-summary-link {
     --bs-btn-active-bg: var(--bs-white);
     --bs-btn-active-border-color: var(--btn-custom-color);
     --bs-btn-focus-border-color: var(--btn-custom-color);
-    --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb)
+    --bs-btn-focus-shadow-rgb: var(--sense-dark-rgb)
 }
 
 .bd-callout {
@@ -1924,12 +1924,12 @@ details[open]>.bd-summary-link {
 }
 
 .bd-brand-logos {
-    color: #712cf9
+    color: #282830
 }
 
 .bd-brand-logos .inverse {
     color: #fff;
-    background-color: #712cf9
+    background-color: #282830
 }
 
 .bd-brand-item+.bd-brand-item {
