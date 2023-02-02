@@ -23,6 +23,8 @@
   <link href="assets/css/thin.css" rel="stylesheet"> -->
 
   <link href="css/fonts.css" rel="stylesheet">
+
+
 </head>
 
 <body>
@@ -56,7 +58,7 @@
     </symbol>
   </svg>
 
-  <main>
+  <main class="container-lg">
     <h1 class="visually-hidden">text1</h1>
 
     <div class="container-fluid py-3 px-6 shadow-sm">
@@ -183,15 +185,15 @@
     </div>
 
     <!-- Карточка с картинкой -->
-    <div class="container col-xxl-8 px-4 py-5">
+    <div class="container  px-4 py-5">
       <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
         <div class="col-10 col-sm-8 col-lg-6">
           <img src="fan.jpg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500"
             loading="lazy">
         </div>
         <div class="col-lg-6">
-          <h1 class="display-5 fw-bold lh-1 mb-3">Разработаем готовое решение под ваши задачи!</h1>
-          <p class="lead">
+          <h1 class="mb-3">Разработаем готовое решение под ваши задачи!</h1>
+          <p class="">
             Сегодня поддерживаются следующие направления:
             - Контроль микроклимата в хранилищах, складских комплексах, производственных помещениях.
             - Мониторинг параметров объектов на открытых площадках.
@@ -200,154 +202,257 @@
             - Сбор исходных данных для цифровых двойников технологических процессов.
             - Дистанционный технический учёт и многое другое.
           </p>
-          <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-            <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Primary</button>
-            <button type="button" class="btn btn-outline-secondary btn-lg px-4">Default</button>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+            <button type="button" class="btn btn-primary btn px-4">Primary</button>
           </div>
         </div>
       </div>
     </div>
-    <!-- Карточка с формой -->
-    <div class="container col-xl-10 col-xxl-8 px-4 py-5">
-      <div class="row align-items-center g-lg-5 py-5">
-        <div class="col-lg-7 text-center text-lg-start">
-          <h1 class="display-4 fw-bold lh-1 mb-3">Нужно коммерческое предложение?</h1>
-          <p class="col-lg-10 fs-4">Оставьте здесь свои контакты, и мы свяжемся с вами, чтобы рассказать, как цифровые
+
+    <div class="container">
+      <div class="row g-5">
+
+        <div class="col-md-4 col-lg-5 order-md-first">
+          <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-primary">Нужно коммерческое предложение?</span>
+          </h4>
+          <p>Оставьте здесь свои контакты, и мы свяжемся с вами, чтобы рассказать, как цифровые
             решения могут повысить безопасность и эффективность вашего предприятия.</p>
         </div>
-        <div class="col-md-10 mx-auto col-lg-5">
-          <form class="p-4 p-md-5 border rounded-3 bg-light">
-            <div class="form-floating mb-3">
-              <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-              <label for="floatingInput">Email *</label>
+
+        <div class="col-md-8 col-lg-7">
+          <form class="needs-validation" novalidate>
+            <div class="row g-3">
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="firstName" placeholder="Имя *" value="" required>
+                <div class="invalid-feedback">Требуется действительное имя!</div>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="lastName" placeholder="Фамилия *" value="" required>
+                <div class="invalid-feedback">Требуется действительная фамилия!</div>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="jobTitle" placeholder="Должность *" value="" required>
+                <div class="invalid-feedback">Требуется действительная должность!</div>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="organization" placeholder="Организация *" value="" required>
+                <div class="invalid-feedback">Требуется действительная организация!</div>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="phone" placeholder="Телефон *" value="" required>
+                <div class="invalid-feedback">Пожалуйста, введите действительный номер телефона!</div>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="email" placeholder="Email *" value="" required>
+                <div class="invalid-feedback">Пожалуйста, введите действительный Email-адрес!</div>
+              </div>
+
+              <div class="col-12">
+                <input type="text" class="form-control" id="comment" placeholder="Комментарий">
+              </div>
+
+              <div class="col-md-5">
+                <select class="form-select" id="country" required>
+                  <option value="">Страна</option>
+                  <option>Россия</option>
+                  <option>Беларусь</option>
+                  <option>Казахстан</option>
+                </select>
+                <div class="invalid-feedback">Пожалуйста, выберите существующую страну!</div>
+              </div>
+
+              <div class="col-md-4">
+                <select class="form-select" id="state" required>
+                  <option value="">Город</option>
+                  <option>Челябинск</option>
+                  <option>Копейск</option>
+                  <option>Магнитогорск</option>
+                  <option>Курган</option>
+                </select>
+                <div class="invalid-feedback">Пожалуйста, выберите существующий город!</div>
+              </div>
+
+              <div class="col-md-3">
+                <input type="text" class="form-control" id="zip" placeholder="Индекс" required>
+                <div class="invalid-feedback">Пожалуйста, введите существующий индекс!</div>
+              </div>
+
+              <!-- <hr class="my-4"> -->
+
+              <div class="col-12">
+                <div class="row mb-4">
+                  <div class="col-md-4 mt-0">
+                    <small class="" id="">* Обязательные поля</small>
+                    <button class="btn btn-primary my-2 me-auto" type="submit">Отправить</button>
+                  </div>
+
+                  <div class="col-md-8">
+                    <p class="text-muted mb-0">
+                      <small>
+                        Нажимая кнопку «Отправить», вы соглашаетесь с нашей
+                        <a class="link-dark" href="#">Политикой конфиденциальности.</a>
+                      </small>
+                    </p>
+                    <p class="text-muted mb-0">
+                      <small>
+                        Мы не делимся информацией с третьими лицами.
+                      </small>
+                    </p>
+                    <p class="text-muted mb-0">
+                      <small>
+                        Стоимость услуг
+                        <a class="link-dark" href="#"> рассчитывается </a>
+                        по запросу.
+                      </small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
             </div>
-            <div class="form-floating mb-3">
-              <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-              <label for="floatingPassword">Password</label>
-            </div>
-            <div class="checkbox mb-3">
-              <label>
-                <input type="checkbox" value="remember-me"> Remember me
-              </label>
-            </div>
-            <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
-            <hr class="my-4">
-            <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
           </form>
         </div>
       </div>
-    </div>
-    <!-- Футер -->
-    <div class="container">
-      <footer class="py-0">
-        <div class="row">
-          <div class="col-6 col-md-2 mb-3">
-            <h5>Продукты</h5>
-            <ul class="nav flex-column">
-              <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-muted">Каталог</a>
-              </li>
-              <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-muted">Разработка</a>
-              </li>
-            </ul>
-            <h5 class="mt-4">Карьера</h5>
-            <ul class="nav flex-column">
-              <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-muted">Вакансии</a>
-              </li>
-            </ul>
-          </div>
+  </main>
+  </div>
 
-          <div class="col-6 col-md-2 mb-3">
-            <h5>Деятельность</h5>
-            <ul class="nav flex-column">
-              <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-muted">Новости и события</a>
-              </li>
-              <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-muted">Проекты</a>
-              </li>
-              <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-muted">Готовые решения</a>
-              </li>
-              <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-muted">О нас</a>
-              </li>
-            </ul>
-          </div>
-
-          <div class="col-6 col-md-2 mb-3">
-            <h5>Помощь</h5>
-            <ul class="nav flex-column">
-              <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-muted">О технологии IIoT Sense</a>
-              </li>
-              <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-muted">Документация</a>
-              </li>
-              <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-muted">Техническая поддержка</a>
-              </li>
-              <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-muted">Гарантия и ремонт</a>
-              </li>
-              <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-muted">Сертификаты</a>
-              </li>
-            </ul>
-          </div>
-
-          <div class="col-md-5 offset-md-1 mb-3">
-            <h5>Subscribe to our newsletter</h5>
-            <p>ООО "Конструкторское бюро цифровых радиосистем"</p>
-            <p>
-              <a class="link-dark text-decoration-none"
-                href="https://2gis.ru/chelyabinsk/geo/2111697980517277/61.363725%2C55.158184?m=61.364042%2C55.158412%2F18.86">
-                <i class="fa-duotone fa-map-location-dot"></i>
-                <span class="">454080, г. Челябинск, пр-кт Ленина 89, офис 317</span>
-              </a>
-            </p>
-            <p>
-              <!-- <a class="link-dark text-decoration-none" href="tel:+73517555040"> -->
-              <a class="link-dark text-decoration-none" href="tel:+79310184221"></a>
-              <i class="fa-duotone fa-phone"></i>
-              <span class="">+7 (351) 755-50-40</span>
-              </a>
-            </p>
-            <p>
-              <a class="link-dark text-decoration-none" href="mailto:info@iiotsense.ru">
-                <i class="fa-duotone fa-envelope"></i>
-                <span class="">info@iiotsense.ru</span>
-              </a>
-            </p>
-          </div>
-        </div>
-
-        <div class="d-flex flex-column flex-sm-row justify-content-between pt-4 mt-4 border-top">
-          <p>
-            <span class="">© 2023 Все права защищены.</span>
-            <span class="">Политика конфиденциальности.</span>
-          </p>
-          <ul class="list-unstyled d-flex">
-            <li class="ms-3">
-              <a class="link-dark" href="#">
-                <i class="fa-brands fa-vk"></i>
+  <!-- Футер -->
+  <div class="container col-xl-10 col-xxl-8 px-4 py-4 border-top">
+    <footer class="">
+      <div class="row justify-content-center">
+        <div class="col-6 col-md-2 mb-3">
+          <h5>Продукты</h5>
+          <ul class="nav flex-column">
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">Каталог</a>
             </li>
-            <li class="ms-3">
-              <a class="link-dark" href="#">
-                <i class="fa-brands fa-youtube"></i>
-              </a>
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">Разработка</a>
             </li>
-            <li class="ms-3">
-              <a class="link-dark" href="#">
-                <i class="fa-brands fa-telegram"></i>
-              </a>
+          </ul>
+          <h5 class="mt-4">Карьера</h5>
+          <ul class="nav flex-column">
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">Вакансии</a>
             </li>
           </ul>
         </div>
-      </footer>
-    </div>
+
+        <div class="col-6 col-md-2 mb-3">
+          <h5>Деятельность</h5>
+          <ul class="nav flex-column">
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">Новости и события</a>
+            </li>
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">Проекты</a>
+            </li>
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">Готовые решения</a>
+            </li>
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">О нас</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-6 col-md-2 mb-3">
+          <h5>Помощь</h5>
+          <ul class="nav flex-column">
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">О технологии IIoT Sense</a>
+            </li>
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">Документация</a>
+            </li>
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">Техническая поддержка</a>
+            </li>
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">Гарантия и ремонт</a>
+            </li>
+            <li class="nav-item mb-2">
+              <a href="#" class="nav-link p-0 text-muted">Сертификаты</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-md-5 offset-md-1">
+          <div class="d-flex flex-wrap align-items-center">
+            <a href="/" class="d-flex">
+              <svg class="bi me-2" width="15.8000mm" height="14.0000mm" role="img" aria-label="logo_icon">
+                <use xlink:href="#logo_icon" />
+              </svg>
+              <span class="fs-4 visually-hidden">logo icon</span>
+            </a>
+            <a href="/" class="d-flex me-md-auto">
+              <svg class="bi me-2" width="59.8000mm" height="9.1000mm" role="img" aria-label="logo_text">
+                <use xlink:href="#logo_text" />
+              </svg>
+              <span class="fs-4 visually-hidden">logo text</span>
+            </a>
+
+            <p class="ms-1 my-3">ООО "Конструкторское бюро цифровых радиосистем"</p>
+          </div>
+
+          <div class="">
+            <p class="ms-1">
+              <a class="link-dark text-decoration-none"
+                href="https://2gis.ru/chelyabinsk/geo/2111697980517277/61.363725%2C55.158184?m=61.364042%2C55.158412%2F18.86">
+                <i class="fa-duotone fa-map-location-dot fa-xl"></i>
+                <span class="ps-2">454080, г. Челябинск, пр-кт Ленина 89, офис 317</span>
+              </a>
+            </p>
+            <p class="ms-1">
+              <!-- <a class="link-dark text-decoration-none" href="tel:+73517555040"> -->
+              <a class="link-dark text-decoration-none" href="tel:+79310184221"></a>
+              <i class="fa-duotone fa-phone fa-xl"></i>
+              <span class="ps-2">+7 (351) 755-50-40</span>
+              </a>
+            </p>
+            <p class="ms-1">
+              <a class="link-dark text-decoration-none" href="mailto:info@iiotsense.ru">
+                <i class="fa-duotone fa-envelope fa-xl"></i>
+                <span class="ps-2">info@iiotsense.ru</span>
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column flex-sm-row justify-content-between py-3 border-top">
+        <p class="my-auto">
+          <span class="">© 2023 Все права защищены.</span>
+          <a class="link-dark" href="#">
+            <span class="">Политика конфиденциальности.</span>
+          </a>
+        </p>
+        <ul class="list-unstyled d-flex my-auto">
+          <li class="me-3">
+            <a class="link-dark" href="#">
+              <i class="fa-brands fa-vk fa-2xl"></i>
+          </li>
+          <li class="me-3">
+            <a class="link-dark" href="#">
+              <i class="fa-brands fa-youtube fa-2xl"></i>
+            </a>
+          </li>
+          <li class="me-3">
+            <a class="link-dark" href="#">
+              <i class="fa-brands fa-telegram fa-2xl"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </footer>
+  </div>
 
   </main>
 
