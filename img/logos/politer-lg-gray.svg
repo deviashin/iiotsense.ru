@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW 2020 (64-Bit) -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="54.2mm" height="12mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1057.96 234.24"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:#8F8F8F}
+    .fnt0 {font-weight:normal;font-size:42.88px;font-family:'Arial'}
+    .fnt2 {font-weight:bold;font-size:85.77px;font-family:'Century Gothic'}
+    .fnt1 {font-weight:bold;font-size:142.96px;font-family:'Century Gothic'}
+   ]]>
+  </style>
+ </defs>
+ <g id="Слой_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <g id="_2284807257776">
+   <rect class="fil0" x="105.27" y="149.94" width="81.13" height="81.05"/>
+   <polygon class="fil0" points="105.65,0 186.77,56.74 186.77,125.63 105.65,125.63 "/>
+   <polygon class="fil0" points="-0,149.95 81.12,113.47 81.12,230.99 -0,230.99 "/>
+   <g transform="matrix(1.0009 0 0 1 2958.32 6965.99)">
+    <text x="-2710" y="-6883.98"  class="fil0 fnt0">Программно-технический комплекс</text>
+   </g>
+   <g transform="matrix(1.0009 0 0 1 2950.02 7115.65)">
+    <text x="-2710" y="-6883.98"  class="fil0 fnt1">ПОЛИТЭР.</text>
+   </g>
+   <g transform="matrix(1.0009 0 0 1 3659.57 7117.41)">
+    <text x="-2710" y="-6883.98"  class="fil0 fnt2">РФ</text>
+   </g>
+  </g>
+ </g>
+</svg>

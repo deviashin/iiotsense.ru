@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW 2020 (64-Bit) -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="76.2mm" height="11mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 7052.61 1018.09"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:#8F8F8F}
+    .fnt1 {font-weight:normal;font-size:289.35px;font-family:'PF BeauSans Pro'}
+    .fnt0 {font-weight:normal;font-size:505.53px;font-family:'PF BeauSans Pro'}
+   ]]>
+  </style>
+ </defs>
+ <g id="Слой_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <g id="_2283098213632">
+   <g>
+    <rect class="fil0" transform="matrix(-0.65419 -0.65391 -0.622306 0.622039 487.912 880.925)" width="578.02" height="176.41"/>
+    <rect class="fil0" transform="matrix(-0.65419 -0.65391 -0.622306 0.622039 646.482 722.423)" width="578.02" height="176.41" rx="88.2" ry="88.2"/>
+    <rect class="fil0" transform="matrix(-0.65419 -0.65391 -0.622306 0.622039 805.053 563.92)" width="578.02" height="176.41" rx="88.2" ry="88.2"/>
+    <rect class="fil0" transform="matrix(-0.65419 -0.65391 -0.622306 0.622039 963.623 405.417)" width="578.02" height="176.41" rx="88.2" ry="88.2"/>
+    <polygon class="fil0" points="832.51,755.94 832.5,646.22 777.61,591.35 667.83,481.62 612.95,536.49 722.73,646.22 750.17,673.65 750.18,728.51 542.81,935.78 487.92,935.79 460.47,908.36 350.7,798.63 295.8,853.5 405.58,963.23 460.47,1018.09 570.26,1018.08 "/>
+    <polygon class="fil0" points="503.16,0.01 393.38,0 131.13,262.14 131.13,371.88 186.01,426.75 295.79,536.48 350.69,481.61 240.91,371.88 213.47,344.45 213.47,289.57 420.83,82.3 475.72,82.31 503.16,109.74 612.94,219.47 667.83,164.61 558.04,54.88 "/>
+   </g>
+   <g transform="matrix(1.00043 0 0 1 -2698.77 35956.3)">
+    <text x="3810" y="-35463.91"  class="fil0 fnt0">ООО «Политех-Прибор»</text>
+   </g>
+   <g transform="matrix(1.00043 0 0 1 -2622.87 36360.6)">
+    <text x="3810" y="-35463.91"  class="fil0 fnt1">Производство промышленной электроники</text>
+   </g>
+  </g>
+ </g>
+</svg>

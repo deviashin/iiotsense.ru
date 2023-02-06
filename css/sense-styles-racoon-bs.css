@@ -5,7 +5,8 @@
     --sense-accent: #14A03C;
     --sense-dark-rgb: 40, 40, 48;
     --sense-accent-rgb: 20, 160, 60;
-    --bd-pink-rgb: 214, 51, 132;
+    --sense-pink: #FF0066;
+    --sense-pink-rgb: 255, 0, 102;
     --bd-teal-rgb: 32, 201, 151;
     --docsearch-primary-color: var(--sense-dark);
     --docsearch-logo-color: var(--sense-dark);
@@ -17,6 +18,17 @@
     --sense-dark: #9461fb;
     --sense-dark-bg: #282830;
     --bd-sidebar-link-bg: rgba(84, 33, 187, .5)
+}
+
+.card-header {
+    margin-left: 4%;
+    margin-right: 4%;
+    margin-top: -1.25rem;
+    padding: 1.6rem 1rem;
+    height: 120px;
+    background-color: #fff !important;
+    -webkit-border-radius: 0.25rem !important;
+    border-radius: 0.25rem !important;
 }
 
 .grid {
@@ -863,9 +875,9 @@
 }
 
 .bd-masthead {
-    --bd-pink-rgb: 214, 51, 132;
+    --sense-pink-rgb: 214, 51, 132;
     padding: 3rem 0;
-    background-image: linear-gradient(180deg, rgba(var(--bs-body-bg-rgb), 0.01), rgba(var(--bs-body-bg-rgb), 1) 85%), radial-gradient(ellipse at top left, rgba(var(--bs-primary-rgb), 0.5), transparent 50%), radial-gradient(ellipse at top right, rgba(var(--sense-accent-rgb), 0.5), transparent 50%), radial-gradient(ellipse at center right, rgba(var(--sense-dark-rgb), 0.5), transparent 50%), radial-gradient(ellipse at center left, rgba(var(--bd-pink-rgb), 0.5), transparent 50%)
+    background-image: linear-gradient(180deg, rgba(var(--bs-body-bg-rgb), 0.01), rgba(var(--bs-body-bg-rgb), 1) 85%), radial-gradient(ellipse at top left, rgba(var(--bs-primary-rgb), 0.5), transparent 50%), radial-gradient(ellipse at top right, rgba(var(--sense-accent-rgb), 0.5), transparent 50%), radial-gradient(ellipse at center right, rgba(var(--sense-dark-rgb), 0.5), transparent 50%), radial-gradient(ellipse at center left, rgba(var(--sense-pink-rgb), 0.5), transparent 50%)
 }
 
 .bd-masthead h1 {
