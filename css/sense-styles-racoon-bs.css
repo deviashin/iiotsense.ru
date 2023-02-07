@@ -1,7 +1,7 @@
 :root,
 [data-bs-theme="light"] {
     --bd-purple: #4c0bce;
-    --sense-dark: #282830;
+    --sense-dark: #212125;
     --sense-accent: #14A03C;
     --sense-dark-rgb: 40, 40, 48;
     --sense-accent-rgb: 20, 160, 60;
@@ -14,23 +14,22 @@
     --bd-sidebar-link-bg: rgba(var(--sense-dark-rgb), .1);
     --sense-light-bg-subtle: #F0F0F5;
     --sense-dark-bg-subtle: #E6E6EB;
+    --sense-card-over-header: #fff;
 }
 
 [data-bs-theme="dark"] {
-    --sense-dark: #9461fb;
-    --sense-dark-bg: #282830;
-    --bd-sidebar-link-bg: rgba(84, 33, 187, .5)
+    --sense-dark-bg: var(--bs-gray-900);
+    --sense-light-bg-subtle: var(--sense-dark);
+    --sense-dark-bg-subtle: var(--sense-dark-bg);
+    --sense-card-over-header: var(--bs-gray-800);
 }
 
 .card-header {
-    /* margin-left: 4%;
-    margin-right: 4%; */
     margin-top: -1.25rem;
-    /* padding: 1.6rem 1rem; */
-    height: 120px;
-    background-color: #fff !important;
-    -webkit-border-radius: 0.25rem !important;
-    border-radius: 0.25rem !important;
+    height: 100px;
+    background-color: var(--sense-card-over-header);
+    -webkit-border-radius: 0.35rem !important;
+    border-radius: 0.35rem !important;
 }
 
 .sense-text-truncate {
@@ -2789,7 +2788,7 @@ details[open]>.bd-summary-link {
 
 .bd-gray-900 {
     color: #fff;
-    background-color: #212529
+    background-color: var(--sense-dark-bg-subtle);
 }
 
 .bd-white {
