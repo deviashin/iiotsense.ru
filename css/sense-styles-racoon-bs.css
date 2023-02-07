@@ -25,7 +25,7 @@
 }
 
 .card-header {
-    margin-top: -1.25rem;
+    margin-top: -2rem;
     height: 100px;
     background-color: var(--sense-card-over-header);
     -webkit-border-radius: 0.35rem !important;
