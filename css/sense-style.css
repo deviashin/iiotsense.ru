@@ -1,0 +1,121 @@
+:root,
+/* Основная цветовая палитра (временно в светлой теме): */
+/* [data-bs-theme="sense"] {
+    --sense-accent: #eb166b;
+    --sense-accent-rgb: rgb(235, 22, 107);
+    --sense-soft-accent: #f53a85;
+    --sense-soft-accent-rgb: rgb(245, 58, 133);
+
+    --sense-light: #EEEEF4;
+    --sense-soft-light: #F4F4FD;
+
+    --sense-dark: #282830;
+    --sense-dark-rgb: rgb(40, 40, 48);
+    --sense-soft-dark: #252530;
+    --sense-soft-dark-rgb: rgb(37, 37, 48);
+} */
+
+/* Светлая тема: */
+[data-bs-theme="light"] {
+    /* Основная цветовая палитра: */
+    --sense-accent: #eb166b;
+    --sense-accent-rgb: 235, 22, 107;
+    --sense-soft-accent: #f53a85;
+    --sense-soft-accent-rgb: 245, 58, 133;
+    --sense-light-accent: #f773a8;
+    --sense-light-accent-rgb: 247, 115, 168;
+    --sense-dark-accent: rgb(226, 19, 102);
+    --sense-dark-accent-rgb: 226, 19, 102;
+
+    --sense-light: #eeeef4;
+    --sense-light-rgb: 238, 238, 244;
+    --sense-soft-light: #f4f4fd;
+    --sense-soft-light-rgb: 244, 244, 253;
+
+    --sense-dark: #282830;
+    --sense-dark-rgb: 40, 40, 48;
+    --sense-soft-dark: #252530;
+    --sense-soft-dark-rgb: 37, 37, 48;
+
+    --sense-white: #ffffff;
+    --sense-white-rgb: 255, 255, 255;
+    --sense-black: #000000;
+    --sense-black-rgb: 0, 0, 0;
+    --sense-red: #ff0000;
+    --sense-red-rgb: 255, 0, 0;
+    --sense-green: #00ff00;
+    --sense-green-rgb: 0, 255, 0;
+    --sense-blue: #0000ff;
+    --sense-blue-rgb: 0, 0, 255;
+
+
+
+
+    --docsearch-primary-color: var(--sense-dark);
+    --docsearch-logo-color: var(--sense-dark);
+    --sense-dark-bg: var(--sense-dark);
+    --bd-sidebar-link-bg: rgba(var(--sense-dark-rgb), .1);
+
+    --sense-card-over-header: var(--sense-white);
+    --logos-light-fill: #;
+    --logos-dark-fill: #;
+
+    /*  */
+    --sense-light-bg-subtle: var(--sense-soft-light);
+    --sense-dark-bg-subtle: var(--sense-light);
+
+    --bs-blue: var(--sense-accent);
+
+    --bs-primary: var(--sense-accent);
+    --bs-primary-rgb: var(--sense-accent-rgb);
+    --bs-primary-text: var(--sense-dark-accent);
+    --bs-primary-bg-subtle: #cfe2ff;
+    --bs-primary-border-subtle: #9ec5fe;
+
+    --bs-link-color: var(--sense-accent);
+}
+
+/* Тёмная тема: */
+[data-bs-theme="dark"] {
+    --sense-dark-bg: var(--bs-gray-900);
+    --sense-light-bg-subtle: var(--sense-dark);
+    --sense-dark-bg-subtle: var(--sense-dark-bg);
+    --sense-card-over-header: var(--bs-gray-800);
+
+    --logos-light-fill: #;
+    --logos-dark-fill: #;
+}
+
+/*  */
+.btn-primary {
+    --bs-btn-color: var(--sense-white);
+    --bs-btn-bg: var(--sense-accent);
+    --bs-btn-border-color: var(--sense-accent);
+    --bs-btn-hover-color: var(--sense-white);
+    --bs-btn-hover-bg: var(--sense-soft-accent);
+    --bs-btn-hover-border-color: var(--sense-dark-accent);
+    --bs-btn-focus-shadow-rgb: var(--sense-light-accent-rgb);
+    --bs-btn-active-color: var(--sense-white);
+    --bs-btn-active-bg: var(--sense-dark-accent);
+    --bs-btn-active-border-color: var(--sense-light-accent);
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: var(--sense-white);
+    --bs-btn-disabled-bg: var(--sense-accent);
+    --bs-btn-disabled-border-color: var(--sense-accent);
+}
+
+.card-header {
+    margin-top: -2rem;
+    height: 100px;
+    background-color: var(--sense-card-over-header);
+    -webkit-border-radius: 0.35rem !important;
+    border-radius: 0.35rem !important;
+}
+
+.sense-text-truncate {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 9;
+    -webkit-box-orient: vertical;
+}

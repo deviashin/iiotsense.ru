@@ -1,4 +1,4 @@
-:root,
+/* :root,
 [data-bs-theme="light"] {
     --bd-purple: #4c0bce;
     --sense-dark: #212125;
@@ -44,7 +44,7 @@
     text-overflow: ellipsis;
     -webkit-line-clamp: 9;
     -webkit-box-orient: vertical;
-}
+} */
 
 .grid {
     display: grid;
