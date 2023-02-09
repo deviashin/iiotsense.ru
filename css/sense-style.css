@@ -130,3 +130,7 @@
 .flickity-page-dots{
     bottom: -2rem !important;
 } */
+
+.carousel.is-fullscreen .carousel-cell {
+    height: 100%;
+}

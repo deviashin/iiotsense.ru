@@ -31,7 +31,8 @@
     <link rel="stylesheet" href="css/sense-style.css">
 
     <!--  -->
-    <link rel="stylesheet" href="css/flickity.css">
+    <link rel="stylesheet" href="css/flickity/flickity.css">
+    <link rel="stylesheet" href="css/flickity/fullscreen-v1.0.1.css">
 </head>
 
 <body>
@@ -1182,15 +1183,20 @@
     <!-- footer -->
 
     <script src="dist/bootstrap-5.3.0-alpha1-dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/flickity.pkgd.js"></script>
+    <script src="js/flickity/flickity.pkgd.js"></script>
+    <script src="js/flickity/fullscreen-v1.1.1.js"></script>
+    <!-- <script src="js/flickity/fullscreen-v2.0.0.js"></script> -->
     <script>
         var elem = document.querySelector('.main-carousel');
         var flkty = new Flickity(elem, {
             contain: true,
             imagesLoaded: true,
             percentPosition: false,
+            freeScroll: true,
             wrapAround: true,
-            autoPlay: false
+            autoPlay: true,
+            fullscreen: false,
+            lazyLoad: 1
         });
 
         // element argument can be a selector string
