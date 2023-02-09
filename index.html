@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="css/sense-style.css">
 
     <!--  -->
-    <link rel="stylesheet" href="css/flickity.css" media="screen">
+    <link rel="stylesheet" href="css/flickity.css">
 </head>
 
 <body>
@@ -468,26 +468,77 @@
 
     <!-- Партнёры -->
     <div class="container-fluid bg-light-subtle">
-        <div class="container-xxl py-3 py-md-4 py-lg-5">
+        <div class="container-xxl py-5">
             <h3 class="d-flex justify-content-between align-items-center mb-3 ps-1">
                 <span class="text-success fs-2">Нас рекомендуют!</span>
             </h3>
             <p class="ps-1">Наши разработки поддерживают крупнейшие научно-исследовательские и промышленные центры
                 Урала:</p>
-            <!-- <div class="card my-4 my-md-4 shadow border-0">
-                <div class="row g-0">
-                    <div class="card-body pt-3 pt-md-0">
+            <div class="main-carousel my-3">
+                <div class="carousel-cell me-4 my-4 my-4">
+                    <div class="card shadow border-0">
+                        <div class="card-body">
+                            <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                        </div>
                     </div>
                 </div>
-            </div> -->
-            <div class="carousel" data-flickity='{ "imagesLoaded": true, "percentPosition": false }'>
-                <img src="img/carousel-dog/1.jpg" alt="orange tree" />
-                <img src="img/carousel-dog/2.jpg" alt="submerged" />
-                <img src="img/carousel-dog/3.jpg" alt="look-out" />
-                <img src="img/carousel-dog/4.jpg" alt="One World Trade" />
-
+                <div class="carousel-cell me-4 my-4">
+                    <div class="card shadow border-0">
+                        <div class="card-body">
+                            <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-cell me-4 my-4">
+                    <div class="card shadow border-0">
+                        <div class="card-body">
+                            <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-cell me-4 my-4">
+                    <div class="card shadow border-0">
+                        <div class="card-body">
+                            <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-cell me-4 my-4">
+                    <div class="card shadow border-0">
+                        <div class="card-body">
+                            <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-cell me-4 my-4">
+                    <div class="card shadow border-0">
+                        <div class="card-body">
+                            <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-cell me-4 my-4">
+                    <div class="card shadow border-0">
+                        <div class="card-body">
+                            <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-cell me-4 my-4">
+                    <div class="card shadow border-0">
+                        <div class="card-body">
+                            <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-cell me-4 my-4">
+                    <div class="card shadow border-0">
+                        <div class="card-body">
+                            <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                        </div>
+                    </div>
+                </div>
             </div>
-
         </div>
     </div>
     <!-- Партнёры -->
@@ -1132,7 +1183,22 @@
 
     <script src="dist/bootstrap-5.3.0-alpha1-dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/flickity.pkgd.js"></script>
-    <!-- <script src="dist/bootstrap-5.3.0-alpha1-dist/docs/5.3/assets/js/docs.min.js"></script> -->
+    <script>
+        var elem = document.querySelector('.main-carousel');
+        var flkty = new Flickity(elem, {
+            contain: true,
+            imagesLoaded: true,
+            percentPosition: false,
+            wrapAround: true,
+            autoPlay: false
+        });
+
+        // element argument can be a selector string
+        //   for an individual element
+        var flkty = new Flickity('.main-carousel', {
+            // options
+        });
+    </script>
     <script src="js/sense-scripts-color-modes.js"></script>
 </body>
 
