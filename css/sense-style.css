@@ -134,3 +134,11 @@
 .carousel.is-fullscreen .carousel-cell {
     height: 100%;
 }
+
+.carousel-bg-gradient-color {
+    --sense-bg-gradient-color: #fefefd;
+    background: rgb(0, 0, 0);
+    background: linear-gradient(90deg, rgba(0, 0, 0, .1) 0%, rgba(255, 255, 255, 0) 10%, rgba(255, 255, 255, 0) 90%, rgba(0, 0, 0, .1) 100%);
+    position: relative;
+    z-index: 2000;
+}

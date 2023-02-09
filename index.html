@@ -475,67 +475,69 @@
             </h3>
             <p class="ps-1">Наши разработки поддерживают крупнейшие научно-исследовательские и промышленные центры
                 Урала:</p>
-            <div class="main-carousel my-3">
-                <div class="carousel-cell me-4 my-4 my-4">
-                    <div class="card shadow border-0">
-                        <div class="card-body">
-                            <img src="img/logos/black-rect-172.svg" class="" alt="" />
+            <div class="px-4 carousel-bg-gradient-color">
+                <div class="main-carousel my-3">
+                    <div class="carousel-cell me-4 my-4 my-4">
+                        <div class="card shadow-lg border-0 bg-light-subtle">
+                            <div class="card-body">
+                                <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="carousel-cell me-4 my-4">
-                    <div class="card shadow border-0">
-                        <div class="card-body">
-                            <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                    <div class="carousel-cell me-4 my-4">
+                        <div class="card shadow-lg border-0 bg-light-subtle">
+                            <div class="card-body">
+                                <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="carousel-cell me-4 my-4">
-                    <div class="card shadow border-0">
-                        <div class="card-body">
-                            <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                    <div class="carousel-cell me-4 my-4">
+                        <div class="card shadow-lg border-0 bg-light-subtle">
+                            <div class="card-body">
+                                <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="carousel-cell me-4 my-4">
-                    <div class="card shadow border-0">
-                        <div class="card-body">
-                            <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                    <div class="carousel-cell me-4 my-4">
+                        <div class="card shadow border-0">
+                            <div class="card-body">
+                                <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="carousel-cell me-4 my-4">
-                    <div class="card shadow border-0">
-                        <div class="card-body">
-                            <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                    <div class="carousel-cell me-4 my-4">
+                        <div class="card shadow border-0">
+                            <div class="card-body">
+                                <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="carousel-cell me-4 my-4">
-                    <div class="card shadow border-0">
-                        <div class="card-body">
-                            <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                    <div class="carousel-cell me-4 my-4">
+                        <div class="card shadow border-0">
+                            <div class="card-body">
+                                <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="carousel-cell me-4 my-4">
-                    <div class="card shadow border-0">
-                        <div class="card-body">
-                            <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                    <div class="carousel-cell me-4 my-4">
+                        <div class="card shadow border-0">
+                            <div class="card-body">
+                                <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="carousel-cell me-4 my-4">
-                    <div class="card shadow border-0">
-                        <div class="card-body">
-                            <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                    <div class="carousel-cell me-4 my-4">
+                        <div class="card shadow border-0">
+                            <div class="card-body">
+                                <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="carousel-cell me-4 my-4">
-                    <div class="card shadow border-0">
-                        <div class="card-body">
-                            <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                    <div class="carousel-cell me-4 my-4">
+                        <div class="card shadow border-0">
+                            <div class="card-body">
+                                <img src="img/logos/black-rect-172.svg" class="" alt="" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1189,20 +1191,16 @@
     <script>
         var elem = document.querySelector('.main-carousel');
         var flkty = new Flickity(elem, {
-            contain: true,
-            imagesLoaded: true,
-            percentPosition: false,
-            freeScroll: true,
-            wrapAround: true,
-            autoPlay: true,
-            fullscreen: false,
-            lazyLoad: 1
-        });
-
-        // element argument can be a selector string
-        //   for an individual element
-        var flkty = new Flickity('.main-carousel', {
-            // options
+            contain: true, //
+            imagesLoaded: true, //
+            percentPosition: false, //
+            freeScroll: false, //
+            wrapAround: true, //
+            autoPlay: true, //
+            fullscreen: false, //
+            lazyLoad: 1, //
+            prevNextButtons: true, // Disable previous & next buttons
+            pageDots: true // Disable page dots
         });
     </script>
     <script src="js/sense-scripts-color-modes.js"></script>
