@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="css/flickity/flickity.css">
     <link rel="stylesheet" href="css/flickity/fullscreen-v1.0.1.css">
 
+    <link rel="stylesheet" href="css/swiper-bundle.min.css">
     <!-- IIoT Sense style -->
     <link rel="stylesheet" href="css/sense-styles-racoon-bs.css">
     <link rel="stylesheet" href="css/sense-style.css">
@@ -265,8 +266,7 @@
 
                     <ul class="navbar-nav flex-row flex-wrap ms-md-auto d-block d-lg-none">
                         <li class="nav-item col-6 col-lg-auto">
-                            <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/twbs" target="_blank"
-                                rel="noopener">
+                            <a class="nav-link py-2 px-0 px-lg-2" href="#" target="_blank" rel="noopener">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
                                     viewBox="0 0 512 499.36" role="img">
                                     <title>GitHub</title>
@@ -277,8 +277,7 @@
                             </a>
                         </li>
                         <li class="nav-item col-6 col-lg-auto">
-                            <a class="nav-link py-2 px-0 px-lg-2" href="https://twitter.com/getbootstrap"
-                                target="_blank" rel="noopener">
+                            <a class="nav-link py-2 px-0 px-lg-2" href="#" target="_blank" rel="noopener">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
                                     viewBox="0 0 512 416.32" role="img">
                                     <title>Twitter</title>
@@ -286,20 +285,6 @@
                                         d="M160.83 416.32c193.2 0 298.92-160.22 298.92-298.92 0-4.51 0-9-.2-13.52A214 214 0 0 0 512 49.38a212.93 212.93 0 0 1-60.44 16.6 105.7 105.7 0 0 0 46.3-58.19 209 209 0 0 1-66.79 25.37 105.09 105.09 0 0 0-181.73 71.91 116.12 116.12 0 0 0 2.66 24c-87.28-4.3-164.73-46.3-216.56-109.82A105.48 105.48 0 0 0 68 159.6a106.27 106.27 0 0 1-47.53-13.11v1.43a105.28 105.28 0 0 0 84.21 103.06 105.67 105.67 0 0 1-47.33 1.84 105.06 105.06 0 0 0 98.14 72.94A210.72 210.72 0 0 1 25 370.84a202.17 202.17 0 0 1-25-1.43 298.85 298.85 0 0 0 160.83 46.92" />
                                 </svg>
                                 <small class="d-lg-none ms-2">Twitter</small>
-                            </a>
-                        </li>
-                        <li class="nav-item col-6 col-lg-auto">
-                            <a class="nav-link py-2 px-0 px-lg-2" href="https://opencollective.com/bootstrap"
-                                target="_blank" rel="noopener">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    fill-rule="evenodd" class="navbar-nav-svg" viewBox="0 0 40 41" role="img">
-                                    <title>Open Collective</title>
-                                    <path fill-opacity=".4"
-                                        d="M32.8 21c0 2.4-.8 4.9-2 6.9l5.1 5.1c2.5-3.4 4.1-7.6 4.1-12 0-4.6-1.6-8.8-4-12.2L30.7 14c1.2 2 2 4.3 2 7z" />
-                                    <path
-                                        d="M20 33.7a12.8 12.8 0 0 1 0-25.6c2.6 0 5 .7 7 2.1L32 5a20 20 0 1 0 .1 31.9l-5-5.2a13 13 0 0 1-7 2z" />
-                                </svg>
-                                <small class="d-lg-none ms-2">Open Collective</small>
                             </a>
                         </li>
                     </ul>
@@ -316,7 +301,7 @@
                                 <svg class="bi my-1 theme-icon-active">
                                     <use href="#sun-fill"></use>
                                 </svg>
-                                <span class="d-lg-none ms-2">Toggle theme</span>
+                                <span class="d-lg-none ms-2">Переключить тему</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme"
                                 style="--bs-dropdown-min-width: 8rem;">
@@ -326,7 +311,7 @@
                                         <svg class="bi me-2 opacity-50 theme-icon">
                                             <use href="#sun-fill"></use>
                                         </svg>
-                                        Светлый
+                                        Светлая
                                         <svg class="bi ms-auto d-none">
                                             <use href="#check2"></use>
                                         </svg>
@@ -338,7 +323,7 @@
                                         <svg class="bi me-2 opacity-50 theme-icon">
                                             <use href="#moon-stars-fill"></use>
                                         </svg>
-                                        Темный
+                                        Темная
                                         <svg class="bi ms-auto d-none">
                                             <use href="#check2"></use>
                                         </svg>
@@ -350,7 +335,7 @@
                                         <svg class="bi me-2 opacity-50 theme-icon">
                                             <use href="#circle-half"></use>
                                         </svg>
-                                        Авто
+                                        Системная
                                         <svg class="bi ms-auto d-none">
                                             <use href="#check2"></use>
                                         </svg>
@@ -474,8 +459,72 @@
                 <span class="text-success fs-2">Нас рекомендуют!</span>
             </h3>
             <p class="ps-1">Наши разработки поддерживают крупнейшие научно-исследовательские и промышленные центры
-                Урала:</p>
-            <div class="px-4 carousel-bg-gradient-color">
+                Урала:
+            </p>
+
+
+            <div class="swiper swiper-container py-4 px-5 carousel-bg-gradient-color">
+                <div class="swiper-wrapper card-wrapper">
+                    <div class="swiper-slide card d-flex align-items-center justify-content-center border-0 shadow">
+                        <img src="img/logos/black-rect-172.svg" class="" alt="" loading="lazy" />
+                        <div class="swiper-lazy-preloader"></div>
+                        <!-- <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div> -->
+                    </div>
+                    <div class="swiper-slide card d-flex align-items-center justify-content-center border-0 shadow">
+                        <img src="img/logos/black-rect-172.svg" class="" alt="" loading="lazy" />
+                        <div class="swiper-lazy-preloader"></div>
+                    </div>
+                    <div class="swiper-slide card d-flex align-items-center justify-content-center border-0 shadow">
+                        <img src="img/logos/black-rect-172.svg" class="" alt="" loading="lazy" />
+                        <div class="swiper-lazy-preloader"></div>
+                    </div>
+                    <div class="swiper-slide card d-flex align-items-center justify-content-center border-0 shadow">
+                        <img src="img/logos/black-rect-172.svg" class="" alt="" loading="lazy" />
+
+                    </div>
+                    <div class="swiper-slide card d-flex align-items-center justify-content-center border-0 shadow">
+                        <img src="img/logos/black-rect-172.svg" class="" alt="" loading="lazy" />
+                        <div class="swiper-lazy-preloader"></div>
+                    </div>
+                    <div class="swiper-slide card d-flex align-items-center justify-content-center border-0 shadow">
+                        <img src="img/logos/black-rect-172.svg" class="" alt="" loading="lazy" />
+                        <div class="swiper-lazy-preloader"></div>
+                    </div>
+                    <div class="swiper-slide card d-flex align-items-center justify-content-center border-0 shadow">
+                        <img src="img/logos/black-rect-172.svg" class="" alt="" loading="lazy" />
+                        <div class="swiper-lazy-preloader"></div>
+                    </div>
+                    <div class="swiper-slide card d-flex align-items-center justify-content-center border-0 shadow">
+                        <img src="img/logos/black-rect-172.svg" class="" alt="" loading="lazy" />
+                        <div class="swiper-lazy-preloader"></div>
+                    </div>
+                    <div class="swiper-slide card d-flex align-items-center justify-content-center border-0 shadow">
+                        <img src="img/logos/black-rect-172.svg" class="" alt="" loading="lazy" />
+                        <div class="swiper-lazy-preloader"></div>
+                    </div>
+                    <div class="swiper-slide card d-flex align-items-center justify-content-center border-0 shadow">
+                        <img src="img/logos/black-rect-172.svg" class="" alt="" loading="lazy" />
+                        <div class="swiper-lazy-preloader"></div>
+                    </div>
+                    <div class="swiper-slide card d-flex align-items-center justify-content-center border-0 shadow">
+                        <img src="img/logos/black-rect-172.svg" class="" alt="" loading="lazy" />
+                        <div class="swiper-lazy-preloader"></div>
+                    </div>
+                    <div class="swiper-slide card d-flex align-items-center justify-content-center border-0 shadow">
+                        <img src="img/logos/black-rect-172.svg" class="" alt="" loading="lazy" />
+                        <div class="swiper-lazy-preloader"></div>
+                    </div>
+                </div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-pagination"></div>
+                <!-- <div class="swiper-scrollbar"></div> -->
+            </div>
+
+
+
+
+            <!-- <div class="px-4 carousel-bg-gradient-color">
                 <div class="main-carousel my-3">
                     <div class="carousel-cell me-4 my-4 my-4">
                         <div class="card shadow border-0">
@@ -541,7 +590,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
+
+
         </div>
     </div>
     <!-- Партнёры -->
@@ -771,9 +822,12 @@
                             </h5>
                             <p class="card-text sense-text-truncate">С другой стороны постоянное
                                 информационно-пропагандистское обеспечение нашей деятельности обеспечивает широкому
-                                кругу (специалистов) участие в формировании направлений прогрессивного развития. Равным
-                                образом укрепление и развитие структуры требуют определения и уточнения соответствующий
-                                условий активизации. С другой стороны дальнейшее развитие различных форм деятельности
+                                кругу (специалистов) участие в формировании направлений прогрессивного развития.
+                                Равным
+                                образом укрепление и развитие структуры требуют определения и уточнения
+                                соответствующий
+                                условий активизации. С другой стороны дальнейшее развитие различных форм
+                                деятельности
                                 позволяет выполнять важные задания по разработке форм развития.
                             </p>
                             <div class="text-center">
@@ -824,10 +878,12 @@
                                 <strong>Область оказанных услуг</strong>
                             </h5>
                             <p class="card-text sense-text-truncate">Не следует, однако забывать, что рамки и место
-                                обучения кадров позволяет оценить значение форм развития. С другой стороны дальнейшее
+                                обучения кадров позволяет оценить значение форм развития. С другой стороны
+                                дальнейшее
                                 развитие различных форм деятельности позволяет оценить значение направлений
                                 прогрессивного развития. Идейные соображения высшего порядка, а также постоянный
-                                количественный рост и сфера нашей активности способствует подготовки и реализации систем
+                                количественный рост и сфера нашей активности способствует подготовки и реализации
+                                систем
                                 массового участия.
                             </p>
                             <div class="text-center">
@@ -912,9 +968,11 @@
                                 <strong>Область оказанных услуг</strong>
                             </h5>
                             <p class="card-text sense-text-truncate">Разнообразный и богатый опыт постоянный
-                                количественный рост и сфера нашей активности играет важную роль в формировании позиций,
+                                количественный рост и сфера нашей активности играет важную роль в формировании
+                                позиций,
                                 занимаемых участниками в отношении поставленных задач. Идейные соображения высшего
-                                порядка, а также новая модель организационной деятельности представляет собой интересный
+                                порядка, а также новая модель организационной деятельности представляет собой
+                                интересный
                                 эксперимент проверки существенных финансовых и административных условий.
                             </p>
                             <div class="text-center">
@@ -947,7 +1005,8 @@
                     <h3 class="d-flex justify-content-between align-items-center mb-3 ps-1">
                         <span class="text-success fs-2">Нужно коммерческое предложение?</span>
                     </h3>
-                    <p class="ps-1">Оставьте здесь свои контакты, и мы свяжемся с вами, чтобы рассказать, как цифровые
+                    <p class="ps-1">Оставьте здесь свои контакты, и мы свяжемся с вами, чтобы рассказать, как
+                        цифровые
                         решения могут повысить безопасность и эффективность вашего предприятия.</p>
                 </div>
                 <div class="col-md-8 col-lg-7">
@@ -1185,10 +1244,13 @@
     <!-- footer -->
 
     <script src="dist/bootstrap-5.3.0-alpha1-dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/flickity/flickity.pkgd.js"></script>
-    <script src="js/flickity/fullscreen-v1.1.1.js"></script>
+
+
+
+    <!-- <script src="js/flickity/flickity.pkgd.js"></script> -->
+    <!-- <script src="js/flickity/fullscreen-v1.1.1.js"></script> -->
     <!-- <script src="js/flickity/fullscreen-v2.0.0.js"></script> -->
-    <script>
+    <!-- <script>
         var elem = document.querySelector('.main-carousel');
         var flkty = new Flickity(elem, {
             contain: true, //
@@ -1202,7 +1264,74 @@
             prevNextButtons: true, // Disable previous & next buttons
             pageDots: true // Disable page dots
         });
+    </script> -->
+
+
+
+    <!-- Swiper JS -->
+    <script src="js/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper(".swiper-container", {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            loop: true,
+            centeredSlides: false,
+            // centerInsufficientSlides: true,
+            // fade: "true",
+            grabCursor: "true",
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+                dynamicBullets: true,
+            },
+            navigation: {
+                prevEl: ".swiper-button-prev",
+                nextEl: ".swiper-button-next",
+            },
+            breakpoints: {
+                // 576: {
+                //     slidesPerView: 1,
+                //     spaceBetween: 10,
+                // },
+                // 768: {
+                //     slidesPerView: 2,
+                //     spaceBetween: 20,
+                // },
+                // 992: {
+                //     slidesPerView: 3,
+                //     spaceBetween: 30,
+                // },
+                // 1200: {
+                //     slidesPerView: 4,
+                //     spaceBetween: 40,
+                // },
+                // 1400: {
+                //     slidesPerView: 5,
+                //     spaceBetween: 50,
+                // },
+                "@0.00": {
+                    slidesPerView: 1,
+                    spaceBetween: 10,
+                },
+                "@0.75": {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                },
+                "@1.00": {
+                    slidesPerView: 3,
+                    spaceBetween: 40,
+                },
+                "@1.50": {
+                    slidesPerView: 4,
+                    spaceBetween: 40,
+                },
+            },
+            autoplay: {
+                delay: 3000,
+            },
+        });
     </script>
+
     <script src="js/sense-scripts-color-modes.js"></script>
 </body>
 

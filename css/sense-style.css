@@ -144,3 +144,81 @@
     -webkit-mask-image: linear-gradient(90deg, transparent 5%, rgba(0, 0, 0, 1) 8%, rgba(0, 0, 0, 1) 92%, transparent 95%);
     mask-image: linear-gradient(90deg, transparent 5%, rgba(0, 0, 0, 1) 8%, rgba(0, 0, 0, 1) 92%, transparent 95%);
 }
+
+.swiper {
+    width: 100%;
+    height: 300px;
+}
+
+.swiper-container {
+    overflow: hidden;
+}
+
+/* .card-wrapper {} */
+
+
+
+/* 
+
+
+.sw-card {
+    background: #fff;
+    border-radius: 8px;
+}
+
+.sw-card .sw-image-box {
+    height: 200px;
+}
+
+.sw-card .sw-image-box img {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px 8px 0 0;
+}
+
+.sw-card .sw-profile-details {
+    display: flex;
+    align-items: center;
+    column-gap: 12px;
+    padding: 15px;
+}
+
+.sw-card .sw-profile-details img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+.sw-profile-details .sw-name {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.sw-profile-details .sw-job {
+    font-size: 12px;
+    font-weight: 500;
+    color: #4d4d4d;
+}
+
+.sw-swiper-navBtn {
+    color: #000;
+    height: 40px;
+    width: 40px;
+    background: #fff;
+    border-radius: 50%;
+}
+
+.sw-swiper-navBtn::before,
+.sw-swiper-navBtn::after {
+    font-size: 18px;
+}
+
+.sw-swiper-pagination-bullet {
+    background-color: #000;
+}
+
+@media screen and (max-width: 768px) {
+    .sw-swiper-navBtn {
+        display: none;
+    }
+} */
