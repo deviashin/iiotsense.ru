@@ -29,6 +29,9 @@
     <!-- IIoT Sense style -->
     <link rel="stylesheet" href="css/sense-styles-racoon-bs.css">
     <link rel="stylesheet" href="css/sense-style.css">
+
+    <!--  -->
+    <link rel="stylesheet" href="css/flickity.css" media="screen">
 </head>
 
 <body>
@@ -471,13 +474,20 @@
             </h3>
             <p class="ps-1">Наши разработки поддерживают крупнейшие научно-исследовательские и промышленные центры
                 Урала:</p>
-            <div class="card my-4 my-md-4 shadow border-0">
+            <!-- <div class="card my-4 my-md-4 shadow border-0">
                 <div class="row g-0">
                     <div class="card-body pt-3 pt-md-0">
-
                     </div>
                 </div>
+            </div> -->
+            <div class="carousel" data-flickity='{ "imagesLoaded": true, "percentPosition": false }'>
+                <img src="img/carousel-dog/1.jpg" alt="orange tree" />
+                <img src="img/carousel-dog/2.jpg" alt="submerged" />
+                <img src="img/carousel-dog/3.jpg" alt="look-out" />
+                <img src="img/carousel-dog/4.jpg" alt="One World Trade" />
+
             </div>
+
         </div>
     </div>
     <!-- Партнёры -->
@@ -491,7 +501,8 @@
             <p class="ps-1"></p>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 py-5 pb-4">
                 <div class="col pt-4 pt-lg-0 mb-2">
-                    <div class="card h-100 shadow border-0 align-items-center">
+                    <!-- <div class="card h-100 shadow border-0 align-items-center"> -->
+                    <div class="card h-100 shadow border-0">
                         <div class="px-3">
                             <div class="d-flex justify-content-center card-header shadow align-items-center border-0">
                                 <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" height="80" version="1.1"
@@ -701,7 +712,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title text-body-tertiary my-3 my-lg-4">
+                            <h5 class="card-title text-body-tertiary my-2 my-lg-3">
                                 <strong>Область оказанных услуг</strong>
                             </h5>
                             <p class="card-text sense-text-truncate">С другой стороны постоянное
@@ -755,7 +766,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title text-body-tertiary my-3 my-lg-4">
+                            <h5 class="card-title text-body-tertiary my-2 my-lg-3">
                                 <strong>Область оказанных услуг</strong>
                             </h5>
                             <p class="card-text sense-text-truncate">Не следует, однако забывать, что рамки и место
@@ -843,7 +854,7 @@
                             </div>
                         </div>
                         <div class="card-body pb-2">
-                            <h5 class="card-title text-body-tertiary my-3 my-lg-4">
+                            <h5 class="card-title text-body-tertiary my-2 my-lg-3">
                                 <strong>Область оказанных услуг</strong>
                             </h5>
                             <p class="card-text sense-text-truncate">Разнообразный и богатый опыт постоянный
@@ -1120,6 +1131,7 @@
     <!-- footer -->
 
     <script src="dist/bootstrap-5.3.0-alpha1-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/flickity.pkgd.js"></script>
     <!-- <script src="dist/bootstrap-5.3.0-alpha1-dist/docs/5.3/assets/js/docs.min.js"></script> -->
     <script src="js/sense-scripts-color-modes.js"></script>
 </body>
