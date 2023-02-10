@@ -141,17 +141,18 @@
 
 .carousel-bg-gradient-color {
     --sense-bg-gradient-color: 0, 0, 0, .1;
-    -webkit-mask-image: linear-gradient(90deg, transparent 5%, rgba(0, 0, 0, 1) 8%, rgba(0, 0, 0, 1) 92%, transparent 95%);
-    mask-image: linear-gradient(90deg, transparent 5%, rgba(0, 0, 0, 1) 8%, rgba(0, 0, 0, 1) 92%, transparent 95%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 1) 4%, rgba(0, 0, 0, 1) 96%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 1) 4%, rgba(0, 0, 0, 1) 96%, transparent 100%);
 }
 
 .swiper {
     width: 100%;
-    height: 300px;
+    height: 172px;
 }
 
 .swiper-container {
     overflow: hidden;
+    width: 100%;
 }
 
 /* .card-wrapper {} */
