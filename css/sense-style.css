@@ -147,7 +147,7 @@
 
 .swiper {
     width: 100% !important;
-    height: 172px !important;
+    height: 100% !important;
 }
 
 .swiper-container {
@@ -155,14 +155,15 @@
     width: 100%;
 }
 
-/* .swiper-slide {
-    text-align: center;
+.swiper-slide {
+    height: 172px !important
+    /* text-align: center;
     font-size: 18px;
     background: #fff;
     display: flex;
     justify-content: center;
-    align-items: center;
-} */
+    align-items: center; */
+}
 
 /* .swiper-slide img {
     display: block;
