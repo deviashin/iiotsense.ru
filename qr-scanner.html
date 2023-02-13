@@ -55,7 +55,7 @@
                         })
 
                         sourceSelect.onchange = () => {
-                            selectedDeviceId = sourceSelect.value;
+                            selectedDeviceId = sourceSelect.value = undefined;
                         };
 
                         const sourceSelectPanel = document.getElementById('sourceSelectPanel')
