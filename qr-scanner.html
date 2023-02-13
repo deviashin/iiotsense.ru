@@ -47,24 +47,24 @@
                     const sourceSelect = document.getElementById('sourceSelect')
                     selectedDeviceId = videoInputDevices[0].deviceId
 
-                    if (selectedDeviceId == "camera2 0, facing back") { }
-                    else {
-                        if (videoInputDevices.length >= 1) {
-                            videoInputDevices.forEach((element) => {
-                                const sourceOption = document.createElement('option')
-                                sourceOption.text = element.label
-                                sourceOption.value = element.deviceId
-                                sourceSelect.appendChild(sourceOption)
-                            })
+                    // if (selectedDeviceId == "camera2 0, facing back") { }
+                    // else {
+                    if (videoInputDevices.length >= 1) {
+                        videoInputDevices.forEach((element) => {
+                            const sourceOption = document.createElement('option')
+                            sourceOption.text = element.label
+                            sourceOption.value = element.deviceId
+                            sourceSelect.appendChild(sourceOption)
+                        })
 
-                            sourceSelect.onchange = () => {
-                                selectedDeviceId = sourceSelect.value;
-                            };
+                        sourceSelect.onchange = () => {
+                            selectedDeviceId = sourceSelect.value;
+                        };
 
-                            const sourceSelectPanel = document.getElementById('sourceSelectPanel')
-                            sourceSelectPanel.style.display = 'block'
-                        }
+                        const sourceSelectPanel = document.getElementById('sourceSelectPanel')
+                        sourceSelectPanel.style.display = 'block'
                     }
+                    // }
 
 
 
