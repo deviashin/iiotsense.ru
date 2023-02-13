@@ -7,29 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
 
     <title>IIoT Sense QR</title>
-    <style>
-        .video-layout {
-            width: 40%;
-            aspect-ratio: 16/9;
-            background: #45A29E;
-            border: 1px solid black;
-            color: black;
-        }
-
-        .video-tile {
-            height: 100%;
-            width: 100%;
-        }
-
-        .container-layout-row {
-            width: 100%;
-            display: flex;
-            /* or inline-flex */
-            flex-direction: row;
-            justify-content: center;
-            background-color: orange;
-        }
-    </style>
 
     <!-- Bootstrap 5.3.0 alpha 1 -->
     <link rel="stylesheet" href="dist/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css">
@@ -38,14 +15,11 @@
 <body>
     <div class="container-fluid">
         <div>
-            <!-- <a class="button" id="startButton">Начать</a>
-                <a class="button" id="resetButton">Сбросить</a> -->
             <button class="btn btn-success" id="startButton">Начать</button>
             <button class="btn btn-success" id="resetButton">Сбросить</button>
         </div>
 
         <div>
-            <!-- <video id="video" width="300" height="200" style="border: 1px solid gray"></video> -->
             <video class="object-fit-fill border rounded-3 w-100" id="video"></video>
         </div>
 
@@ -55,19 +29,19 @@
         </div>
 
         <label>Результат:</label>
-        <pre><code id="result"></code></pre>
+        <code id="result"></code>
     </div>
-
 
     <!-- Bootstrap 5.3.0 alpha 1 -->
     <script src="dist/bootstrap-5.3.0-alpha1-dist/js/bootstrap.bundle.min.js"></script>
 
+    <!--  -->
     <script type="text/javascript" src="js/zxing.min.js"></script>
     <script type="text/javascript">
         window.addEventListener('load', function () {
             let selectedDeviceId;
             const codeReader = new ZXing.BrowserMultiFormatReader()
-            // console.log('ZXing code reader initialized')
+            console.log('ZXing code reader initialized')
             codeReader.listVideoInputDevices()
                 .then((videoInputDevices) => {
                     const sourceSelect = document.getElementById('sourceSelect')
@@ -91,26 +65,26 @@
                     document.getElementById('startButton').addEventListener('click', () => {
                         codeReader.decodeFromVideoDevice(selectedDeviceId, 'video', (result, err) => {
                             if (result) {
-                                // console.log(result)
                                 document.getElementById('result').textContent = result.text
+                                console.log(result)
                             }
                             if (err && !(err instanceof ZXing.NotFoundException)) {
-                                // console.error(err)
                                 document.getElementById('result').textContent = err
+                                console.error(err)
                             }
                         })
-                        // console.log(`Started continous decode from camera with id ${selectedDeviceId}`)
+                        console.log(`Started continous decode from camera with id ${selectedDeviceId}`)
                     })
 
                     document.getElementById('resetButton').addEventListener('click', () => {
                         codeReader.reset()
                         document.getElementById('result').textContent = '';
-                        // console.log('Reset.')
+                        console.log('Reset.')
                     })
 
                 })
                 .catch((err) => {
-                    // console.error(err)
+                    console.error(err)
                 })
         })
     </script>
