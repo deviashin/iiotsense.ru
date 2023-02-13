@@ -66,6 +66,7 @@
                         codeReader.decodeFromVideoDevice(selectedDeviceId, 'video', (result, err) => {
                             if (result) {
                                 document.getElementById('result').textContent = result.text
+                                window.alert(result.text);
                                 console.log(result)
                             }
                             if (err && !(err instanceof ZXing.NotFoundException)) {
