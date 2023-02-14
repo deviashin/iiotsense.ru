@@ -11,17 +11,12 @@
 <link rel="stylesheet" href="dist/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css">
 
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12" style="text-align: center;margin-bottom: 20px;">
-                <div id="reader" style="display: inline-block; position: relative; padding: 0px; border: 1px solid;">
-                </div>
-                <!-- <div id="scanned-result"></div> -->
-                <p id="text"></p>
-                <p id="result"></p>
-            </div>
-        </div>
-    </div>
+    сканер:
+    <div id="reader" width="600px"></div>
+    текст:
+    <p id="text"></p>
+    результат:
+    <p id="result"></p>
 </body>
 
 <!-- Bootstrap 5.3.0 alpha 1 -->
@@ -30,7 +25,29 @@
 <!--  -->
 <script src="js/html5-qrcode.min@2.3.4.js"></script>
 <script>
+    function onScanSuccess(decodedText, decodedResult) {
+        // handle the scanned code as you like, for example:
+        console.log(`Code matched = ${decodedText}`, decodedResult);
+        document.getElementById('text').innerText = decodedText;
+        document.getElementById('result').innerText = decodedResult;
+        window.alert(decodedText);
+    }
 
+    // Square QR box with edge size = 70% of the smaller edge of the viewfinder.
+    let qrboxFunction = function (viewfinderWidth, viewfinderHeight) {
+        let minEdgePercentage = 0.7; // 70%
+        let minEdgeSize = Math.min(viewfinderWidth, viewfinderHeight);
+        let qrboxSize = Math.floor(minEdgeSize * minEdgePercentage);
+        return {
+            width: qrboxSize,
+            height: qrboxSize
+        };
+    }
+
+    let config = { fps: 10, qrbox: { width: 250, height: 250 } };
+    let html5QrcodeScanner = new Html5QrcodeScanner(
+        "reader", config, /* verbose= */ false);
+    html5QrcodeScanner.render(onScanSuccess);
 
     // const config =
     // {
@@ -63,18 +80,6 @@
 
 
 
-    function docReady(fn) {
-        // see if DOM is already available
-        if (document.readyState === "complete" || document.readyState === "interactive") {
-            // call on next available tick
-            setTimeout(fn, 1);
-        } else {
-            document.addEventListener("DOMContentLoaded", fn);
-        }
-    }
-
-
-
 
     // let tbody = document.getElementById(tableBodyId);
     // let trow = document.createElement('tr');
@@ -85,52 +90,52 @@
     // let td3 = document.createElement('td');
     // td3.innerText = `${decodedText}`;
 
-    docReady(function () {
-        hljs.initHighlightingOnLoad();
-        var lastMessage;
-        function onScanSuccess(decodedText, decodedResult) {
-            if (lastMessage !== decodedText) {
-                lastMessage = decodedText;
-                document.getElementById('text').innerText = decodedText;
-                document.getElementById('result').innerText = decodedResult;
-            }
-        }
+    // docReady(function () {
+    //     hljs.initHighlightingOnLoad();
+    //     var lastMessage;
+    //     function onScanSuccess(decodedText, decodedResult) {
+    //         if (lastMessage !== decodedText) {
+    //             lastMessage = decodedText;
+    //             document.getElementById('text').innerText = decodedText;
+    //             document.getElementById('result').innerText = decodedResult;
+    //         }
+    //     }
 
-        var qrboxFunction = function (viewfinderWidth, viewfinderHeight) {
-            // Square QR Box, with size = 80% of the min edge.
-            var minEdgeSizeThreshold = 250;
-            var edgeSizePercentage = 0.75;
-            var minEdgeSize = (viewfinderWidth > viewfinderHeight) ?
-                viewfinderHeight : viewfinderWidth;
-            var qrboxEdgeSize = Math.floor(minEdgeSize * edgeSizePercentage);
-            if (qrboxEdgeSize < minEdgeSizeThreshold) {
-                if (minEdgeSize < minEdgeSizeThreshold) {
-                    return { width: minEdgeSize, height: minEdgeSize };
-                } else {
-                    return {
-                        width: minEdgeSizeThreshold,
-                        height: minEdgeSizeThreshold
-                    };
-                }
-            }
-            return { width: qrboxEdgeSize, height: qrboxEdgeSize };
-        }
-        let html5QrcodeScanner = new Html5QrcodeScanner(
-            "reader",
-            {
-                fps: 10,
-                qrbox: qrboxFunction,
-                // Important notice: this is experimental feature, use it at your
-                // own risk. See documentation in
-                // mebjas@/html5-qrcode/src/experimental-features.ts
-                experimentalFeatures: {
-                    useBarCodeDetectorIfSupported: true
-                },
-                rememberLastUsedCamera: true,
-                showTorchButtonIfSupported: true
-            });
-        html5QrcodeScanner.render(onScanSuccess);
-    });
+    //     var qrboxFunction = function (viewfinderWidth, viewfinderHeight) {
+    //         // Square QR Box, with size = 80% of the min edge.
+    //         var minEdgeSizeThreshold = 250;
+    //         var edgeSizePercentage = 0.75;
+    //         var minEdgeSize = (viewfinderWidth > viewfinderHeight) ?
+    //             viewfinderHeight : viewfinderWidth;
+    //         var qrboxEdgeSize = Math.floor(minEdgeSize * edgeSizePercentage);
+    //         if (qrboxEdgeSize < minEdgeSizeThreshold) {
+    //             if (minEdgeSize < minEdgeSizeThreshold) {
+    //                 return { width: minEdgeSize, height: minEdgeSize };
+    //             } else {
+    //                 return {
+    //                     width: minEdgeSizeThreshold,
+    //                     height: minEdgeSizeThreshold
+    //                 };
+    //             }
+    //         }
+    //         return { width: qrboxEdgeSize, height: qrboxEdgeSize };
+    //     }
+    //     let html5QrcodeScanner = new Html5QrcodeScanner(
+    //         "reader",
+    //         {
+    //             fps: 10,
+    //             qrbox: qrboxFunction,
+    //             // Important notice: this is experimental feature, use it at your
+    //             // own risk. See documentation in
+    //             // mebjas@/html5-qrcode/src/experimental-features.ts
+    //             experimentalFeatures: {
+    //                 useBarCodeDetectorIfSupported: true
+    //             },
+    //             rememberLastUsedCamera: true,
+    //             showTorchButtonIfSupported: true
+    //         });
+    //     html5QrcodeScanner.render(onScanSuccess);
+    // });
 
 </script>
 
