@@ -1,39 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head http-equiv="Permissions-Policy" content="interest-cohort=()">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
-    <title>Document</title>
+    <title></title>
 </head>
 <!-- Bootstrap 5.3.0 alpha 1 -->
 <link rel="stylesheet" href="dist/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css">
 
 <body>
-    <p>Проверить датчик^_^:</p>
+    <p>Проверить датчик's ^_^:</p>
     <div id="qr-reader" style="width:500px"></div>
-    <div id="qr-reader-results"></div>
+    <!-- <div id="qr-reader-results"></div> -->
 </body>
 <!-- Bootstrap 5.3.0 alpha 1 -->
 <script src="dist/bootstrap-5.3.0-alpha1-dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/html5-qrcode-2.3.6.min.js"></script>
 <script>
-    var resultContainer = document.getElementById('qr-reader-results');
-    var lastResult, countResults = 0;
+    // var resultContainer = document.getElementById('qr-reader-results');
+    // var lastResult, countResults = 0;
 
+    // function onScanSuccess(decodedText, decodedResult) {
+    //     if (decodedText !== lastResult) {
+    //         ++countResults;
+    //         lastResult = decodedText;
+    //         // Handle on success condition with the decoded message.
+    //         // handle the scanned code as you like, for example:
+    //         console.log(`Code matched = ${decodedText}`, decodedResult);
+    //     }
+    // }
+    // function onScanFailure(error) {
+    //     // handle scan failure, usually better to ignore and keep scanning.
+    //     // for example:
+    //     console.warn(`Code scan error = ${error}`);
+    // }
+
+    // let html5QrcodeScanner = new Html5QrcodeScanner(
+    //     "qr-reader",
+    //     {
+    //         fps: 10,
+    //         qrbox: { width: 250, height: 250 }
+    //     });
+
+    // html5QrcodeScanner.render(onScanSuccess, onScanFailure);
     function onScanSuccess(decodedText, decodedResult) {
-        if (decodedText !== lastResult) {
-            ++countResults;
-            lastResult = decodedText;
-            // Handle on success condition with the decoded message.
-            // handle the scanned code as you like, for example:
-            window.alert(decodedText);
-            resultContainer.textContent = decodedText;
-            console.log(`Code matched = ${decodedText}`, decodedResult);
-        }
+        // handle the scanned code as you like, for example:
+        console.log(`Code matched = ${decodedText}`, decodedResult);
     }
+
     function onScanFailure(error) {
         // handle scan failure, usually better to ignore and keep scanning.
         // for example:
@@ -41,12 +57,9 @@
     }
 
     let html5QrcodeScanner = new Html5QrcodeScanner(
-        "qr-reader",
-        {
-            fps: 10,
-            qrbox: { width: 250, height: 250 }
-        });
-
+        "reader",
+        { fps: 10, qrbox: { width: 250, height: 250 } },
+  /* verbose= */ false);
     html5QrcodeScanner.render(onScanSuccess, onScanFailure);
 </script>
 
