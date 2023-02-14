@@ -12,8 +12,9 @@
 <link rel="stylesheet" href="dist/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css">
 
 <body>
-    <p>Просканируйте датчик's ^-_-^:</p>
-    <div id="reader" width="100%"></div>
+    <p>Просканируйте датчик ^-_-^:</p>
+    <div id="qr-reader" width="100%"></div>
+    <div id="qr-reader-results"></div>
 </body>
 <!-- Bootstrap 5.3.0 alpha 1 -->
 <script src="dist/bootstrap-5.3.0-alpha1-dist/js/bootstrap.bundle.min.js"></script>
@@ -21,26 +22,65 @@
 <!--  -->
 <script src="js/html5-qrcode.min@2.3.4.js"></script>
 <script>
-    function onScanSuccess(decodedText, decodedResult) {
-        // handle the scanned code as you like, for example:
-        console.log(`Code matched = ${decodedText}`, decodedResult);
-    }
+    //     function onScanSuccess(decodedText, decodedResult) {
+    //         // handle the scanned code as you like, for example:
+    //         console.log(`Code matched = ${decodedText}`, decodedResult);
+    //     }
 
-    function onScanFailure(error) {
-        // handle scan failure, usually better to ignore and keep scanning.
-        // for example:
-        console.warn(`Code scan error = ${error}`);
-    }
+    //     function onScanFailure(error) {
+    //         // handle scan failure, usually better to ignore and keep scanning.
+    //         // for example:
+    //         console.warn(`Code scan error = ${error}`);
+    //     }
 
-    let html5QrcodeScanner = new Html5QrcodeScanner(
-        "reader",
-        {
-            fps: 10,
-            qrbox: { width: 250, height: 250 }
+    //     let html5QrcodeScanner = new Html5QrcodeScanner(
+    //         "reader",
+    //         {
+    //             fps: 10,
+    //             qrbox: {
+    //                 width: 250,
+    //                 height: 250
+    //             }
+    //         },
+    //   /* verbose= */ false
+    //     );
+    //     html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
+    const html5QrCode = new Html5Qrcode("qr-reader");
+
+    const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+        document.getElementById("qr-reader-results").value = decodedText;
+        /* handle success */
+    };
+
+    const config =
+    {
+        fps: 8,
+        qrbox: {
+            width: 250,
+            height: 250
         },
-  /* verbose= */ false
-    );
-    html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+        rememberLastUsedCamera: true,
+        disableFlip: true,
+        aspectRatio: 1,
+        facingMode: {
+            exact: "environment"
+        },
+        focusMode: "continuous",
+        supportedScanTypes: [
+            Html5QrcodeScanType.SCAN_TYPE_CAMERA,
+            Html5QrcodeScanType.SCAN_TYPE_FILE
+        ],
+        formatsToSupport: [
+            Html5QrcodeSupportedFormats.QR_CODE
+        ],
+        showTorchButtonIfSupported: true,
+        useBarCodeDetectorIfSupported: true,
+        showZoomSliderIfSupported: true,
+        defaultZoomValueIfSupported: 2
+    };
+
+    html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
 </script>
 
 </html>
