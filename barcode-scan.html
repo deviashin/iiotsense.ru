@@ -12,24 +12,24 @@
 <link rel="stylesheet" href="dist/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css">
 
 <body>
-    <p>Проверит датчикi's ^-_-^:</p>
-    <div id="reader" style="width:500px"></div>
+    <p>Проверитi датчик's ^-_-^:</p>
+    <div style="width: 500px" id="reader"></div>
     <!-- <div id="qr-reader-results"></div> -->
 </body>
 <!-- Bootstrap 5.3.0 alpha 1 -->
 <script src="dist/bootstrap-5.3.0-alpha1-dist/js/bootstrap.bundle.min.js"></script>
 
-<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<script src="html5-qrcode.min.js"></script>
+<!-- <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script> -->
 <script>
-    function onScanSuccess(decodedText, decodedResult) {
-        // handle the scanned code as you like, for example:
-        console.log(`Code matched = ${decodedText}`, decodedResult);
-    }
+function onScanSuccess(decodedText, decodedResult) {
+    // Handle on success condition with the decoded text or result.
+    console.log(`Scan result: ${decodedText}`, decodedResult);
+}
 
-    let config = { fps: 10, qrbox: { width: 250, height: 250 } };
-    let html5QrcodeScanner = new Html5QrcodeScanner(
-        "reader", config, /* verbose= */ false);
-    html5QrcodeScanner.render(onScanSuccess);
+var html5QrcodeScanner = new Html5QrcodeScanner(
+	"reader", { fps: 10, qrbox: 250 });
+html5QrcodeScanner.render(onScanSuccess);
 </script>
 
 </html>
