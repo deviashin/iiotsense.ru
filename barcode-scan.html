@@ -29,6 +29,7 @@
             // Handle on success condition with the decoded message.
             // handle the scanned code as you like, for example:
             window.alert(decodedText);
+            document.getElementById('result').textContent = decodedText;
             console.log(`Code matched = ${decodedText}`, decodedResult);
         }
     }
