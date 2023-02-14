@@ -14,8 +14,10 @@
     <div class="container-fluid">
         <div id="reader"></div>
         <div class="">
-            <p>Результат сканирования:</p>
+            <p class="mt-4">Результат сканирования:</p>
+            <span>Информация:</span>
             <div id="text"></div>
+            <span>Тип кода:</span>
             <div id="result"></div>
         </div>
     </div>
@@ -31,23 +33,55 @@
     function onScanSuccess(decodedText, decodedResult) {
         document.getElementById('text').innerText = `${decodedText}`;
         document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`;
-        document.location.href = "https://api.telegram.org/bot2100711838:AAE2qHOz6R68rHJZB93Xf_CDOyrfCiqCI7Q/sendMessage?chat_id=-1001752025790&text=result:" + `${decodedText}`;
+        // document.location.href = "https://api.telegram.org/bot2100711838:AAE2qHOz6R68rHJZB93Xf_CDOyrfCiqCI7Q/sendMessage?chat_id=-1001752025790&text=result:" + `${decodedText}`;
         // console.log(`Code matched = ${decodedText}`, decodedResult);
         // window.alert(decodedText);
     }
 
-    // Square QR box with edge size = 70% of the smaller edge of the viewfinder.
+    // let qrboxFunction = function (viewfinderWidth, viewfinderHeight) {
+    //     let minEdgePercentage = 0.8; // 80%
+    //     let minEdgeSize = Math.min(viewfinderWidth, viewfinderHeight);
+    //     let qrboxSize = Math.floor(minEdgeSize * minEdgePercentage);
+    //     return {
+    //         width: qrboxSize,
+    //         height: qrboxSize
+    //     };
+    // }
+
     let qrboxFunction = function (viewfinderWidth, viewfinderHeight) {
-        let minEdgePercentage = 0.8; // 80%
-        let minEdgeSize = Math.min(viewfinderWidth, viewfinderHeight);
-        let qrboxSize = Math.floor(minEdgeSize * minEdgePercentage);
-        return {
-            width: qrboxSize,
-            height: qrboxSize
-        };
+        // Square QR Box, with size = 80% of the min edge.
+        let minEdgeSizeThreshold = 250;
+        let edgeSizePercentage = 0.75;
+        let minEdgeSize = (viewfinderWidth > viewfinderHeight) ? viewfinderHeight : viewfinderWidth;
+        let qrboxEdgeSize = Math.floor(minEdgeSize * edgeSizePercentage);
+        if (qrboxEdgeSize < minEdgeSizeThreshold) {
+            if (minEdgeSize < minEdgeSizeThreshold) {
+                return {
+                    width: minEdgeSize,
+                    height: minEdgeSize
+                };
+            } else {
+                return {
+                    width: minEdgeSizeThreshold,
+                    height: minEdgeSizeThreshold
+                };
+            }
+        }
+        return { width: qrboxEdgeSize, height: qrboxEdgeSize };
     }
 
-    let config = { fps: 10, qrbox: { width: 250, height: 250 } };
+    let config = {
+        fps: 8,
+        // qrbox: {
+        //     width: 250,
+        //     height: 250
+        // },
+        qrbox: qrboxFunction,
+        showTorchButtonIfSupported: true,
+        showZoomSliderIfSupported: true,
+        defaultZoomValueIfSupported: 2
+    };
+
     let html5QrcodeScanner = new Html5QrcodeScanner(
         "reader", config, /* verbose= */ false);
     html5QrcodeScanner.render(onScanSuccess);
@@ -73,10 +107,9 @@
     //     formatsToSupport: [
     //         Html5QrcodeSupportedFormats.QR_CODE
     //     ],
-    //     showTorchButtonIfSupported: true,
+    //
     //     useBarCodeDetectorIfSupported: true,
-    //     showZoomSliderIfSupported: true,
-    //     defaultZoomValueIfSupported: 2
+    //
     // };
 
     // html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
@@ -104,25 +137,7 @@
     //         }
     //     }
 
-    //     var qrboxFunction = function (viewfinderWidth, viewfinderHeight) {
-    //         // Square QR Box, with size = 80% of the min edge.
-    //         var minEdgeSizeThreshold = 250;
-    //         var edgeSizePercentage = 0.75;
-    //         var minEdgeSize = (viewfinderWidth > viewfinderHeight) ?
-    //             viewfinderHeight : viewfinderWidth;
-    //         var qrboxEdgeSize = Math.floor(minEdgeSize * edgeSizePercentage);
-    //         if (qrboxEdgeSize < minEdgeSizeThreshold) {
-    //             if (minEdgeSize < minEdgeSizeThreshold) {
-    //                 return { width: minEdgeSize, height: minEdgeSize };
-    //             } else {
-    //                 return {
-    //                     width: minEdgeSizeThreshold,
-    //                     height: minEdgeSizeThreshold
-    //                 };
-    //             }
-    //         }
-    //         return { width: qrboxEdgeSize, height: qrboxEdgeSize };
-    //     }
+
     //     let html5QrcodeScanner = new Html5QrcodeScanner(
     //         "reader",
     //         {
