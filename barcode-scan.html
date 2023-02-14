@@ -12,13 +12,13 @@
 
 <body>
     <div class="container-fluid">
-        <div id="reader"></div>
-        <div class="">
-            <p class="mt-4">Результат сканирования:</p>
-            <span>Информация:</span>
-            <div id="text"></div>
-            <span>Тип кода:</span>
-            <div id="result"></div>
+        <div id="reader">
+            <div class="">
+                <span>Информация:</span>
+                <div id="text"></div>
+                <span>Тип кода:</span>
+                <div id="result"></div>
+            </div>
         </div>
     </div>
 </body>
@@ -48,10 +48,10 @@
     //     };
     // }
 
+    // Square QR Box, with size = 80% of the min edge.
     let qrboxFunction = function (viewfinderWidth, viewfinderHeight) {
-        // Square QR Box, with size = 80% of the min edge.
         let minEdgeSizeThreshold = 250;
-        let edgeSizePercentage = 0.75;
+        let edgeSizePercentage = 0.8;
         let minEdgeSize = (viewfinderWidth > viewfinderHeight) ? viewfinderHeight : viewfinderWidth;
         let qrboxEdgeSize = Math.floor(minEdgeSize * edgeSizePercentage);
         if (qrboxEdgeSize < minEdgeSizeThreshold) {
@@ -71,6 +71,8 @@
     }
 
     let config = {
+        rememberLastUsedCamera: true,
+        focusMode: "continuous",
         fps: 8,
         // qrbox: {
         //     width: 250,
@@ -79,64 +81,19 @@
         qrbox: qrboxFunction,
         showTorchButtonIfSupported: true,
         showZoomSliderIfSupported: true,
-        defaultZoomValueIfSupported: 2
+        defaultZoomValueIfSupported: 1,
+        supportedScanTypes: [
+            Html5QrcodeScanType.SCAN_TYPE_CAMERA,
+            Html5QrcodeScanType.SCAN_TYPE_FILE
+        ],
+        // formatsToSupport: [
+        //     Html5QrcodeSupportedFormats.QR_CODE
+        // ],
     };
 
     let html5QrcodeScanner = new Html5QrcodeScanner(
         "reader", config, /* verbose= */ false);
     html5QrcodeScanner.render(onScanSuccess);
-
-    // const config =
-    // {
-    //     fps: 8,
-    //     qrbox: {
-    //         width: 250,
-    //         height: 250
-    //     },
-    //     rememberLastUsedCamera: true,
-    //     disableFlip: true,
-    //     aspectRatio: 1,
-    //     facingMode: {
-    //         exact: "environment"
-    //     },
-    //     focusMode: "continuous",
-    //     supportedScanTypes: [
-    //         Html5QrcodeScanType.SCAN_TYPE_CAMERA,
-    //         Html5QrcodeScanType.SCAN_TYPE_FILE
-    //     ],
-    //     formatsToSupport: [
-    //         Html5QrcodeSupportedFormats.QR_CODE
-    //     ],
-    //
-    //     useBarCodeDetectorIfSupported: true,
-    //
-    // };
-
-    // html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
-
-
-
-
-    // let tbody = document.getElementById(tableBodyId);
-    // let trow = document.createElement('tr');
-    // let td1 = document.createElement('td');
-    // td1.innerText = `${codeId}`;
-    // let td2 = document.createElement('td');
-    // td2.innerText = `${decodedResult.result.format.formatName}`;
-    // let td3 = document.createElement('td');
-    // td3.innerText = `${decodedText}`;
-
-    // docReady(function () {
-    //     hljs.initHighlightingOnLoad();
-    //     var lastMessage;
-    //     function onScanSuccess(decodedText, decodedResult) {
-    //         if (lastMessage !== decodedText) {
-    //             lastMessage = decodedText;
-    //             document.getElementById('text').innerText = decodedText;
-    //             document.getElementById('result').innerText = decodedResult;
-    //         }
-    //     }
-
 
     //     let html5QrcodeScanner = new Html5QrcodeScanner(
     //         "reader",
