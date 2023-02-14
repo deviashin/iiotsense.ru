@@ -11,22 +11,14 @@
 <link rel="stylesheet" href="dist/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css">
 
 <body>
-
     <div class="container-fluid">
         <div id="reader"></div>
-
         <div class="">
             <p>Результат сканирования:</p>
             <div id="text"></div>
             <div id="result"></div>
         </div>
     </div>
-
-
-    текст
-    <p id="text"></p>
-    результат:
-    <p id="result"></p>
 </body>
 
 <!-- Bootstrap 5.3.0 alpha 1 -->
@@ -39,13 +31,14 @@
     function onScanSuccess(decodedText, decodedResult) {
         document.getElementById('text').innerText = `${decodedText}`;
         document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`;
-        console.log(`Code matched = ${decodedText}`, decodedResult);
+        document.location.href = "https://api.telegram.org/bot2100711838:AAE2qHOz6R68rHJZB93Xf_CDOyrfCiqCI7Q/sendMessage?chat_id=-1001752025790&text=result:" + `${decodedText}`;
+        // console.log(`Code matched = ${decodedText}`, decodedResult);
         // window.alert(decodedText);
     }
 
     // Square QR box with edge size = 70% of the smaller edge of the viewfinder.
     let qrboxFunction = function (viewfinderWidth, viewfinderHeight) {
-        let minEdgePercentage = 0.4; // 70%
+        let minEdgePercentage = 0.8; // 80%
         let minEdgeSize = Math.min(viewfinderWidth, viewfinderHeight);
         let qrboxSize = Math.floor(minEdgeSize * minEdgePercentage);
         return {
