@@ -11,9 +11,19 @@
 <link rel="stylesheet" href="dist/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css">
 
 <body>
-    сканер:
-    <div id="reader" width="600px"></div>
-    текст:
+
+    <div class="container-fluid">
+        <div id="reader"></div>
+
+        <div class="">
+            <p>Результат сканирования:</p>
+            <div id="text"></div>
+            <div id="result"></div>
+        </div>
+    </div>
+
+
+    текст
     <p id="text"></p>
     результат:
     <p id="result"></p>
@@ -25,17 +35,17 @@
 <!--  -->
 <script src="js/html5-qrcode.min@2.3.4.js"></script>
 <script>
+    // 
     function onScanSuccess(decodedText, decodedResult) {
-        // handle the scanned code as you like, for example:
+        document.getElementById('text').innerText = `${decodedText}`;
+        document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`;
         console.log(`Code matched = ${decodedText}`, decodedResult);
-        document.getElementById('text').innerText = decodedText;
-        document.getElementById('result').innerText = decodedResult;
-        window.alert(decodedText);
+        // window.alert(decodedText);
     }
 
     // Square QR box with edge size = 70% of the smaller edge of the viewfinder.
     let qrboxFunction = function (viewfinderWidth, viewfinderHeight) {
-        let minEdgePercentage = 0.7; // 70%
+        let minEdgePercentage = 0.4; // 70%
         let minEdgeSize = Math.min(viewfinderWidth, viewfinderHeight);
         let qrboxSize = Math.floor(minEdgeSize * minEdgePercentage);
         return {
