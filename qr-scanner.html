@@ -30,6 +30,9 @@
 
         <label>Результат:</label>
         <code id="result"></code>
+
+        <input id="result" type="text" name="" value="">
+
     </div>
 
     <!-- Bootstrap 5.3.0 alpha 1 -->
@@ -72,8 +75,13 @@
                     document.getElementById('startButton').addEventListener('click', () => {
                         codeReader.decodeFromVideoDevice(selectedDeviceId, 'video', (result, err) => {
                             if (result) {
-                                document.getElementById('result').textContent = result.text
+                                // document.getElementById('result').textContent = result.text
+                                document.getElementById('result').value = result.text;
+
+
                                 window.alert(result.text);
+
+                                
                                 console.log(result)
                             }
                             if (err && !(err instanceof ZXing.NotFoundException)) {
