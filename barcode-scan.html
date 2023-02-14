@@ -13,63 +13,51 @@
 </head>
 
 <body>
-    <p>Сканер</p>
-    <div id="qr-reader" style="width:100%"></div>
-    <div id="qr-reader-results"></div>
+    <div id="reader" width="100%"></div>
+    <input type="file" id="qr-input-file" accept="image/*" capture>
 </body>
 
 <!-- Bootstrap 5.3.0 alpha 1 -->
 <script src="dist/bootstrap-5.3.0-alpha1-dist/js/bootstrap.bundle.min.js"></script>
 
 <!--  -->
-<script src="js/html5-qrcode.min.js"></script>
+<script src="js/html5-qrcode.min.js" type="text/javascript"></script>
 <script>
-    function docReady(fn) {
-        // see if DOM is already available
-        if (document.readyState === "complete"
-            || document.readyState === "interactive") {
-            // call on next available tick
-            setTimeout(fn, 1);
-        } else {
-            document.addEventListener("DOMContentLoaded", fn);
-        }
+    function onScanSuccess(decodedText, decodedResult) {
+        // handle the scanned code as you like, for example:
+        console.log(`Code matched = ${decodedText}`, decodedResult);
     }
 
-    docReady(function () {
-        var resultContainer = document.getElementById('qr-reader-results');
-        var lastResult, countResults = 0;
-        function onScanSuccess(decodedText, decodedResult) {
-            if (decodedText !== lastResult) {
-                ++countResults;
-                lastResult = decodedText;
-                // Handle on success condition with the decoded message.
-                console.log(`Scan result ${decodedText}`, decodedResult);
-            }
-        }
+    function onScanFailure(error) {
+        // handle scan failure, usually better to ignore and keep scanning.
+        // for example:
+        console.warn(`Code scan error = ${error}`);
+    }
 
-        function onScanSuccess(decodedText, decodedResult) {
-            // handle the scanned code as you like, for example:
-            console.log(`Code matched = ${decodedText}`, decodedResult);
-        }
+    const html5QrCode = new Html5Qrcode("reader");
+    const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+        /* handle success */
+    };
 
-        function onScanFailure(error) {
-            // handle scan failure, usually better to ignore and keep scanning.
-            // for example:
-            console.warn(`Code scan error = ${error}`);
-        }
+    const config = {
+        fps: 10,
+        qrbox: { width: 250, height: 250 }
 
-        let html5QrcodeScanner = new Html5QrcodeScanner(
-            "qr-reader",
-            {
-                fps: 10,
-                qrbox: { width: 250, height: 250 },
-                rememberLastUsedCamera: true,
-                aspectRatio: 1.7777778,
-                showTorchButtonIfSupported: true
-            });
+    };
 
-        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-    });
+    // If you want to prefer front camera
+    // html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
+
+    // If you want to prefer back camera
+    html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+
+    // Select front camera or fail with `OverconstrainedError`.
+    // html5QrCode.start({ facingMode: { exact: "user" } }, config, qrCodeSuccessCallback);
+
+    // Select back camera or fail with `OverconstrainedError`.
+    // html5QrCode.start({ facingMode: { exact: "environment" } }, config, qrCodeSuccessCallback);
+
+    html5QrcodeScanner.render(onScanSuccess, onScanFailure);
 </script>
 
 </html>
