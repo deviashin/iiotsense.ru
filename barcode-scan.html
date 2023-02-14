@@ -28,14 +28,17 @@
 <!--  -->
 <script src="js/html5-qrcode.min@2.3.4.js"></script>
 <script>
-    // 
+    // Handle on success condition with the decoded text or result.
     function onScanSuccess(decodedText, decodedResult) {
         document.getElementById('text').innerText = `${decodedText}`;
         document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`;
         // document.location.href = "https://api.telegram.org/bot2100711838:AAE2qHOz6R68rHJZB93Xf_CDOyrfCiqCI7Q/sendMessage?chat_id=-1001752025790&text=result:" + `${decodedText}`;
-        // console.log(`Code matched = ${decodedText}`, decodedResult);
+        // console.log(`Scan result: ${decodedText}`, decodedResult);
         // window.alert(decodedText);
     }
+
+    // Handle on error condition, with error message
+    function onScanError(errorMessage) { }
 
     // let qrboxFunction = function (viewfinderWidth, viewfinderHeight) {
     //     let minEdgePercentage = 0.8; // 80%
@@ -90,9 +93,8 @@
         // ],
     };
 
-    let html5QrcodeScanner = new Html5QrcodeScanner(
-        "reader", config, /* verbose= */ false);
-    html5QrcodeScanner.render(onScanSuccess);
+    let html5QrcodeScanner = new Html5QrcodeScanner("reader", config, /* verbose= */ false);
+    html5QrcodeScanner.render(onScanSuccess, onScanError);
 
     //     let html5QrcodeScanner = new Html5QrcodeScanner(
     //         "reader",
