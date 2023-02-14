@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="dist/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css">
 
 <body>
-    <p>Проверитi датчик's ^-_-^:</p>
+    <p>Проvеритb датчик's ^-_-^:</p>
     <div style="width: 500px" id="reader"></div>
     <!-- <div id="qr-reader-results"></div> -->
 </body>
@@ -29,7 +29,8 @@ function onScanSuccess(decodedText, decodedResult) {
 
 var html5QrcodeScanner = new Html5QrcodeScanner(
 	"reader", { fps: 10, qrbox: 250 });
-html5QrcodeScanner.render(onScanSuccess);
+// html5QrcodeScanner.render(onScanSuccess);
+html5QrcodeScanner.render(document.getElementById(onScanSuccess));
 </script>
 
 </html>
