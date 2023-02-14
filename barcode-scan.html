@@ -35,7 +35,6 @@
         // document.location.href = "https://api.telegram.org/bot2100711838:AAE2qHOz6R68rHJZB93Xf_CDOyrfCiqCI7Q/sendMessage?chat_id=-1001752025790&text=result:" + `${decodedText}`;
         // console.log(`Scan result: ${decodedText}`, decodedResult);
         // window.alert(decodedText);
-        html5QrcodeScanner.stop();
     }
 
     // Handle on error condition, with error message
@@ -74,7 +73,10 @@
     }
 
     let config = {
-        // rememberLastUsedCamera: true,
+        experimentalFeatures: {
+            useBarCodeDetectorIfSupported: true
+        },
+        rememberLastUsedCamera: true,
         focusMode: "continuous",
         fps: 10,
         // qrbox: {
