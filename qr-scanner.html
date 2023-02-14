@@ -28,8 +28,8 @@
             <select id="sourceSelect"></select>
         </div>
 
-        <label>Результат:</label>
-        <code id="result"></code>
+        <label>Результавт:</label>
+        <!-- <code id="result"></code> -->
 
         <input id="result" type="text" name="" value="">
 
@@ -49,21 +49,21 @@
                 .then((videoInputDevices) => {
                     const sourceSelect = document.getElementById('sourceSelect')
                     selectedDeviceId = videoInputDevices[0].deviceId
-                    // if (videoInputDevices.length >= 1) {
-                    //     videoInputDevices.forEach((element) => {
-                    //         const sourceOption = document.createElement('option')
-                    //         sourceOption.text = element.label
-                    //         sourceOption.value = element.deviceId
-                    //         sourceSelect.appendChild(sourceOption)
-                    //     })
+                    if (videoInputDevices.length >= 1) {
+                        videoInputDevices.forEach((element) => {
+                            const sourceOption = document.createElement('option')
+                            sourceOption.text = element.label
+                            sourceOption.value = element.deviceId
+                            sourceSelect.appendChild(sourceOption)
+                        })
 
-                    //     sourceSelect.onchange = () => {
-                    //         selectedDeviceId = sourceSelect.value;
-                    //     };
+                        sourceSelect.onchange = () => {
+                            selectedDeviceId = sourceSelect.value;
+                        };
 
-                    //     const sourceSelectPanel = document.getElementById('sourceSelectPanel')
-                    //     sourceSelectPanel.style.display = 'block'
-                    // }
+                        const sourceSelectPanel = document.getElementById('sourceSelectPanel')
+                        sourceSelectPanel.style.display = 'block'
+                    }
 
                     document.getElementById('startButton').addEventListener('click', () => {
                         codeReader.decodeFromVideoDevice(selectedDeviceId, 'video', (result, err) => {
