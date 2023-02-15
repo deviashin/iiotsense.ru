@@ -101,55 +101,85 @@
         `;
     document.head.appendChild(style);
 
+    
+
+    // let readerHeaderMessage = document.getElementById('#reader__header_message');
+    // if (readerHeaderMessage != null) {
+    //     readerHeaderMessage.classList.remove("html5-qrcode-element");
+    //     readerHeaderMessage.classList.add("");
+    //     readerHeaderMessage.textContent = 'd';
+    // }
+
     let btnCameraPerm = document.querySelector('#html5-qrcode-button-camera-permission');
-    btnCameraPerm.classList.remove("html5-qrcode-element");
-    btnCameraPerm.classList.add("btn", "btn-success", "shadow", "w-100");
-    btnCameraPerm.textContent = 'Разрешить камеру';
+    if (btnCameraPerm != null) {
+        btnCameraPerm.classList.remove("html5-qrcode-element");
+        btnCameraPerm.classList.add("btn", "btn-success", "shadow");
+        btnCameraPerm.textContent = 'Разрешить камеру';
+    }
 
     let btnCameraStart = document.querySelector('#html5-qrcode-button-camera-start');
-    btnCameraStart.classList.remove("html5-qrcode-element");
-    btnCameraStart.classList.add("");
-    btnCameraStart.textContent = 'Начать сканирование';
+    if (btnCameraStart != null) {
+        btnCameraStart.classList.remove("html5-qrcode-element");
+        btnCameraStart.classList.add("btn", "btn-success", "shadow");
+        btnCameraStart.textContent = 'Начать сканирование';
+    }
 
     let btnCameraStop = document.querySelector('#html5-qrcode-button-camera-stop');
-    btnCameraStop.classList.remove("html5-qrcode-element");
-    btnCameraStop.classList.add("");
-    btnCameraStop.textContent = 'Остановить сканирование';
+    if (btnCameraStop != null) {
+        btnCameraStop.classList.remove("html5-qrcode-element");
+        btnCameraStop.classList.add("btn", "btn-success", "shadow");
+        btnCameraStop.textContent = 'Остановить сканирование';
+    }
 
     let btnTorch = document.querySelector('#html5-qrcode-button-torch');
-    btnTorch.classList.remove("html5-qrcode-element");
-    btnTorch.classList.add("");
-    btnTorch.textContent = 'Фонарик?';
+    if (btnTorch != null) {
+        btnTorch.classList.remove("html5-qrcode-element");
+        btnTorch.classList.add("btn", "btn-success", "shadow");
+        btnTorch.textContent = 'Фонарик?';
+    }
 
     let selectCamera = document.querySelector('#html5-qrcode-select-camera');
-    selectCamera.classList.remove("html5-qrcode-element");
-    selectCamera.classList.add("");
-    selectCamera.textContent = 'Выбрать камеру';
+    if (selectCamera != null) {
+        selectCamera.classList.remove("html5-qrcode-element");
+        selectCamera.classList.add("");
+        selectCamera.textContent = 'Выбрать камеру';
+    }
 
-    // let NAME = document.querySelector('#html5-qrcode-button-file-selection');
-    // NAME.classList.remove("html5-qrcode-element");
-    // NAME.classList.add("");
-    // NAME.textContent = 'Выбрать файл';
+    // let btnFileSelection = document.getElementById('#html5-qrcode-button-file-selection');
+    // if (btnFileSelection != null) {
+    //     btnFileSelection.classList.remove("html5-qrcode-element");
+    //     btnFileSelection.classList.add("");
+    //     btnFileSelection.textContent = 'Выбрать файл';
+    // }
 
-    // let NAME = document.querySelector('#html5-qrcode-input-range-zoom');
+    // let NAME = document.getElementById('#html5-qrcode-input-range-zoom');
     // NAME.classList.remove("html5-qrcode-element");
     // NAME.classList.add("");
     // NAME.textContent = 'Масштабирование';
 
-    // let NAME = document.querySelector('#html5-qrcode-anchor-scan-type-change');
-    // NAME.classList.remove("html5-qrcode-element");
-    // NAME.classList.add("");
-    // NAME.textContent = 'Тип сканирования?';
+    // Привязка тега <a> для переключения выбора источника сканирования (камера или изображение):
+    // let anchorScanTypeChange = document.getElementById('#html5-qrcode-anchor-scan-type-change');
+    // if (anchorScanTypeChange != null) {
+    //     anchorScanTypeChange.classList.remove("html5-qrcode-element");
+    //     anchorScanTypeChange.classList.add("");
+    //     anchorScanTypeChange.textContent = 'Тип сканирования';
+    // }
 
-    // let NAME = document.querySelector('#html5-qrcode-button-torch-on');
-    // NAME.classList.remove("html5-qrcode-element");
-    // NAME.classList.add("");
-    // NAME.textContent = 'Включить фонарик';
+    // 
+    // let btnTorchOn = document.getElementById('#html5-qrcode-button-torch-on');
+    // if (btnTorchOn != null) {
+    //     btnTorchOn.classList.remove("html5-qrcode-element");
+    //     btnTorchOn.classList.add("");
+    //     btnTorchOn.textContent = 'Включить фонарик';
+    // }
 
-    // let NAME = document.querySelector('#html5-qrcode-button-torch-off');
-    // NAME.classList.remove("html5-qrcode-element");
-    // NAME.classList.add("");
-    // NAME.textContent = 'Выключить фонарик';
+    // 
+    // let btnTorchOff = document.querySelector('#html5-qrcode-button-torch-off');
+    // if (btnTorchOff != null) {
+    //     btnTorchOff.classList.remove("html5-qrcode-element");
+    //     btnTorchOff.classList.add("");
+    //     btnTorchOff.textContent = 'Выключить фонарик';
+    // }
 </script>
 
 </html>
