@@ -16,7 +16,7 @@
     <div class="">
         <span>Информация:</span>
         <div id="text"></div>
-        <span>Тип баркода:</span>
+        <span>Тип barcode:</span>
         <div id="result"></div>
     </div>
 </body>
@@ -118,27 +118,28 @@
         btnFileSelection.textContent = 'Выбрать файл на устройстве';
     });
 
+
+
     // Дать разрешение на использование видеокамеры и начать захват видеопотока:
     let btnCameraPerm = document.querySelector('#html5-qrcode-button-camera-permission');
     btnCameraPerm.classList.remove("html5-qrcode-element");
     btnCameraPerm.classList.add("btn", "btn-success", "shadow");
-    btnCameraPerm.textContent = 'Начать сканирование';
+    btnCameraPerm.textContent = 'Запустить сканирование';
+
+    btnCameraPerm.addEventListener('click', function () {
+        let btnCameraStart = document.querySelector('#html5-qrcode-button-camera-start');
+        btnCameraStart.classList.remove("html5-qrcode-element");
+        btnCameraStart.classList.add("btn", "btn-success", "shadow");
+        btnCameraStart.textContent = 'Старт';
+
+        let btnCameraStop = document.querySelector('#html5-qrcode-button-camera-stop');
+        btnCameraStop.classList.remove("html5-qrcode-element");
+        btnCameraStop.classList.add("btn", "btn-success", "shadow");
+        btnCameraStop.textContent = 'Стоп';
+    });
 
 
 
-
-
-    let btnCameraStart = document.querySelector('#html5-qrcode-button-camera-start');
-    btnCameraStart.classList.remove("html5-qrcode-element");
-    btnCameraStart.classList.add("btn", "btn-success", "shadow");
-    btnCameraStart.textContent = 'Старт';
-
-
-
-    let btnCameraStop = document.querySelector('#html5-qrcode-button-camera-stop');
-    btnCameraStop.classList.remove("html5-qrcode-element");
-    btnCameraStop.classList.add("btn", "btn-success", "shadow");
-    btnCameraStop.textContent = 'Стоп';
 
 
     let btnTorch = document.querySelector('#html5-qrcode-button-torch');
