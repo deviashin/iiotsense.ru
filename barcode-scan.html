@@ -101,7 +101,7 @@
         `;
     document.head.appendChild(style);
 
-    
+
 
     // let readerHeaderMessage = document.getElementById('#reader__header_message');
     // if (readerHeaderMessage != null) {
@@ -145,12 +145,14 @@
         selectCamera.textContent = 'Выбрать камеру';
     }
 
-    // let btnFileSelection = document.getElementById('#html5-qrcode-button-file-selection');
-    // if (btnFileSelection != null) {
-    //     btnFileSelection.classList.remove("html5-qrcode-element");
-    //     btnFileSelection.classList.add("");
-    //     btnFileSelection.textContent = 'Выбрать файл';
-    // }
+    let btnFileSelection = document.getElementById('#html5-qrcode-button-file-selection');
+    if (btnFileSelection != null) {
+        console.log('ff');
+        btnFileSelection.classList.remove("html5-qrcode-element");
+        btnFileSelection.classList.add("btn", "btn-success", "shadow");
+        btnFileSelection.textContent = 'Выбрать файл';
+    }
+    else { console.log('fddf'); }
 
     // let NAME = document.getElementById('#html5-qrcode-input-range-zoom');
     // NAME.classList.remove("html5-qrcode-element");
@@ -165,7 +167,7 @@
     //     anchorScanTypeChange.textContent = 'Тип сканирования';
     // }
 
-    // 
+    //
     // let btnTorchOn = document.getElementById('#html5-qrcode-button-torch-on');
     // if (btnTorchOn != null) {
     //     btnTorchOn.classList.remove("html5-qrcode-element");
@@ -173,7 +175,7 @@
     //     btnTorchOn.textContent = 'Включить фонарик';
     // }
 
-    // 
+    //
     // let btnTorchOff = document.querySelector('#html5-qrcode-button-torch-off');
     // if (btnTorchOff != null) {
     //     btnTorchOff.classList.remove("html5-qrcode-element");
