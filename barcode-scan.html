@@ -90,52 +90,43 @@
     html5QrcodeScanner.render(onScanSuccess, onScanError);
 
     // Костыли с переопределением CSS и Text для элементов интерфейса:
-    let style = document.createElement('style');
-    style.innerHTML =
+    let style33 = document.createElement('style');
+    style33.innerHTML =
         `
         img {
             display:none;
         }
         `;
-    document.head.appendChild(style);
+    document.head.appendChild(style33);
 
-    // Идентификатор кнопки выбора файла:
-    let btnFileSelection = document.querySelector('#html5-qrcode-button-file-selection');
-    btnFileSelection.classList.remove("html5-qrcode-element");
-    btnFileSelection.classList.add("btn", "btn-success", "shadow");
-    btnFileSelection.textContent = 'Выбрать файл';
 
     // Привязка тега <a> для переключения выбора источника сканирования (камера или изображение):
-    function cssFix() {
-
-    }
-
-
-
-
     let anchorScanTypeChange = document.querySelector('#html5-qrcode-anchor-scan-type-change');
     let anchorScanTypeChangeFlag;
     anchorScanTypeChange.classList.remove("html5-qrcode-element");
     anchorScanTypeChange.classList.add("btn", "btn-success", "shadow", "mt-2", "text-decoration-none");
     anchorScanTypeChange.textContent = 'Сканировать из файла';
+
+    // Идентификатор кнопки выбора файла:
+    let btnFileSelection = document.querySelector('#html5-qrcode-button-file-selection');
+    btnFileSelection.classList.remove("html5-qrcode-element");
+    btnFileSelection.classList.add("btn", "btn-success", "shadow", "mt-2", "text-decoration-none");
+
     anchorScanTypeChange.addEventListener('click', function () {
         !anchorScanTypeChangeFlag ? anchorScanTypeChange.textContent = 'Сканировать камерой' : anchorScanTypeChange.textContent = 'Сканировать из файла';
         anchorScanTypeChangeFlag = !anchorScanTypeChangeFlag;
+        btnFileSelection.textContent = 'Выбрать файл на устройстве';
     });
 
-
-
-
-
-
-
-
+    // Дать разрешение на использование видеокамеры и начать захват видеопотока:
     let btnCameraPerm = document.querySelector('#html5-qrcode-button-camera-permission');
-    if (btnCameraPerm != null) {
-        btnCameraPerm.classList.remove("html5-qrcode-element");
-        btnCameraPerm.classList.add("btn", "btn-success", "shadow");
-        btnCameraPerm.textContent = 'Разрешить камеру';
-    }
+    btnCameraPerm.classList.remove("html5-qrcode-element");
+    btnCameraPerm.classList.add("btn", "btn-success", "shadow");
+    btnCameraPerm.textContent = 'Начать сканирование';
+
+
+
+
 
     let btnCameraStart = document.querySelector('#html5-qrcode-button-camera-start');
     if (btnCameraStart != null) {
