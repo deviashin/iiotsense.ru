@@ -22,7 +22,7 @@
         <div class="">
             <span>Информация:</span>
             <div id="text"></div>
-            <span>Тип кода:</span>
+            <span>Тип баркода:</span>
             <div id="result"></div>
         </div>
     </div>
@@ -46,20 +46,10 @@
     // Handle on error condition, with error message
     function onScanError(errorMessage) { }
 
-    // let qrboxFunction = function (viewfinderWidth, viewfinderHeight) {
-    //     let minEdgePercentage = 0.8; // 80%
-    //     let minEdgeSize = Math.min(viewfinderWidth, viewfinderHeight);
-    //     let qrboxSize = Math.floor(minEdgeSize * minEdgePercentage);
-    //     return {
-    //         width: qrboxSize,
-    //         height: qrboxSize
-    //     };
-    // }
-
-    // Square QR Box, with size = 80% of the min edge.
+    // Square QR Box, with size = 70% of the min edge.
     let qrboxFunction = function (viewfinderWidth, viewfinderHeight) {
-        let minEdgeSizeThreshold = 150;
-        let edgeSizePercentage = 0.8;
+        let minEdgeSizeThreshold = 250;
+        let edgeSizePercentage = 0.7;
         let minEdgeSize = (viewfinderWidth > viewfinderHeight) ? viewfinderHeight : viewfinderWidth;
         let qrboxEdgeSize = Math.floor(minEdgeSize * edgeSizePercentage);
         if (qrboxEdgeSize < minEdgeSizeThreshold) {
