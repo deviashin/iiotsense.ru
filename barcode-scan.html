@@ -38,7 +38,7 @@
     function onScanSuccess(decodedText, decodedResult) {
         document.getElementById('text').innerText = `${decodedText}`;
         document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`;
-        document.location.href = "https://api.telegram.org/bot2100711838:AAE2qHOz6R68rHJZB93Xf_CDOyrfCiqCI7Q/sendMessage?chat_id=-1001752025790&text=result:" + `${decodedText}`;
+        // document.location.href = "https://api.telegram.org/bot2100711838:AAE2qHOz6R68rHJZB93Xf_CDOyrfCiqCI7Q/sendMessage?chat_id=-1001752025790&text=result:" + `${decodedText}`;
         // console.log(`Scan result: ${decodedText}`, decodedResult);
         // window.alert(decodedText);
     }
@@ -58,7 +58,7 @@
 
     // Square QR Box, with size = 80% of the min edge.
     let qrboxFunction = function (viewfinderWidth, viewfinderHeight) {
-        let minEdgeSizeThreshold = 250;
+        let minEdgeSizeThreshold = 150;
         let edgeSizePercentage = 0.8;
         let minEdgeSize = (viewfinderWidth > viewfinderHeight) ? viewfinderHeight : viewfinderWidth;
         let qrboxEdgeSize = Math.floor(minEdgeSize * edgeSizePercentage);
