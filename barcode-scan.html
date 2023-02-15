@@ -125,32 +125,32 @@
     btnCameraPerm.classList.remove("html5-qrcode-element");
     btnCameraPerm.classList.add("btn", "btn-success", "shadow");
     btnCameraPerm.textContent = 'Запустить сканирование';
+    // btnCameraPerm.addEventListener('click', function () { });
 
-    btnCameraPerm.addEventListener('click', function () {
-        let btnCameraStart = document.querySelector('#html5-qrcode-button-camera-start');
-        btnCameraStart.classList.remove("html5-qrcode-element");
-        btnCameraStart.classList.add("btn", "btn-success", "shadow");
-        btnCameraStart.textContent = 'Старт';
-
-        let btnCameraStop = document.querySelector('#html5-qrcode-button-camera-stop');
+    let btnCameraStart = document.querySelector('#html5-qrcode-button-camera-start');
+    btnCameraStart.addEventListener('click', function () {
         btnCameraStop.classList.remove("html5-qrcode-element");
         btnCameraStop.classList.add("btn", "btn-success", "shadow");
         btnCameraStop.textContent = 'Стоп';
     });
 
+    let btnCameraStop = document.querySelector('#html5-qrcode-button-camera-stop');
+    btnCameraStop.addEventListener('click', function () {
+        btnCameraStart.classList.remove("html5-qrcode-element");
+        btnCameraStart.classList.add("btn", "btn-success", "shadow");
+        btnCameraStart.textContent = 'Старт';
+    });
 
 
+    // let btnTorch = document.querySelector('#html5-qrcode-button-torch');
+    // btnTorch.classList.remove("html5-qrcode-element");
+    // btnTorch.classList.add("btn", "btn-success", "shadow");
+    // btnTorch.textContent = 'Фонарик?';
 
-
-    let btnTorch = document.querySelector('#html5-qrcode-button-torch');
-    btnTorch.classList.remove("html5-qrcode-element");
-    btnTorch.classList.add("btn", "btn-success", "shadow");
-    btnTorch.textContent = 'Фонарик?';
-
-    let selectCamera = document.querySelector('#html5-qrcode-select-camera');
-    selectCamera.classList.remove("html5-qrcode-element");
-    selectCamera.classList.add("");
-    selectCamera.textContent = 'Выбрать камеру';
+    // let selectCamera = document.querySelector('#html5-qrcode-select-camera');
+    // selectCamera.classList.remove("html5-qrcode-element");
+    // selectCamera.classList.add("");
+    // selectCamera.textContent = 'Выбрать камеру';
 
 
 
