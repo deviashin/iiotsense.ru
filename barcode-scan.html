@@ -129,32 +129,27 @@
 
 
     let btnCameraStart = document.querySelector('#html5-qrcode-button-camera-start');
-    if (btnCameraStart != null) {
-        btnCameraStart.classList.remove("html5-qrcode-element");
-        btnCameraStart.classList.add("btn", "btn-success", "shadow");
-        btnCameraStart.textContent = 'Начать сканирование';
-    }
+    btnCameraStart.classList.remove("html5-qrcode-element");
+    btnCameraStart.classList.add("btn", "btn-success", "shadow");
+    btnCameraStart.textContent = 'Старт';
+
+
 
     let btnCameraStop = document.querySelector('#html5-qrcode-button-camera-stop');
-    if (btnCameraStop != null) {
-        btnCameraStop.classList.remove("html5-qrcode-element");
-        btnCameraStop.classList.add("btn", "btn-success", "shadow");
-        btnCameraStop.textContent = 'Остановить сканирование';
-    }
+    btnCameraStop.classList.remove("html5-qrcode-element");
+    btnCameraStop.classList.add("btn", "btn-success", "shadow");
+    btnCameraStop.textContent = 'Стоп';
+
 
     let btnTorch = document.querySelector('#html5-qrcode-button-torch');
-    if (btnTorch != null) {
-        btnTorch.classList.remove("html5-qrcode-element");
-        btnTorch.classList.add("btn", "btn-success", "shadow");
-        btnTorch.textContent = 'Фонарик?';
-    }
+    btnTorch.classList.remove("html5-qrcode-element");
+    btnTorch.classList.add("btn", "btn-success", "shadow");
+    btnTorch.textContent = 'Фонарик?';
 
     let selectCamera = document.querySelector('#html5-qrcode-select-camera');
-    if (selectCamera != null) {
-        selectCamera.classList.remove("html5-qrcode-element");
-        selectCamera.classList.add("");
-        selectCamera.textContent = 'Выбрать камеру';
-    }
+    selectCamera.classList.remove("html5-qrcode-element");
+    selectCamera.classList.add("");
+    selectCamera.textContent = 'Выбрать камеру';
 
 
 
