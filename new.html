@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/itc-slider.css">
+    <style>
+        .itc-slider__item:nth-child(1) {
+            background-color: #f44336;
+        }
+
+        .itc-slider__item:nth-child(2) {
+            background-color: #9c27b0;
+        }
+
+        .itc-slider__item:nth-child(3) {
+            background-color: #3f51b5;
+        }
+
+        .itc-slider__item:nth-child(4) {
+            background-color: #03a9f4;
+        }
+
+        .itc-slider__item:nth-child(5) {
+            background-color: #4caf50;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="itc-slider" id="slider-1">
+        <div class="itc-slider__wrapper">
+            <div class="itc-slider__items">
+                <div class="itc-slider__item">
+                    <!-- Контент 1 слайда -->
+                    1
+                </div>
+                <div class="itc-slider__item">
+                    <!-- Контент 2 слайда -->
+                    2
+                </div>
+                <div class="itc-slider__item">
+                    <!-- Контент 3 слайда -->
+                    3
+                </div>
+                <div class="itc-slider__item">
+                    <!-- Контент 4 слайда -->
+                    4
+                </div>
+                <div class="itc-slider__item">
+                    <!-- Контент 5 слайда -->
+                    5
+                </div>
+            </div>
+        </div>
+        <button class="itc-slider__btn itc-slider__btn_prev" data-slider="#slider-1"></button>
+        <button class="itc-slider__btn itc-slider__btn_next" data-slider="#slider-1"></button>
+    </div>
+    <div class="itc-slider" id="slider-2">
+        <div class="itc-slider__wrapper">
+            <div class="itc-slider__items">
+                <div class="itc-slider__item">
+                    <!-- Контент 1 слайда -->
+                    1
+                </div>
+                <div class="itc-slider__item">
+                    <!-- Контент 2 слайда -->
+                    2
+                </div>
+                <div class="itc-slider__item">
+                    <!-- Контент 3 слайда -->
+                    3
+                </div>
+                <div class="itc-slider__item">
+                    <!-- Контент 4 слайда -->
+                    4
+                </div>
+                <div class="itc-slider__item">
+                    <!-- Контент 5 слайда -->
+                    5
+                </div>
+            </div>
+        </div>
+        <button class="itc-slider__btn itc-slider__btn_prev" data-slider="#slider-2"></button>
+        <button class="itc-slider__btn itc-slider__btn_next" data-slider="#slider-2"></button>
+    </div>
+</body>
+<script src="js/itc-slider.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const sliders = {};
+        document.querySelectorAll('.itc-slider').forEach((slider) => {
+            sliders[slider.id] = ItcSlider.getOrCreateInstance(slider, {
+                loop: true,
+                autoplay: true,
+                interval: 4000,
+                swipe: true,
+                refresh: true,
+            });
+            document.querySelector(`[data-slider="#${slider.id}"].itc-slider__btn_prev`).onclick = () => {
+                sliders[slider.id].prev();
+            }
+            document.querySelector(`[data-slider="#${slider.id}"].itc-slider__btn_next`).onclick = () => {
+                sliders[slider.id].next();
+            }
+        });
+    });
+
+    // после готовности DOM
+
+    // ItcSlider.getOrCreateInstance('.itc-slider', {
+    //     loop: true, // без зацикливания
+    //     swipe: true, // без свайпа
+    //     autoplay: true,
+    //     interval: 5000
+    // });
+
+</script>
+
+</html>
