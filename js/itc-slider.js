@@ -271,6 +271,7 @@ class ItcSlider {
     }
     if (this.#state.intervalId === null) {
       this.#state.intervalId = setInterval(() => {
+        // Выбрать по вкусу: next - право, prev - влево.
         this.#state.direction = 'next';
         this.#move();
       }, this.#config.interval);
