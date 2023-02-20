@@ -200,10 +200,15 @@
             })
     }
 
+
+
     function enableDebug() {
-        let scanInfo = document.querySelector('#scan-info')
-        scanInfo.classList.remove("d-none");
-        scanInfo.classList.add("d-block");
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('#scan-info').forEach((slider) => {
+                slider.classList.remove("d-none");
+                slider.classList.add("d-block");
+            });
+        });
         parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');
     }
     // enableDebug();
@@ -222,9 +227,13 @@
         document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`;
         document.querySelector('#reader').classList.add("d-none");
 
-        let scanInfo = document.querySelector('#scan-info');
-        scanInfo.classList.remove("d-none");
-        scanInfo.classList.add("d-block");
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('#scan-info').forEach((slider) => {
+                slider.classList.remove("d-none");
+                slider.classList.add("d-block");
+            });
+        });
+
         parseBarcodeOne(decodedText);
         // document.location.href = "https://api.telegram.org/bot2100711838:AAE2qHOz6R68rHJZB93Xf_CDOyrfCiqCI7Q/sendMessage?chat_id=-1001752025790&text=result:" + `${decodedText}`;
     }
