@@ -25,7 +25,7 @@
         <div id="result"></div> -->
     </div>
 
-    <div class="container-fluid mb-3" id="scan-info" style="display: none;">
+    <div class="container-fluid mb-3 d-none" id="scan-info">
         <div class="card m-1">
             <div class="card-body p-3">
                 <h5 class="card-title">Информация о изделии:</h5>
@@ -162,7 +162,6 @@
                 document.getElementById('СИ').innerText = `${data.Модель.СИ['0']}`;
             })
     }
-
     // parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');
 </script>
 
@@ -178,15 +177,8 @@
         document.getElementById('text').innerText = `${decodedText}`;
         document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`;
         parseBarcodeOne(decodedText);
-        document.removeChild(document.getElementById('reader'));
-        let styl = document.createElement('style');
-        styl.innerHTML =
-        `
-        div#scan-info {
-            display:block;
-        }
-        `;
-    document.head.appendChild(styl);
+        document.querySelector('#reader').classList.add("d-none");
+        document.querySelector('#scan-info').classList.add("d-block");
         // document.location.href = "https://api.telegram.org/bot2100711838:AAE2qHOz6R68rHJZB93Xf_CDOyrfCiqCI7Q/sendMessage?chat_id=-1001752025790&text=result:" + `${decodedText}`;
     }
 
