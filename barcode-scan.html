@@ -19,6 +19,8 @@
         <span>Тип barcode:</span>
         <div id="result"></div>
     </div>
+
+    <p id="demo"></p>
 </body>
 
 <!-- Bootstrap 5.3.0 alpha 1 -->
@@ -184,6 +186,42 @@
     //     btnTorchOff.classList.add("");
     //     btnTorchOff.textContent = 'Выключить фонарик';
     // }
+
+
+
+    // fetch("https://github.com/deviashin/iiotsense.ru/blob/main/db/bip-g.jsonc")
+    //     .then(function (response) {
+    //         return response.json();
+    //     })
+    //     .then(function (data) {
+    //         for (let i = 0; i < data.length; i++) {
+    //             console.log(data[i]);
+    //         }
+    //     })
+
+    // var xhr = new XMLHttpRequest();
+
+    // // open a connection
+    // xhr.open("GET", "https://github.com/deviashin/iiotsense.ru/blob/main/db/bip-g.jsonc", true);
+
+    // // send the request
+    // xhr.send();
+
+    // // handle the response
+    // xhr.onreadystatechange = function () {
+    //     if (this.readyState == 4 && this.status == 200) {
+    //         console.log(this.responseText);
+    //     }
+    // }
+    fetch("https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.jsonc")
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            for (let i = 0; i < data.length; i++) {
+                console.log(data[i]);
+            }
+        })
 </script>
 
 </html>
