@@ -21,7 +21,7 @@
         <div id="result"></div>
     </div>
 
-    <p>Поле парсера:</p>
+    <p>Поле парсераds:</p>
     <p id="jsonParser"></p>
 </body>
 
@@ -191,41 +191,60 @@
 
 
 
-    fetch("https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json")
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            for (let i = 0; i < data.length; i++) {
-                console.log(data[i]);
+    // fetch("https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json")
+    //     .then(function (response) {
+    //         return response.json();
+    //     })
+    //     .then(function (data) {
+    //         for (let i = 0; i < data.length; i++) {
+    //             console.log(data[i]);
+    //         }
+    //     })
+
+    // var xhr = new XMLHttpRequest();
+
+    // // open a connection
+    // xhr.open("GET", "https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json", true);
+
+    // // send the request
+    // xhr.send();
+
+    // // handle the response
+    // xhr.onreadystatechange = function () {
+    //     if (this.readyState == 4 && this.status == 200) {
+    //         console.log(this.responseText);
+    //     }
+    // }
+
+
+    // fetch("https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json")
+    //     .then(function (response) {
+    //         return response.json();
+    //     })
+    //     .then(function (data) {
+    //         for (let i = 0; i < data.length; i++) {
+    //             console.log(data[i]);
+    //         }
+    //     })
+
+    function loadJson(callback) {
+        var XmlHttpRequest = new XMLHttpRequest();
+        XmlHttpRequest.overrideMimeType("application/json");
+        XmlHttpRequest.open('GET', 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json', true);
+        XmlHttpRequest.onreadystatechange = function () {
+            if (XmlHttpRequest.readyState == 4 && XmlHttpRequest.status == "200") {
+                // .open will NOT return a value 
+                // but simply returns undefined in async mode so use a callback
+                callback(XmlHttpRequest.responseText);
             }
-        })
-
-    var xhr = new XMLHttpRequest();
-
-    // open a connection
-    xhr.open("GET", "https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json", true);
-
-    // send the request
-    xhr.send();
-
-    // handle the response
-    xhr.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
         }
+        XmlHttpRequest.send(null);
     }
 
-
-    fetch("https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json")
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            for (let i = 0; i < data.length; i++) {
-                console.log(data[i]);
-            }
-        })
+    loadJson(function (response) {
+        jsonResponse = JSON.parse(response);
+        console.log(jsonResponse);
+    });
 </script>
 
 </html>
