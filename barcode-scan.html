@@ -124,7 +124,7 @@
         </svg>
     </div>
     <a href="#" onclick="location.reload(); return false;" class="d-none" id="scan-info">
-        <div class="btn-up btn-scan shadow-lg" id="scan-info">
+        <div class="btn-up btn-scan shadow-lg">
             <i class="fa-regular fa-qrcode fa-2xl"></i>
         </div>
     </a>
@@ -172,7 +172,7 @@
                 document.getElementById('И3').innerText = `${data.Модель.И3[str[14]]}`;
                 document.getElementById('И4').innerText = `${data.Модель.И4[str[15]]}`;
                 document.getElementById('СИ').innerText = `${data.Модель.СИ['0']}`;
-            })
+            });
     }
 
     function parseBarcodeTwo(str) {
@@ -197,21 +197,17 @@
                 document.getElementById('И3').innerText = `${data.Модель.И3[strDot[3][2]]}`;
                 document.getElementById('И4').innerText = `${data.Модель.И4[strDot[3][3]]}`;
                 document.getElementById('СИ').innerText = `${data.Модель.СИ['0']}`;
-            })
+            });
     }
 
-
-
-    function enableDebug() {
+    function interfaceReload(str) {
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('#scan-info').forEach((slider) => {
                 slider.classList.remove("d-none");
                 slider.classList.add("d-block");
             });
         });
-        parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');
     }
-    // enableDebug();
 </script>
 
 <!-- Bootstrap 5.3.0 alpha 1 -->
@@ -227,11 +223,9 @@
         document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`;
         document.querySelector('#reader').classList.add("d-none");
 
-        document.querySelectorAll('#scan-info').forEach((slider) => {
-            slider.classList.remove("d-none");
-            slider.classList.add("d-block");
-        });
+        interfaceReload();
 
+        // parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');
         parseBarcodeOne(decodedText);
         // document.location.href = "https://api.telegram.org/bot2100711838:AAE2qHOz6R68rHJZB93Xf_CDOyrfCiqCI7Q/sendMessage?chat_id=-1001752025790&text=result:" + `${decodedText}`;
     }
@@ -329,19 +323,19 @@
     btnCameraPerm.textContent = 'Запустить сканирование';
     // btnCameraPerm.addEventListener('click', function () { });
 
-    let btnCameraStart = document.querySelector('#html5-qrcode-button-camera-start');
-    btnCameraStart.addEventListener('click', function () {
-        btnCameraStop.classList.remove("html5-qrcode-element");
-        btnCameraStop.classList.add("btn", "btn-success", "shadow");
-        btnCameraStop.textContent = 'Стоп';
-    });
+    // let btnCameraStart = document.querySelector('#html5-qrcode-button-camera-start');
+    // btnCameraStart.addEventListener('click', function () {
+    //     btnCameraStop.classList.remove("html5-qrcode-element");
+    //     btnCameraStop.classList.add("btn", "btn-success", "shadow");
+    //     btnCameraStop.textContent = 'Стоп';
+    // });
 
-    let btnCameraStop = document.querySelector('#html5-qrcode-button-camera-stop');
-    btnCameraStop.addEventListener('click', function () {
-        btnCameraStart.classList.remove("html5-qrcode-element");
-        btnCameraStart.classList.add("btn", "btn-success", "shadow");
-        btnCameraStart.textContent = 'Старт';
-    });
+    // let btnCameraStop = document.querySelector('#html5-qrcode-button-camera-stop');
+    // btnCameraStop.addEventListener('click', function () {
+    //     btnCameraStart.classList.remove("html5-qrcode-element");
+    //     btnCameraStart.classList.add("btn", "btn-success", "shadow");
+    //     btnCameraStart.textContent = 'Старт';
+    // });
 
 
     // let btnTorch = document.querySelector('#html5-qrcode-button-torch');
