@@ -21,34 +21,39 @@
         <div id="result"></div>
     </div>
 
-    <div class="card h-100 m-3">
-        <div class="card-body">
-            <h5 class="card-title">Информация о датчике:</h5>
-            <h6 class="card-subtitle mb-2 text-muted" id="Наименование"></h6>
-            <hr class="border opacity-75">
-            <span class="">Серия: </span>
-            <span class="card-text" id="БИП"></span>
-            <hr class="border opacity-75">
-            <span class="">(Мд) Модель устройства: </span>
-            <span class="card-text" id="МД"></span>
-            <hr class="border opacity-75">
-            <span class="">(АМ) Аппаратная модификация устройства: </span>
-            <span class="card-text" id="АМ"></span>
-            <hr class="border opacity-75">
-            <span class="">Исполнение по подключению ПИП вибрации: </span>
-            <span class="card-text" id="И1"></span>
-            <hr class="border opacity-75">
-            <span class="">(И2) Исполнение по подключению ПИП температуры: </span>
-            <span class="card-text" id="И2"></span>
-            <hr class="border opacity-75">
-            <span class="">(И3) Исполнение по типу антенны: </span>
-            <span class="card-text" id="И3"></span>
-            <hr class="border opacity-75">
-            <span class="">(И4) Исполнение по электропитанию: </span>
-            <span class="card-text" id="И4"></span>
-            <hr class="border opacity-75">
-            <span class="">(СИ) Код специсполнения: </span>
-            <span class="card-text" id="СИ"></span>
+    <div class="container-fluid">
+        <div class="card m-3">
+            <div class="card-body">
+                <h5 class="card-title">Информация о датчике:</h5>
+                <h6 class="card-subtitle mb-2 text-muted" id="Наименование"></h6>
+                <hr class="border opacity-75">
+                <span class="fw-bold">Серийный номер: </span>
+                <span class="card-text" id="SN"></span>
+                <hr class="border opacity-75">
+                <span class="fw-bold">Серия: </span>
+                <span class="card-text" id="БИП"></span>
+                <hr class="border opacity-75">
+                <span class="fw-bold">(Мд) Модель устройства: </span>
+                <span class="card-text" id="МД"></span>
+                <hr class="border opacity-75">
+                <span class="fw-bold">(АМ) Аппаратная модификация устройства: </span>
+                <span class="card-text" id="АМ"></span>
+                <hr class="border opacity-75">
+                <span class="fw-bold">Исполнение по подключению ПИП вибрации: </span>
+                <span class="card-text" id="И1"></span>
+                <hr class="border opacity-75">
+                <span class="fw-bold">(И2) Исполнение по подключению ПИП температуры: </span>
+                <span class="card-text" id="И2"></span>
+                <hr class="border opacity-75">
+                <span class="fw-bold">(И3) Исполнение по типу антенны: </span>
+                <span class="card-text" id="И3"></span>
+                <hr class="border opacity-75">
+                <span class="fw-bold">(И4) Исполнение по электропитанию: </span>
+                <span class="card-text" id="И4"></span>
+                <hr class="border opacity-75">
+                <span class="fw-bold">(СИ) Код специсполнения: </span>
+                <span class="card-text" id="СИ"></span>
+            </div>
         </div>
     </div>
 </body>
@@ -74,29 +79,62 @@
         document.getElementById('text').innerText = `${decodedText}`;
         document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`;
 
+        // let str = 'IIOTSENSE.RU/P?D10000034710111105871';
+        let str = decodedText;
+        let jsonLink = 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-all.json';
+        str = str.slice(str.split('?')[0].length + 1);
 
-        const strDash = decodedText.split('-');
-        const strDot = strDash[1].split('.');
+        console.log(str);
 
-        if (strDash[0] == 'БИП') {
-            if (strDot[0] == 'G') {
+        switch (str[0] + str[1]) {
+            case 'D1':
                 jsonLink = 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json';
-            }
-            else { }
+                break;
+
+            default:
+                break;
         }
+        console.log('Получен документ: ' + jsonLink);
+
+        let SerialN = str[0] + str[1];
+        for (let i = 3; i < 10; i++) { SerialN += str[i]; }
+        document.getElementById('SN').innerText = `${SerialN}`;
 
         getData(jsonLink)
             .then(data => {
                 document.getElementById('Наименование').innerText = `${data.Наименование}`;
                 document.getElementById('БИП').innerText = `${data.Серия}`;
-                document.getElementById('МД').innerText = `${data.Модель.МД[strDot[0] + strDot[1]].Имя}`;
+                document.getElementById('МД').innerText = `${data.Модель.МД['G' + str[10]].Имя}`;
                 document.getElementById('АМ').innerText = `${data.Модель.АМ}`;
-                document.getElementById('И1').innerText = `${data.Модель.МД.G1.И1[strDot[3][0]]}`;
-                document.getElementById('И2').innerText = `${data.Модель.МД.G1.И2[strDot[3][1]]}`;
-                document.getElementById('И3').innerText = `${data.Модель.И3[strDot[3][2]]}`;
-                document.getElementById('И4').innerText = `${data.Модель.И4[strDot[3][3]]}`;
+                document.getElementById('И1').innerText = `${data.Модель.МД.G1.И1[str[12]]}`;
+                document.getElementById('И2').innerText = `${data.Модель.МД.G1.И2[str[13]]}`;
+                document.getElementById('И3').innerText = `${data.Модель.И3[str[14]]}`;
+                document.getElementById('И4').innerText = `${data.Модель.И4[str[15]]}`;
                 document.getElementById('СИ').innerText = `${data.Модель.СИ['0']}`;
             })
+
+        // const strDash = decodedText.split('-');
+        // const strDot = strDash[1].split('.');
+
+        // if (strDash[0] == 'БИП') {
+        //     if (strDot[0] == 'G') {
+        //         jsonLink = 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json';
+        //     }
+        //     else { }
+        // }
+
+        // getData(jsonLink)
+        //     .then(data => {
+        //         document.getElementById('Наименование').innerText = `${data.Наименование}`;
+        //         document.getElementById('БИП').innerText = `${data.Серия}`;
+        //         document.getElementById('МД').innerText = `${data.Модель.МД[strDot[0] + strDot[1]].Имя}`;
+        //         document.getElementById('АМ').innerText = `${data.Модель.АМ}`;
+        //         document.getElementById('И1').innerText = `${data.Модель.МД.G1.И1[strDot[3][0]]}`;
+        //         document.getElementById('И2').innerText = `${data.Модель.МД.G1.И2[strDot[3][1]]}`;
+        //         document.getElementById('И3').innerText = `${data.Модель.И3[strDot[3][2]]}`;
+        //         document.getElementById('И4').innerText = `${data.Модель.И4[strDot[3][3]]}`;
+        //         document.getElementById('СИ').innerText = `${data.Модель.СИ['0']}`;
+        //     })
 
 
         // document.location.href = "https://api.telegram.org/bot2100711838:AAE2qHOz6R68rHJZB93Xf_CDOyrfCiqCI7Q/sendMessage?chat_id=-1001752025790&text=result:" + `${decodedText}`;
