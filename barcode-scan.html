@@ -18,11 +18,11 @@
 
 <body>
     <div class="container-fluid m-0 p-0 border-0 mb-4" id="reader"></div>
-    <div class="">
-        <!-- <span>Информация:</span>
+    <div class="container-fluid">
+        <span>Информация:</span>
         <div id="text"></div>
         <span>Тип barcode:</span>
-        <div id="result"></div> -->
+        <div id="result"></div>
     </div>
 
     <div class="container-fluid mb-3 d-none" id="scan-info">
@@ -81,6 +81,23 @@
                                 <hr class="border opacity-50">
                                 <span class="fw-bold">Код специсполнения: </span>
                                 <span class="card-text" id="СИ"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Служебная информация
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <span>Информация:</span>
+                                <div id="text"></div>
+                                <span>Тип barcode:</span>
+                                <div id="result"></div>
                             </div>
                         </div>
                     </div>
