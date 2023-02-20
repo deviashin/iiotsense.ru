@@ -191,31 +191,33 @@
 
 
 
-    // fetch("https://github.com/deviashin/iiotsense.ru/blob/main/db/bip-g.jsonc")
-    //     .then(function (response) {
-    //         return response.json();
-    //     })
-    //     .then(function (data) {
-    //         for (let i = 0; i < data.length; i++) {
-    //             console.log(data[i]);
-    //         }
-    //     })
+    fetch("https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json")
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            for (let i = 0; i < data.length; i++) {
+                console.log(data[i]);
+            }
+        })
 
-    // var xhr = new XMLHttpRequest();
+    var xhr = new XMLHttpRequest();
 
-    // // open a connection
-    // xhr.open("GET", "https://github.com/deviashin/iiotsense.ru/blob/main/db/bip-g.jsonc", true);
+    // open a connection
+    xhr.open("GET", "https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json", true);
 
-    // // send the request
-    // xhr.send();
+    // send the request
+    xhr.send();
 
-    // // handle the response
-    // xhr.onreadystatechange = function () {
-    //     if (this.readyState == 4 && this.status == 200) {
-    //         console.log(this.responseText);
-    //     }
-    // }
-    fetch("https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.jsonc")
+    // handle the response
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+        }
+    }
+
+
+    fetch("https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json")
         .then(function (response) {
             return response.json();
         })
