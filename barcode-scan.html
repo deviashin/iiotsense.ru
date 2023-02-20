@@ -227,11 +227,9 @@
         document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`;
         document.querySelector('#reader').classList.add("d-none");
 
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('#scan-info').forEach((slider) => {
-                slider.classList.remove("d-none");
-                slider.classList.add("d-block");
-            });
+        document.querySelectorAll('#scan-info').forEach((slider) => {
+            slider.classList.remove("d-none");
+            slider.classList.add("d-block");
         });
 
         parseBarcodeOne(decodedText);
@@ -239,7 +237,9 @@
     }
 
     // Handle on error condition, with error message
-    function onScanError(errorMessage) { }
+    function onScanError(errorMessage) {
+        alert('Ошибка сканирования!');
+    }
 
     // Square QR Box, with size = 70% of the min edge.
     let qrboxFunction = function (viewfinderWidth, viewfinderHeight) {
