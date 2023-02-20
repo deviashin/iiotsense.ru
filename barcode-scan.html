@@ -201,11 +201,10 @@
     }
 
     function interfaceReload(str) {
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('#scan-info').forEach((slider) => {
-                slider.classList.remove("d-none");
-                slider.classList.add("d-block");
-            });
+        document.querySelectorAll('#scan-info').forEach((slider) => {
+            slider.classList.remove("d-none");
+            slider.classList.add("d-block");
+            console.log(slider);
         });
     }
 </script>
