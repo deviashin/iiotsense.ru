@@ -67,20 +67,9 @@
     }
 </script>
 
-<!-- Bootstrap 5.3.0 alpha 1 -->
-<script src="dist/bootstrap-5.3.0-alpha1-dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- html5-qrcode 2.3.4 (stable) -->
-<!-- <script src="js/html5-qrcode.min@2.3.4.js"></script> -->
-<script src="js/html5-qrcode.min@2.3.4.js"></script>
+<!--  -->
 <script>
-    // Handle on success condition with the decoded text or result.
-    function onScanSuccess(decodedText, decodedResult) {
-        document.getElementById('text').innerText = `${decodedText}`;
-        document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`;
-
-        // let str = 'IIOTSENSE.RU/P?D10000034710111105871';
-        let str = decodedText;
+    function parseBarcodeOne(str) {
         let jsonLink = 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-all.json';
         str = str.slice(str.split('?')[0].length + 1);
 
@@ -112,31 +101,49 @@
                 document.getElementById('И4').innerText = `${data.Модель.И4[str[15]]}`;
                 document.getElementById('СИ').innerText = `${data.Модель.СИ['0']}`;
             })
+    }
 
-        // const strDash = decodedText.split('-');
-        // const strDot = strDash[1].split('.');
+    function parseBarcodeTwo(str) {
+        const strDash = decodedText.split('-');
+        const strDot = strDash[1].split('.');
 
-        // if (strDash[0] == 'БИП') {
-        //     if (strDot[0] == 'G') {
-        //         jsonLink = 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json';
-        //     }
-        //     else { }
-        // }
+        if (strDash[0] == 'БИП') {
+            if (strDot[0] == 'G') {
+                jsonLink = 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json';
+            }
+            else { }
+        }
 
-        // getData(jsonLink)
-        //     .then(data => {
-        //         document.getElementById('Наименование').innerText = `${data.Наименование}`;
-        //         document.getElementById('БИП').innerText = `${data.Серия}`;
-        //         document.getElementById('МД').innerText = `${data.Модель.МД[strDot[0] + strDot[1]].Имя}`;
-        //         document.getElementById('АМ').innerText = `${data.Модель.АМ}`;
-        //         document.getElementById('И1').innerText = `${data.Модель.МД.G1.И1[strDot[3][0]]}`;
-        //         document.getElementById('И2').innerText = `${data.Модель.МД.G1.И2[strDot[3][1]]}`;
-        //         document.getElementById('И3').innerText = `${data.Модель.И3[strDot[3][2]]}`;
-        //         document.getElementById('И4').innerText = `${data.Модель.И4[strDot[3][3]]}`;
-        //         document.getElementById('СИ').innerText = `${data.Модель.СИ['0']}`;
-        //     })
+        getData(jsonLink)
+            .then(data => {
+                document.getElementById('Наименование').innerText = `${data.Наименование}`;
+                document.getElementById('БИП').innerText = `${data.Серия}`;
+                document.getElementById('МД').innerText = `${data.Модель.МД[strDot[0] + strDot[1]].Имя}`;
+                document.getElementById('АМ').innerText = `${data.Модель.АМ}`;
+                document.getElementById('И1').innerText = `${data.Модель.МД.G1.И1[strDot[3][0]]}`;
+                document.getElementById('И2').innerText = `${data.Модель.МД.G1.И2[strDot[3][1]]}`;
+                document.getElementById('И3').innerText = `${data.Модель.И3[strDot[3][2]]}`;
+                document.getElementById('И4').innerText = `${data.Модель.И4[strDot[3][3]]}`;
+                document.getElementById('СИ').innerText = `${data.Модель.СИ['0']}`;
+            })
+    }
 
+    parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');
+</script>
 
+<!-- Bootstrap 5.3.0 alpha 1 -->
+<script src="dist/bootstrap-5.3.0-alpha1-dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- html5-qrcode 2.3.4 (stable) -->
+<!-- <script src="js/html5-qrcode.min@2.3.4.js"></script> -->
+<script src="js/html5-qrcode.min@2.3.4.js"></script>
+<script>
+    // Handle on success condition with the decoded text or result.
+    function onScanSuccess(decodedText, decodedResult) {
+        document.getElementById('text').innerText = `${decodedText}`;
+        document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`;
+        parseBarcodeOne(decodedText);
+        body.removeChild(document.getElementById('reader'));
         // document.location.href = "https://api.telegram.org/bot2100711838:AAE2qHOz6R68rHJZB93Xf_CDOyrfCiqCI7Q/sendMessage?chat_id=-1001752025790&text=result:" + `${decodedText}`;
         // console.log(`Scan result: ${decodedText}`, decodedResult);
         // window.alert(decodedText);

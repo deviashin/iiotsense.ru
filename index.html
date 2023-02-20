@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/brands.css">
     <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/duotone.css">
     <!-- <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/light.css"> -->
-    <!-- <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/regular.css"> -->
+    <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/regular.css">
     <!-- <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/solid.css"> -->
     <!-- <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/thin.css"> -->
 
@@ -260,22 +260,27 @@
                         <li class="nav-item col-6 col-lg-auto">
                             <a class="nav-link py-2 px-0 px-lg-2" href="#" target="_blank" rel="noopener">
                                 <i class="fa-brands fa-vk fa-2xl"></i>
-                                <small class="d-lg-none ms-2">Вконтакте</small>
+                                <span class="d-lg-none ms-2">Вконтакте</span>
                             </a>
                         </li>
                         <li class="nav-item col-6 col-lg-auto">
                             <a class="nav-link py-2 px-0 px-lg-2" href="#" target="_blank" rel="noopener">
                                 <i class="fa-brands fa-youtube fa-2xl"></i>
-                                <small class="d-lg-none ms-2">YouTube</small>
+                                <span class="d-lg-none ms-2">YouTube</span>
                             </a>
                         </li>
                         <li class="nav-item col-6 col-lg-auto">
                             <a class="nav-link py-2 px-0 px-lg-2" href="#" target="_blank" rel="noopener">
                                 <i class="fa-brands fa-telegram fa-2xl"></i>
-                                <small class="d-lg-none ms-2">Telegram</small>
+                                <span class="d-lg-none ms-2">Telegram</span>
                             </a>
                         </li>
                     </ul>
+                    <hr class="d-lg-none text-white-50">
+                    <a class="nav-link py-2 px-0 px-lg-2" href="barcode-scan.html">
+                        <i class="fa-regular fa-qrcode fa-2xl"></i>
+                        <span class="d-lg-none ms-2">Проверка продукции</span>
+                    </a>
                     <ul class="navbar-nav flex-row flex-wrap">
                         <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
                             <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
@@ -289,6 +294,7 @@
                                 <svg class="bi my-1 theme-icon-active">
                                     <use href="#sun-fill"></use>
                                 </svg>
+                                <!-- <i class="fa-regular fa-sun-bright fa-2xl my-1"></i> -->
                                 <span class="d-lg-none ms-2">Переключить тему</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme"
@@ -296,13 +302,15 @@
                                 <li>
                                     <button type="button" class="dropdown-item d-flex align-items-center active"
                                         data-bs-theme-value="light">
-                                        <svg class="bi me-2 opacity-50 theme-icon">
+                                        <svg class="bi me-2 opacity-50 theme-icon theme-icon-active">
                                             <use href="#sun-fill"></use>
                                         </svg>
+                                        <!-- <i class="fa-regular fa-sun-bright fa-2xl me-2 opacity-75 theme-icon"></i> -->
                                         Светлая
                                         <svg class="bi ms-auto d-none">
                                             <use href="#check2"></use>
                                         </svg>
+                                        <!-- <i class="fa-regular fa-check fa-2xl ms-auto d-none"></i> -->
                                     </button>
                                 </li>
                                 <li>
@@ -311,10 +319,12 @@
                                         <svg class="bi me-2 opacity-50 theme-icon">
                                             <use href="#moon-stars-fill"></use>
                                         </svg>
-                                        Темная
+                                        <!-- <i class="fa-regular fa-moon-stars fa-2xl me-2 opacity-75 theme-icon"></i> -->
+                                        Темная (бета)
                                         <svg class="bi ms-auto d-none">
                                             <use href="#check2"></use>
                                         </svg>
+                                        <!-- <i class="fa-regular fa-check fa-2xl ms-auto d-none"></i> -->
                                     </button>
                                 </li>
                                 <li>
@@ -323,10 +333,12 @@
                                         <svg class="bi me-2 opacity-50 theme-icon">
                                             <use href="#circle-half"></use>
                                         </svg>
+                                        <!-- <i class="fa-regular fa-circle-half-stroke fa-xl me-2 opacity-75 theme-icon"></i> -->
                                         Системная
                                         <svg class="bi ms-auto d-none">
                                             <use href="#check2"></use>
                                         </svg>
+                                        <!-- <i class="fa-regular fa-check fa-2xl ms-auto d-none"></i> -->
                                     </button>
                                 </li>
                             </ul>
