@@ -25,17 +25,18 @@
     <p id="jsonParser"></p>
 </body>
 
+<!--  -->
 <script>
     const getData = async url => {
-        const response = await fetch(url)
-        const data = await response.json()
-        return data
+        const response = await fetch(url);
+        const data = await response.json();
+        return data;
     }
 
-    getData('https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json')
-        .then(data => {
-            console.log(data)
-        })
+
+
+
+    getData('https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json').then(data => { console.log(data.Наименование); })
 </script>
 
 <!-- Bootstrap 5.3.0 alpha 1 -->
@@ -49,6 +50,7 @@
     function onScanSuccess(decodedText, decodedResult) {
         document.getElementById('text').innerText = `${decodedText}`;
         document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`;
+
         // document.location.href = "https://api.telegram.org/bot2100711838:AAE2qHOz6R68rHJZB93Xf_CDOyrfCiqCI7Q/sendMessage?chat_id=-1001752025790&text=result:" + `${decodedText}`;
         // console.log(`Scan result: ${decodedText}`, decodedResult);
         // window.alert(decodedText);
@@ -201,46 +203,6 @@
     //     btnTorchOff.classList.add("");
     //     btnTorchOff.textContent = 'Выключить фонарик';
     // }
-
-
-
-    // fetch("https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json")
-    //     .then(function (response) {
-    //         return response.json();
-    //     })
-    //     .then(function (data) {
-    //         for (let i = 0; i < data.length; i++) {
-    //             console.log(data[i]);
-    //         }
-    //     })
-
-    // var xhr = new XMLHttpRequest();
-
-    // // open a connection
-    // xhr.open("GET", "https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json", true);
-
-    // // send the request
-    // xhr.send();
-
-    // // handle the response
-    // xhr.onreadystatechange = function () {
-    //     if (this.readyState == 4 && this.status == 200) {
-    //         console.log(this.responseText);
-    //     }
-    // }
-
-
-    // fetch("https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json")
-    //     .then(function (response) {
-    //         return response.json();
-    //     })
-    //     .then(function (data) {
-    //         for (let i = 0; i < data.length; i++) {
-    //             console.log(data[i]);
-    //         }
-    //     })
-
-
 </script>
 
 </html>
