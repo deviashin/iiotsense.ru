@@ -49,10 +49,10 @@
         .then(data => {
             document.getElementById('Наименование').innerText = `${data.Наименование}`;
             document.getElementById('БИП').innerText = `${data.Серия}`;
-            document.getElementById('МД').innerText = `${data.Модель[0].МД[0]['1']}`;
-            document.getElementById('АМ').innerText = `${data.Модель[0].АМ}`;
+            document.getElementById('МД').innerText = `${data.Модель[0].МД[0]['1'][0].Имя}`;
+            // document.getElementById('АМ').innerText = `${data.Модель[0].АМ}`;
 
-            document.getElementById('И1').innerText = `${data.Модель[0].И1[0]['БИП-G.1.01'][1]}`;
+            // document.getElementById('И1').innerText = `${data.Модель[0].И1[0]['БИП-G.1.01'][1]}`;
 
 
         })
