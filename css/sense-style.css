@@ -50,7 +50,6 @@
 
 
 
-
     --docsearch-primary-color: var(--sense-dark);
     --docsearch-logo-color: var(--sense-dark);
     --sense-dark-bg: var(--sense-dark);
@@ -168,7 +167,7 @@
     color: #fff;
     width: 60px;
     height: 60px;
-    opacity: .95;
+    opacity: .90;
     transform: translateY(0);
 }
 
