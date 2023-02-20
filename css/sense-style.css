@@ -156,20 +156,24 @@
 
 .btn-up {
     position: fixed;
-    background-color: #f57c00;
-    left: 20px;
-    bottom: 30px;
-    border-radius: 25px;
+    background-color: var(--bs-green);
+    right: 30px;
+    bottom: 110px;
+    border-radius: 30px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: opacity 0.15s ease-in-out, transform 0.3s ease-in-out;
     color: #fff;
-    width: 50px;
-    height: 50px;
-    opacity: 1;
+    width: 60px;
+    height: 60px;
+    opacity: .95;
     transform: translateY(0);
+}
+
+.btn-scan {
+    bottom: 30px;
 }
 
 .btn-up_hide {
@@ -182,13 +186,13 @@
 }
 
 .btn-up-icon {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     fill: currentcolor;
 }
 
-@media (hover: hover) and (pointer: fine) {
+/* @media (hover: hover) and (pointer: fine) {
     .btn-up:hover {
         background-color: #ef6c00;
     }
-}
+} */

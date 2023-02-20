@@ -1,20 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="auto">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
     <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
-    <title>Sense barcode scanner</title>
+    <title>Проверка продукции</title>
+
+    <!-- Bootstrap 5.3.0 alpha 1 -->
+    <link rel="stylesheet" href="css/bootstrap.css">
+
+    <!-- Bootstrap Icons 1.10.3 -->
+    <link rel="stylesheet" href="dist/bootstrap-icons-1.10.3/bootstrap-icons.css">
+
+    <!-- Font Awesome Pro 6.1.0 web -->
+    <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/fontawesome.min.css">
+    <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/brands.css">
+    <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/duotone.css">
+    <!-- <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/light.css"> -->
+    <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/regular.css">
+    <!-- <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/solid.css"> -->
+    <!-- <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/thin.css"> -->
+
+    <!-- PF BeauSans Pro -->
+    <!-- <link rel="stylesheet" href="css/fonts.css"> -->
+
+    <!-- ITC-Slider 1.0.0 -->
+    <link rel="stylesheet" href="css/itc-slider.css">
+
+    <!-- IIoT Sense style -->
+    <link rel="stylesheet" href="css/sense-styles-racoon-bs.css">
+    <link rel="stylesheet" href="css/sense-style.css">
 </head>
-
-<!-- Bootstrap 5.3.0 alpha 1 -->
-<link rel="stylesheet" href="css/bootstrap.css">
-
-<!-- IIoT Sense style -->
-<link rel="stylesheet" href="css/sense-styles-racoon-bs.css">
-<link rel="stylesheet" href="css/sense-style.css">
 
 <body>
     <div class="container-fluid m-0 p-0 border-0 mb-4" id="reader"></div>
@@ -26,10 +44,13 @@
     </div> -->
 
     <div class="container-fluid my-3 d-none" id="scan-info">
-        <div class="card m-1">
+        <h3 class="d-flex justify-content-between align-items-center mb-3 ps-1">
+            <span class="text-success fs-2">Информация о изделии:</span>
+        </h3>
+        <div class="card m-1 shadow-lg border-0">
             <div class="card-body p-3">
-                <h5 class="card-title">Информация о изделии:</h5>
-                <h6 class="card-subtitle mb-4 text-muted" id="Наименование"></h6>
+                <!-- <h5 class="card-title">Информация о изделии:</h5> -->
+                <h5 class="card-subtitle mb-4 text-muted" id="Наименование"></h5>
                 <!-- <hr class="border opacity-50"> -->
                 <span class="fw-bold">Серийный номер: </span>
                 <span class="card-text" id="SN"></span>
@@ -97,11 +118,16 @@
                 d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z" />
         </symbol>
     </svg>
-    <div class="btn-up btn-up_hide">
+    <div class="btn-up btn-up_hide shadow-lg">
         <svg class="btn-up-icon" role="img" aria-label="Прокрутить страницу к началу">
             <use xlink:href="#arrow-up-short"></use>
         </svg>
     </div>
+    <a href="#" onclick="location.reload(); return false;" id="scan-info">
+        <div class="btn-up btn-scan shadow-lg" id="scan-info">
+            <i class="fa-regular fa-qrcode fa-2xl"></i>
+        </div>
+    </a>
 </body>
 
 <!--  -->
@@ -173,7 +199,14 @@
                 document.getElementById('СИ').innerText = `${data.Модель.СИ['0']}`;
             })
     }
-    // parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');
+
+    function enableDebug() {
+        let scanInfo = document.querySelector('#scan-info')
+        scanInfo.classList.remove("d-none");
+        scanInfo.classList.add("d-block");
+        parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');
+    }
+    // enableDebug();
 </script>
 
 <!-- Bootstrap 5.3.0 alpha 1 -->
