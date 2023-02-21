@@ -226,28 +226,43 @@
 <!-- html5-qrcode 2.3.7 (stable) -->
 <script src="js/html5-qrcode.min@2.3.7.js"></script>
 <script>
-    // This method will trigger user permissions
+    // Этот метод активирует разрешения пользователя:
     Html5Qrcode.getCameras().then(devices => {
         /**
-         * devices would be an array of objects of type:
+         * Устройства (камеры) будут массивом объектов типа:
          * { id: "id", label: "label" }
          */
         if (devices && devices.length) {
             var cameraId = devices[0].id;
-            // .. use this to start scanning.
-            console.log(cameraId);
+            // Здесь начинается процесс сканирования:
+
+            alert('0' + cameraId);
+            cameraId = devices[1].id;
+            alert('1' + cameraId);
+            cameraId = devices[2].id;
+            alert('2' + cameraId);
+
             const html5QrCode = new Html5Qrcode("reader");
+
+            // Обратный вызов при успешном сканировании:
             const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-                /* handle success */
+                // Останавливаем использование камеры
                 html5QrCode.stop().then((ignore) => {
-                    // QR Code scanning is stopped.
+                    // Сканирование QR-кода остановлено.
                 }).catch((err) => {
-                    // Stop failed, handle it.
+                    // Остановка не удалась, смирись.
                 });
             };
-            const config = { fps: 10, qrbox: { width: 250, height: 250 } };
 
-            html5QrCode.start({ deviceId: { exact: cameraId} }, config, qrCodeSuccessCallback);
+            const config = {
+                fps: 10,
+                qrbox: {
+                    width: 250,
+                    height: 250
+                }
+            };
+
+            html5QrCode.start({ deviceId: { exact: cameraId } }, config, qrCodeSuccessCallback);
         }
     }).catch(err => {
         // handle err
