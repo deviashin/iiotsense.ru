@@ -42,7 +42,7 @@
         <h3 class="d-flex justify-content-between align-items-center mb-3 ps-1">
             <span class="text-success fs-2">Информация о изделии:</span>
         </h3>
-        <div class="card m-1 shadow-lg border-0">
+        <div class="card m-1 shadow-lg border-0 rounded-4">
             <div class="card-body p-3">
                 <h5 class="card-subtitle mb-4 text-muted" id="Наименование"></h5>
                 <span class="fw-bold">Серийный номер: </span>
@@ -178,13 +178,14 @@
             default:
                 break;
         }
-        console.log('Получен документ: ' + jsonLink);
+        // console.log('Получен документ: ' + jsonLink);
 
         // :
         get_json_data(jsonLink).then(data => {
             // Получаем основную информацию об устройстве:
+            document.getElementById('Наименование').innerText = `${data.Наименование}`;
             document.getElementById('device-line').innerText = `${data.Серия}`;
-            document.getElementById('АМ').innerText = `${data.Модель.АМ}`;
+            // document.getElementById('АМ').innerText = `${data.Модель.АМ}`;
 
             // Получаем настоящий серийный номер:
             // let SerialN = str[0] + str[1]; // Отображать серийный номер с префиксом изделия.
@@ -270,11 +271,11 @@
             // 5871 - 17, 18, 19, 20
 
             // 
-            function listInfo(arr, el) {
-                const obj = JSON.parse(arr);
-                console.log(obj[el]);
-            }
-            listInfo(bipG, 'И4');
+            // function listInfo(arr, el) {
+            //     const obj = JSON.parse(arr);
+            //     console.log(obj[el]);
+            // }
+            // listInfo(bipG, 'И4');
 
             // Получаем дополнительную информацию в зависимости от типа устройства:
             switch (str[0] + str[1]) {
@@ -302,14 +303,12 @@
                     break;
 
                 case 'D0':
-                    // D0 - 0, 1
-                    // 00000199 - 2, 3, 4, 5, 6, 7, 8, 9
-                    // 1 - 10
-                    // 01 - 11, 12
-                    // 1011 - 13, 14, 15, 16
-                    // 4629 - 17, 18, 19, 20
-                    // document.getElementById('МД').innerText = `${data.Модель.МД[str[10]]}`;
-                    document.getElementById('МД').innerText = `${data.Модель.Мд[str[10]]}`;
+                    document.getElementById('МД').innerText = `${data.Модель.МД[str[10]]}`;
+                    document.getElementById('АМ').innerText = `${data.Модель.АМ['У' + str[10]][str[11] + str[12]]}`;
+                    addElementsList('Исполнение по измерению унифицированных сигналов: ', data.Модель.И1И2[str[13] + str[14]]);
+                    addElementsList('Исполнение по типу антенны: ', data.Модель.И3[str[15]]);
+                    addElementsList('Исполнение по электропитанию: ', data.Модель.И4[str[16]]);
+                    addElementsList('Код специсполнения: ', data.Модель.СИ['0'], false);
                     break;
 
                 case 'D1':
@@ -326,7 +325,7 @@
                     addElementsList('Исполнение по типу антенны: ', data.Модель.И3[str[15]]);
 
                     // document.getElementById('И4').innerText = `${data.Модель.И4[str[16]]}`;
-                    addElementsList('Исполнение по электропитанию: ', data.Модель.И4[str[16]], false);
+                    addElementsList('Исполнение по электропитанию: ', data.Модель.И4[str[16]]);
 
                     // document.getElementById('СИ').innerText = `${data.Модель.СИ['0']}`;
                     addElementsList('Код специсполнения: ', data.Модель.СИ['0'], false);
@@ -373,7 +372,7 @@
 
     interfaceReload();
     // parseBarcodeOne('IIOTSENSE.RU/P?CC0000026901112204046');
-    parseBarcodeOne('IIOTSENSE.RU/P?D00000019920110114629');
+    parseBarcodeOne('IIOTSENSE.RU/P?D00000019910110114629');
     // parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');
 </script>
 
