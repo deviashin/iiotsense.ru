@@ -44,17 +44,19 @@
         </h3>
         <div class="card m-1 shadow-lg border-0">
             <div class="card-body p-3">
-                <!-- <h5 class="card-title">Информация о изделии:</h5> -->
                 <h5 class="card-subtitle mb-4 text-muted" id="Наименование"></h5>
-                <!-- <hr class="border opacity-50"> -->
                 <span class="fw-bold">Серийный номер: </span>
                 <span class="card-text" id="SN"></span>
                 <hr class="border opacity-50">
-                <span class="fw-bold">Линейка: </span>
-                <span class="card-text" id="БИП"></span>
+                <span class="fw-bold">Производственная серия: </span>
+                <span class="card-text" id="device-line"></span>
                 <hr class="border opacity-50">
                 <span class="fw-bold">Модель устройства: </span>
                 <span class="card-text" id="МД"></span>
+                <hr class="border opacity-50">
+                <span class="fw-bold">Аппаратная модификация устройства: </span>
+                <span class="card-text" id="АМ"></span>
+
                 <div class="accordion pt-4" id="accordionExample">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingOne">
@@ -65,10 +67,8 @@
                         </h2>
                         <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
                             data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <span class="fw-bold">Аппаратная модификация устройства: </span>
-                                <span class="card-text" id="АМ"></span>
-                                <hr class="border opacity-50">
+                            <div class="accordion-body" id="collapseFirst">
+                                <!-- <hr class="border opacity-50">
                                 <span class="fw-bold">Исполнение по подключению ПИП вибрации: </span>
                                 <span class="card-text" id="И1"></span>
                                 <hr class="border opacity-50">
@@ -82,7 +82,7 @@
                                 <span class="card-text" id="И4"></span>
                                 <hr class="border opacity-50">
                                 <span class="fw-bold">Код специсполнения: </span>
-                                <span class="card-text" id="СИ"></span>
+                                <span class="card-text" id="СИ"></span> -->
                             </div>
                         </div>
                     </div>
@@ -146,12 +146,23 @@
         // 1110 - 13, 14, 15, 16
         // 5871 - 17, 18, 19, 20
 
+        // http://IIOTSENSE.RU/P?CC0000026901112204046
+        // CC - 0, 1
+        // 00000269 - 2, 3, 4, 5, 6, 7, 8, 9
+        // 01 - 10, 11
+        // 11220 - 12, 13, 14, 15, 16
+        // 4046 - 17, 18, 19, 20
+
         let jsonLink = 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-all.json';
         str = str.slice(str.split('?')[0].length + 1);
 
         console.log(str);
 
         switch (str[0] + str[1]) {
+            case 'CC':
+                jsonLink = 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-tk.json';
+                break;
+
             case 'D1':
                 jsonLink = 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json';
                 break;
@@ -161,21 +172,72 @@
         }
         console.log('Получен документ: ' + jsonLink);
 
-        let SerialN = str[0] + str[1];
-        for (let i = 3; i < 10; i++) { SerialN += str[i]; }
-        document.getElementById('SN').innerText = `${SerialN}`;
+
+
+        // 
+        function addElementsList(name, addr, hr = 1) {
+            let spanName = document.createElement('span');
+            spanName.className = "fw-bold";
+            spanName.innerText = name;
+            document.querySelector('#collapseFirst').append(spanName);
+
+            let spanAddr = document.createElement('span');
+            spanAddr.className = "card-text";
+            spanAddr.innerText = addr;
+            document.querySelector('#collapseFirst').append(spanAddr);
+
+            if (hr) {
+                let hr = document.createElement('hr');
+                hr.className = "border opacity-50";
+                document.querySelector('#collapseFirst').append(hr);
+            }
+        }
 
         getData(jsonLink)
             .then(data => {
-                document.getElementById('Наименование').innerText = `${data.Наименование}`;
-                document.getElementById('БИП').innerText = `${data.Серия}`;
-                document.getElementById('МД').innerText = `${data.Модель.МД['G' + str[10]].Имя}`;
+                // Получаем настоящий серийный номер:
+                let SerialN = str[0] + str[1];
+                for (let i = 3; i < 10; i++) { SerialN += str[i]; }
+                document.getElementById('SN').innerText = `${SerialN}`;
+
+                // Получаем основную информацию об устройстве:
+                document.getElementById('device-line').innerText = `${data.Серия}`;
                 document.getElementById('АМ').innerText = `${data.Модель.АМ}`;
-                document.getElementById('И1').innerText = `${data.Модель.МД['G' + str[10]].И1[str[13]]}`;
-                document.getElementById('И2').innerText = `${data.Модель.МД['G' + str[10]].И2[str[14]]}`;
-                document.getElementById('И3').innerText = `${data.Модель.И3[str[15]]}`;
-                document.getElementById('И4').innerText = `${data.Модель.И4[str[16]]}`;
-                document.getElementById('СИ').innerText = `${data.Модель.СИ['0']}`;
+                document.getElementById('МД').innerText = `${data.Модель.МД['К'].Имя}`;
+
+                // Получаем дополнительную информацию в зависимости от типа устройства:
+                switch (str[0] + str[1]) {
+                    case 'CC':
+                        // document.getElementById('И1').innerText = `${data.Модель.МД['К'].И1[str[12]]}`;
+                        addElementsList('Исполнение по измерению: ', data.Модель.МД['К'].И1[str[12]]);
+                        // document.getElementById('И2').innerText = `${data.Модель.МД['К'].И2[str[13]]}`;
+                        addElementsList('Монтажная часть тип 1: ', data.Модель.МД['К'].И2['1' + str[13]]);
+                        // document.getElementById('И2').innerText = `${data.Модель.МД['К'].И3[str[14]]}`;
+                        addElementsList('Монтажная часть тип 2: ', data.Модель.МД['К'].И3['2' + str[14]]);
+                        // document.getElementById('И4').innerText = `${data.Модель.И4[str[15]]}`;
+                        addElementsList('Исполнение по типу антенны: ', data.Модель.И4[str[15]]);
+                        // document.getElementById('И5').innerText = `${data.Модель.И5[str[16]]}`;                      
+                        addElementsList('Исполнение по электропитанию: ', data.Модель.И5[str[16]], false);
+                        // document.getElementById('СИ').innerText = `${data.Модель.СИ['0']}`;
+                        break;
+
+                    case 'D1':
+                        // document.getElementById('МД').innerText = `${data.Модель.МД['G' + str[10]].Имя}`;
+                        addElementsList('Исполнение по типу антенны: ', data.Модель.МД['G' + str[10]].Имя);
+                        // document.getElementById('И1').innerText = `${data.Модель.МД['G' + str[10]].И1[str[13]]}`;
+                        addElementsList('Исполнение по подключению ПИП вибрации: ', data.Модель.МД['G' + str[10]].И1[str[13]]);
+                        // document.getElementById('И2').innerText = `${data.Модель.МД['G' + str[10]].И2[str[14]]}`;
+                        addElementsList('Исполнение по подключению ПИП температуры: ', data.Модель.МД['G' + str[10]].И2[str[14]]);
+                        // document.getElementById('И3').innerText = `${data.Модель.И3[str[15]]}`;
+                        addElementsList('Исполнение по типу антенны: ', data.Модель.И3[str[15]]);
+                        // document.getElementById('И4').innerText = `${data.Модель.И4[str[16]]}`;
+                        addElementsList('Исполнение по электропитанию: ', data.Модель.И4[str[16]], false);
+                        // document.getElementById('СИ').innerText = `${data.Модель.СИ['0']}`;
+                        break;
+
+                    default:
+                        break;
+                }
             });
     }
 
@@ -183,17 +245,17 @@
         const strDash = decodedText.split('-');
         const strDot = strDash[1].split('.');
 
-        if (strDash[0] == 'БИП') {
+        if (strDash[0] == 'device-line') {
             if (strDot[0] == 'G') {
                 jsonLink = 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json';
             }
             else { }
         }
-
+        parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');
         getData(jsonLink)
             .then(data => {
                 document.getElementById('Наименование').innerText = `${data.Наименование}`;
-                document.getElementById('БИП').innerText = `${data.Серия}`;
+                document.getElementById('device-line').innerText = `${data.Серия}`;
                 document.getElementById('МД').innerText = `${data.Модель.МД[strDot[0] + strDot[1]].Имя}`;
                 document.getElementById('АМ').innerText = `${data.Модель.АМ}`;
                 document.getElementById('И1').innerText = `${data.Модель.МД.G1.И1[strDot[3][0]]}`;
@@ -211,6 +273,10 @@
             console.log(slider);
         });
     }
+
+
+    interfaceReload();
+    parseBarcodeOne('IIOTSENSE.RU/P?CC0000026901112204046');
 </script>
 
 <!-- Bootstrap 5.3.0 alpha 1 -->
