@@ -35,10 +35,8 @@
 </head>
 
 <body>
-    <div class="container-fluid m-0 p-0 mb-4" id="barcode-reader"></div>
-    <div id="barcode-device"></div>
-
-
+    <div class="container-fluid m-0 p-0 mb-4" id="barcode-scanner"></div>
+    <div class="" id="barcode-device-list"></div>
 
     <div class="container-fluid my-3 d-none" id="scan-info">
         <h3 class="d-flex justify-content-between align-items-center mb-3 ps-1">
@@ -234,29 +232,11 @@
             for (let i = 0; i < devices.length; i++) {
                 var cameraId = devices[i].id;
                 alert('i' + i + '~' + devices[i].id + ' p~ ' + devices.length + ' l ' + devices[i].label);
-
-
-
-                // var ul = document.createElement('ul');
-                // ul.setAttribute('id', 'barcode-device-list');
-
-                // var t;
-                // document.getElementById('barcode-device').appendChild(ul);
-                // devices.id.forEach(renderBarcodeDeviceList);
-
-                // function renderBarcodeDeviceList(element, index, arr) {
-                //     var li = document.createElement('li');
-                //     li.setAttribute('class', 'item');
-                //     ul.appendChild(li);
-                //     t = document.createTextNode(element);
-                //     li.innerHTML = li.innerHTML + element;
-                // }
-
             }
 
             // Здесь начинается процесс сканирования:
             // Получаем идентификатор родительского контейнера сканера баркодов: 
-            const html5QrCode = new Html5Qrcode("reader");
+            const html5QrCode = new Html5Qrcode("barcode-scanner");
 
             // Обратный вызов при успешном сканировании:
             const qrCodeSuccessCallback = (decodedText, decodedResult) => {
