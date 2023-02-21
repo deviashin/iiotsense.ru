@@ -132,10 +132,16 @@
     <a href="#" class="d- none" id="barcode-scanner-on-off">
         <div class="btn-up btn-scan shadow-lg">
             <i class="fa-regular fa-qrcode fa-2x5" id="barcode-scanner-icon-start"></i>
-            <i class="fa-regular fa-pause fa-2x5 d-none" id="barcode-scanner-icon-stop"></i>
+            <i class="fa-duotone fa-pause fa-2x5" id="barcode-scanner-icon-stop"></i>
         </div>
     </a>
 </body>
+
+<!-- Испытательный скриптовый полигон -->
+<script>
+    console.log();
+</script>
+<!-- Испытательный скриптовый полигон -->
 
 <!--  -->
 <script>
@@ -487,13 +493,13 @@
             // });
 
             // Переключатель запуска/остановки сканирования:
-            var barcode_scanner_on_off_state = 0;
+            let btn_start = document.querySelector('#barcode-scanner-icon-start');
+            let btn_stop = document.querySelector('#barcode-scanner-icon-stop');
+            let barcode_scanner_on_off_state = true;
+            if (barcode_scanner_on_off_state) { btn_start.classList.add("d-none") }
+            else { btn_stop.classList.add("d-none") }
             document.querySelector('#barcode-scanner-on-off').addEventListener('click', function () {
-                //document.getElementById('scan-info').innerText = `${html5QrCode.getState()}`;
-
                 barcode_scanner_on_off_state = !barcode_scanner_on_off_state;
-                let btn_start = document.querySelector('#barcode-scanner-icon-start');
-                let btn_stop = document.querySelector('#barcode-scanner-icon-stop');
                 if (!barcode_scanner_on_off_state) {
                     html5QrCode.stop();
                     btn_start.classList.remove("d-none");
@@ -504,6 +510,8 @@
                     btn_stop.classList.remove("d-none");
                     btn_start.classList.add("d-none");
                 }
+
+                //document.getElementById('scan-info').innerText = `${html5QrCode.getState()}`;
             });
 
             // Идентификатор кнопки факела:
