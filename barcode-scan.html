@@ -35,13 +35,10 @@
 </head>
 
 <body>
-    <div class="container-fluid m-0 p-0 border-0 mb-4" id="reader"></div>
-    <!-- <div class="container-fluid">
-        <span>Информация:</span>
-        <div id="text"></div>
-        <span>Тип barcode:</span>
-        <div id="result"></div>
-    </div> -->
+    <div class="container-fluid m-0 p-0 mb-4" id="barcode-reader"></div>
+    <div id="barcode-device"></div>
+
+
 
     <div class="container-fluid my-3 d-none" id="scan-info">
         <h3 class="d-flex justify-content-between align-items-center mb-3 ps-1">
@@ -233,13 +230,32 @@
          * { id: "id", label: "label" }
          */
         if (devices && devices.length) {
-            // Здесь начинается процесс сканирования:
+            // Перебираем все доступные устройства для 
             for (let i = 0; i < devices.length; i++) {
                 var cameraId = devices[i].id;
-                alert('i' + i + '~' + devices[i].id + ' | ' + devices[i].label);
+                alert('i' + i + '~' + devices[i].id + ' p~ ' + devices.length + ' l ' + devices[i].label);
+
+
+
+                var ul = document.createElement('ul');
+                ul.setAttribute('id', 'barcode-device-list');
+
+                var t;
+                document.getElementById('barcode-device').appendChild(ul);
+                devices.id.forEach(renderBarcodeDeviceList);
+
+                function renderBarcodeDeviceList(element, index, arr) {
+                    var li = document.createElement('li');
+                    li.setAttribute('class', 'item');
+                    ul.appendChild(li);
+                    t = document.createTextNode(element);
+                    li.innerHTML = li.innerHTML + element;
+                }
+
             }
 
-            // 
+            // Здесь начинается процесс сканирования:
+            // Получаем идентификатор родительского контейнера сканера баркодов: 
             const html5QrCode = new Html5Qrcode("reader");
 
             // Обратный вызов при успешном сканировании:
