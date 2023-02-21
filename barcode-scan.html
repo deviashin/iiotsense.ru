@@ -106,11 +106,12 @@
                 </div>
             </div>
         </div>
-        <div class="text-center p-2">
-            <button class="btn btn-success shadow w-100 my-4" id="html5-qrcode-button-camera-start">Начать
-                сканирование</button>
-            <button class="btn btn-success shadow w-100" id="html5-qrcode-button-camera-stop">Стоп</button>
-        </div>
+    </div>
+    <div class="text-center p-2">
+        <button class="btn btn-success shadow w-100 my-4" id="html5-qrcode-button-camera-start">Начать
+            сканирование</button>
+        <button class="btn btn-success shadow w-100" id="html5-qrcode-button-camera-stop">Закончить
+            сканирование</button>
     </div>
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
         <symbol id="arrow-up-short" viewBox="0 0 16 16">
@@ -445,13 +446,21 @@
 
             // Select back camera or fail with `OverconstrainedError`.
             // html5QrCode.start({ facingMode: { exact: "environment" } }, config, qrCodeSuccessCallback);
+
+            document.querySelector('#html5-qrcode-button-camera-start').addEventListener('click', function () {
+                html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback)
+            });
+            document.querySelector('#html5-qrcode-button-camera-stop').addEventListener('click', function () {
+                html5QrCode.stop()
+            });
         }
+
     }).catch(err => {
         // handle err
     });
 
     // Дать разрешение на использование видеокамеры и начать захват видеопотока:
-    document.querySelector('#html5-qrcode-button-camera-stop').addEventListener('click', function () { html5QrCode.stop() });
+
 
     // let btnCameraStart = document.querySelector('#html5-qrcode-button-camera-start');
     // btnCameraStart.addEventListener('click', function () {
