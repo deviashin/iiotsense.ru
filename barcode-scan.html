@@ -107,7 +107,8 @@
             </div>
         </div>
         <div class="text-center p-2">
-            <button class="btn btn-success shadow w-100 my-4" id="html5-qrcode-button-camera-start">Старт</button>
+            <button class="btn btn-success shadow w-100 my-4" id="html5-qrcode-button-camera-start">Начать
+                сканирование</button>
             <button class="btn btn-success shadow w-100" id="html5-qrcode-button-camera-stop">Стоп</button>
         </div>
     </div>
@@ -374,10 +375,10 @@
         });
     }
 
-    interfaceReload();
+    // interfaceReload();
     // parseBarcodeOne('IIOTSENSE.RU/P?CC0000026901112204046');
     // parseBarcodeOne('IIOTSENSE.RU/P?D00000019910110114629');
-    parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');
+    // parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');
 </script>
 
 <!-- Bootstrap 5.3.0 alpha 1 -->
@@ -449,6 +450,22 @@
         // handle err
     });
 
+    // Дать разрешение на использование видеокамеры и начать захват видеопотока:
+    document.querySelector('#html5-qrcode-button-camera-stop').addEventListener('click', function () { html5QrCode.stop() });
+
+    // let btnCameraStart = document.querySelector('#html5-qrcode-button-camera-start');
+    // btnCameraStart.addEventListener('click', function () {
+    //     btnCameraStop.classList.remove("html5-qrcode-element");
+    //     btnCameraStop.classList.add("btn", "btn-success", "shadow");
+    //     btnCameraStop.textContent = 'Стоп';
+    // });
+
+    // let btnCameraStop = document.querySelector('#html5-qrcode-button-camera-stop');
+    // btnCameraStop.addEventListener('click', function () {
+    //     btnCameraStart.classList.remove("html5-qrcode-element");
+    //     btnCameraStart.classList.add("btn", "btn-success", "shadow");
+    //     btnCameraStart.textContent = 'Старт';
+    // });
 </script>
 
 <!-- <script>
