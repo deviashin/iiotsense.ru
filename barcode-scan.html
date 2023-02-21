@@ -168,7 +168,9 @@
             case 'CC':
                 jsonLink = 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-tk.json';
                 break;
-
+            case 'D0':
+                jsonLink = 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-u.json';
+                break;
             case 'D1':
                 jsonLink = 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json';
                 break;
@@ -185,10 +187,10 @@
             document.getElementById('АМ').innerText = `${data.Модель.АМ}`;
 
             // Получаем настоящий серийный номер:
-            let SerialN = str[0] + str[1];
+            // let SerialN = str[0] + str[1]; // Отображать серийный номер с префиксом изделия.
+            let SerialN = 0; // Отображать только серийный номер.
             for (let i = 3; i < 10; i++) { SerialN += str[i]; }
             document.getElementById('SN').innerText = `${SerialN}`;
-
 
             // БИП-Т . К . XX . X   X   X   X   X . X
             //       (Мд).(АМ).(И1)(И2)(И3)(И4)(И5).(СИ) 
@@ -300,6 +302,14 @@
                     break;
 
                 case 'D0':
+                    // D0 - 0, 1
+                    // 00000199 - 2, 3, 4, 5, 6, 7, 8, 9
+                    // 1 - 10
+                    // 01 - 11, 12
+                    // 1011 - 13, 14, 15, 16
+                    // 4629 - 17, 18, 19, 20
+                    // document.getElementById('МД').innerText = `${data.Модель.МД[str[10]]}`;
+                    document.getElementById('МД').innerText = `${data.Модель.Мд[str[10]]}`;
                     break;
 
                 case 'D1':
@@ -361,8 +371,9 @@
         });
     }
 
-    // interfaceReload();
+    interfaceReload();
     // parseBarcodeOne('IIOTSENSE.RU/P?CC0000026901112204046');
+    parseBarcodeOne('IIOTSENSE.RU/P?D00000019920110114629');
     // parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');
 </script>
 
