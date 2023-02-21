@@ -108,12 +108,12 @@
         </div>
     </div>
 
-    <div class="text-center p-2">
+    <!-- <div class="text-center p-2">
         <button class="btn btn-success shadow w-100 my-4" id="html5-qrcode-button-camera-start">Начать
             сканирование</button>
         <button class="btn btn-success shadow w-100" id="html5-qrcode-button-camera-stop">Закончить
             сканирование</button>
-    </div>
+    </div> -->
 
     <span id="scan-info"></span>
 
@@ -131,8 +131,8 @@
     <!-- <a href="#" onclick="location.reload(); return false;" class="d-none" id="scan-info"> -->
     <a href="#" class="d- none" id="barcode-scanner-on-off">
         <div class="btn-up btn-scan shadow-lg">
-            <i class="fa-regular fa-qrcode fa-2xl" id="barcode-scanner-icon-start"></i>
-            <i class="fa-regular fa-pause fa-2xl d-none" id="barcode-scanner-icon-stop"></i>
+            <i class="fa-regular fa-qrcode fa-2x5" id="barcode-scanner-icon-start"></i>
+            <i class="fa-regular fa-pause fa-2x5 d-none" id="barcode-scanner-icon-stop"></i>
         </div>
     </a>
 </body>
@@ -477,14 +477,14 @@
             // document.querySelector('#html5-qrcode-button-camera-permission');
 
             // Идентификатор кнопки запуска камеры:
-            document.querySelector('#html5-qrcode-button-camera-start').addEventListener('click', function () {
-                html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback)
-            });
+            // document.querySelector('#html5-qrcode-button-camera-start').addEventListener('click', function () {
+            //     html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+            // });
 
             // Идентификатор кнопки остановки камеры:
-            document.querySelector('#html5-qrcode-button-camera-stop').addEventListener('click', function () {
-                html5QrCode.stop()
-            });
+            // document.querySelector('#html5-qrcode-button-camera-stop').addEventListener('click', function () {
+            //     html5QrCode.stop();
+            // });
 
             // Переключатель запуска/остановки сканирования:
             var barcode_scanner_on_off_state = 0;
@@ -495,12 +495,12 @@
                 let btn_start = document.querySelector('#barcode-scanner-icon-start');
                 let btn_stop = document.querySelector('#barcode-scanner-icon-stop');
                 if (!barcode_scanner_on_off_state) {
-                    html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback)
+                    html5QrCode.stop();
                     btn_start.classList.remove("d-none");
                     btn_stop.classList.add("d-none");
                 }
                 else {
-                    html5QrCode.stop()
+                    html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
                     btn_stop.classList.remove("d-none");
                     btn_start.classList.add("d-none");
                 }

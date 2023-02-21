@@ -49,7 +49,7 @@
     --sense-blue-rgb: 0, 0, 255;
 
 
-    
+
 
     --docsearch-primary-color: var(--sense-dark);
     --docsearch-logo-color: var(--sense-dark);
@@ -159,16 +159,16 @@
     background-color: var(--bs-green);
     right: 30px;
     bottom: 110px;
-    border-radius: 30px;
+    border-radius: 35px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.3s ease-in-out, transform 0.5s ease-in-out;
+    transition: opacity 0.3s ease-in-out, transform 0.6s ease-in-out;
     color: #fff;
-    width: 60px;
-    height: 60px;
-    opacity: .90;
+    width: 70px;
+    height: 70px;
+    opacity: .95;
     transform: translateY(0);
 }
 
@@ -186,9 +186,13 @@
 }
 
 .btn-up-icon {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     fill: currentcolor;
+}
+
+.fa-2x5 {
+    font-size: 2.5rem;
 }
 
 /* @media (hover: hover) and (pointer: fine) {
