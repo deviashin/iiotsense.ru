@@ -109,9 +109,9 @@
     </div>
 
     <div class="text-center p-2">
-        <button class="btn btn-success shadow w-100 my-4" id="html5-qrcode-button-camera-start">Начать
+        <button class="btn btn-success shadow w-100 my-4" id="html5-qrcode-button-camera-start">Начsать
             сканирование</button>
-        <button class="btn btn-success shadow w-100" id="html5-qrcode-button-camera-stop">Закончить
+        <button class="btn btn-success shadow w-100" id="html5-qrcode-button-camera-stop">Зaакончить
             сканирование</button>
     </div>
 
@@ -131,8 +131,8 @@
     <!-- <a href="#" onclick="location.reload(); return false;" class="d-none" id="scan-info"> -->
     <a href="#" class="d- none" id="barcode-scanner-on-off"></a>
     <div class="btn-up btn-scan shadow-lg">
-        <i class="fa-regular fa-qrcode fa-2xl d-none"></i>
-        <i class="fa-regular fa-pause fa-2xl d-none"></i>
+        <i class="fa-regular fa-qrcode fa-2xl" id="barcode-scanner-icon-start"></i>
+        <i class="fa-regular fa-pause fa-2xl" id="barcode-scanner-icon-stop"></i>
     </div>
     </a>
 </body>
@@ -461,8 +461,8 @@
             // If you want to prefer front camera
             // html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
 
-            // If you want to prefer back camera
-            html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+            // If you want to prefer back camera ВЕРНУТЬ!!!
+            // html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
 
             // Select front camera or fail with `OverconstrainedError`.
             // html5QrCode.start({ facingMode: { exact: "user" } }, config, qrCodeSuccessCallback);
@@ -474,7 +474,7 @@
 
 
             // Идентификатор кнопки разрешения камеры:
-            document.querySelector('#html5-qrcode-button-camera-permission');
+            // document.querySelector('#html5-qrcode-button-camera-permission');
 
             // Идентификатор кнопки запуска камеры:
             document.querySelector('#html5-qrcode-button-camera-start').addEventListener('click', function () {
@@ -488,36 +488,40 @@
 
             // Переключатель запуска/остановки сканирования:
             document.querySelector('#barcode-scanner-on-off').addEventListener('click', function () {
-                document.querySelector('#scan-info').innerText = html5QrCode.getState();
+                document.getElementById('scan-info').innerText = `${html5QrCode.getState()}`;
+
+                // document.querySelector('#barcode-scanner-icon-start');
+                // document.querySelector('#barcode-scanner-icon-stop');
+
+                let btn = document.querySelector('#html5-qrcode-button-file-selection');
+                btn.classList.remove("d-none");
+                btn.classList.add("d-none");
             });
 
             // Идентификатор кнопки факела:
-            document.querySelector('#html5-qrcode-button-torch');
+            // document.querySelector('#html5-qrcode-button-torch');
 
             // Идентификатор элемента select, используемого для выбора камеры:
-            document.querySelector('#html5-qrcode-select-camera');
+            // document.querySelector('#html5-qrcode-select-camera');
 
             // Идентификатор кнопки, используемой для выбора файла:
-            document.querySelector('#html5-qrcode-button-file-selection');
+            // document.querySelector('#html5-qrcode-button-file-selection');
 
             // Идентификатор диапазона ввода для масштабирования:
-            document.querySelector('#html5-qrcode-input-range-zoom');
+            // document.querySelector('#html5-qrcode-input-range-zoom');
 
             // Идентификатор элемента привязки {@code <a>}, используемого для переключения между сканированием файлов и сканированием камеры:
-            document.querySelector('#html5-qrcode-anchor-scan-type-change');
+            // document.querySelector('#html5-qrcode-anchor-scan-type-change');
 
             // Класс кнопки фонарика, когда фонарик включен:
-            document.querySelector('#html5-qrcode-button-torch-on');
+            // document.querySelector('#html5-qrcode-button-torch-on');
 
             // Класс кнопки фонарика, когда фонарик выключен:
-            document.querySelector('#html5-qrcode-button-torch-off');
+            // document.querySelector('#html5-qrcode-button-torch-off');
 
             // Идентификатор кнопки разрешения камеры:
-            document.querySelector('#html5-qrcode-button-camera-permission');
-
-
+            // document.querySelector('#html5-qrcode-button-camera-permission');
         }
-
     }).catch(err => {
         // handle err
     });
