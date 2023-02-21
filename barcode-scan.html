@@ -423,13 +423,30 @@
                 });
             };
 
-            // :
+            // Конфигурация сканера:
             const config = {
+                experimentalFeatures: {
+                    useBarCodeDetectorIfSupported: true
+                },
+                rememberLastUsedCamera: true,
+                focusMode: "continuous",
                 fps: 10,
                 qrbox: {
                     width: 250,
                     height: 250
-                }
+                },
+                // qrbox: qrboxFunction,
+                showTorchButtonIfSupported: true,
+                showZoomSliderIfSupported: true,
+                defaultZoomValueIfSupported: 1,
+                // supportedScanTypes: [
+                //     Html5QrcodeScanType.SCAN_TYPE_CAMERA,
+                //     Html5QrcodeScanType.SCAN_TYPE_FILE
+                // ],
+                // formatsToSupport: [
+                //     Html5QrcodeSupportedFormats.QR_CODE,
+                //     Html5QrcodeSupportedFormats.DATA_MATRIX
+                // ],
             };
 
             // Ручной выбор источника видеозахвата:
@@ -447,34 +464,52 @@
             // Select back camera or fail with `OverconstrainedError`.
             // html5QrCode.start({ facingMode: { exact: "environment" } }, config, qrCodeSuccessCallback);
 
+
+
+
+            // Идентификатор кнопки разрешения камеры:
+            document.querySelector('#html5-qrcode-button-camera-permission');
+
+            // Идентификатор кнопки запуска камеры:
             document.querySelector('#html5-qrcode-button-camera-start').addEventListener('click', function () {
                 html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback)
             });
+
+            // Идентификатор кнопки остановки камеры:
             document.querySelector('#html5-qrcode-button-camera-stop').addEventListener('click', function () {
                 html5QrCode.stop()
             });
+
+            // Идентификатор кнопки факела:
+            document.querySelector('#html5-qrcode-button-torch');
+
+            // Идентификатор элемента select, используемого для выбора камеры:
+            document.querySelector('#html5-qrcode-select-camera');
+
+            // Идентификатор кнопки, используемой для выбора файла:
+            document.querySelector('#html5-qrcode-button-file-selection');
+
+            // Идентификатор диапазона ввода для масштабирования:
+            document.querySelector('#html5-qrcode-input-range-zoom');
+
+            // Идентификатор элемента привязки {@code <a>}, используемого для переключения между сканированием файлов и сканированием камеры:
+            document.querySelector('#html5-qrcode-anchor-scan-type-change');
+
+            // Класс кнопки фонарика, когда фонарик включен:
+            document.querySelector('#html5-qrcode-button-torch-on');
+
+            // Класс кнопки фонарика, когда фонарик выключен:
+            document.querySelector('#html5-qrcode-button-torch-off');
+
+            // Идентификатор кнопки разрешения камеры:
+            document.querySelector('#html5-qrcode-button-camera-permission');
+
+
         }
 
     }).catch(err => {
         // handle err
     });
-
-    // Дать разрешение на использование видеокамеры и начать захват видеопотока:
-
-
-    // let btnCameraStart = document.querySelector('#html5-qrcode-button-camera-start');
-    // btnCameraStart.addEventListener('click', function () {
-    //     btnCameraStop.classList.remove("html5-qrcode-element");
-    //     btnCameraStop.classList.add("btn", "btn-success", "shadow");
-    //     btnCameraStop.textContent = 'Стоп';
-    // });
-
-    // let btnCameraStop = document.querySelector('#html5-qrcode-button-camera-stop');
-    // btnCameraStop.addEventListener('click', function () {
-    //     btnCameraStart.classList.remove("html5-qrcode-element");
-    //     btnCameraStart.classList.add("btn", "btn-success", "shadow");
-    //     btnCameraStart.textContent = 'Старт';
-    // });
 </script>
 
 <!-- <script>
@@ -520,30 +555,7 @@
         return { width: qrboxEdgeSize, height: qrboxEdgeSize };
     }
 
-    let config = {
-        experimentalFeatures: {
-            useBarCodeDetectorIfSupported: true
-        },
-        rememberLastUsedCamera: true,
-        focusMode: "continuous",
-        fps: 10,
-        // qrbox: {
-        //     width: 250,
-        //     height: 250
-        // },
-        qrbox: qrboxFunction,
-        showTorchButtonIfSupported: true,
-        showZoomSliderIfSupported: true,
-        defaultZoomValueIfSupported: 1,
-        // supportedScanTypes: [
-        //     Html5QrcodeScanType.SCAN_TYPE_CAMERA,
-        //     Html5QrcodeScanType.SCAN_TYPE_FILE
-        // ],
-        // formatsToSupport: [
-        //     Html5QrcodeSupportedFormats.QR_CODE,
-        //     Html5QrcodeSupportedFormats.DATA_MATRIX
-        // ],
-    };
+   
 
     let html5QrcodeScanner = new Html5QrcodeScanner("reader", config, /* verbose= */ false);
     html5QrcodeScanner.render(onScanSuccess, onScanError);
