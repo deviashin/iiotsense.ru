@@ -142,6 +142,15 @@
 <!--  -->
 <script>
     function parseBarcodeOne(str) {
+
+        // http://IIOTSENSE.RU/P?D10000034710111105871
+        // D1 - 0, 1
+        // 00000347 - 2, 3, 4, 5, 6, 7, 8, 9
+        // 1 - 10
+        // 01 - 11, 12
+        // 1110 - 13, 14, 15, 16
+        // 5871 - 17, 18, 19, 20
+
         let jsonLink = 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-all.json';
         str = str.slice(str.split('?')[0].length + 1);
 
@@ -167,10 +176,10 @@
                 document.getElementById('БИП').innerText = `${data.Серия}`;
                 document.getElementById('МД').innerText = `${data.Модель.МД['G' + str[10]].Имя}`;
                 document.getElementById('АМ').innerText = `${data.Модель.АМ}`;
-                document.getElementById('И1').innerText = `${data.Модель.МД['G' + str[10]].И1[str[12]]}`;
-                document.getElementById('И2').innerText = `${data.Модель.МД['G' + str[10]].И2[str[13]]}`;
-                document.getElementById('И3').innerText = `${data.Модель.И3[str[14]]}`;
-                document.getElementById('И4').innerText = `${data.Модель.И4[str[15]]}`;
+                document.getElementById('И1').innerText = `${data.Модель.МД['G' + str[10]].И1[str[13]]}`;
+                document.getElementById('И2').innerText = `${data.Модель.МД['G' + str[10]].И2[str[14]]}`;
+                document.getElementById('И3').innerText = `${data.Модель.И3[str[15]]}`;
+                document.getElementById('И4').innerText = `${data.Модель.И4[str[16]]}`;
                 document.getElementById('СИ').innerText = `${data.Модель.СИ['0']}`;
             });
     }
@@ -213,8 +222,10 @@
 <script src="js/bootstrap.js"></script>
 
 <!-- html5-qrcode 2.3.4 (stable) -->
-<!-- <script src="js/html5-qrcode.min@2.3.4.js"></script> -->
 <script src="js/html5-qrcode.min@2.3.4.js"></script>
+<!-- html5-qrcode 2.3.7 (stable) -->
+<script src="js/html5-qrcode.min@2.3.7.js"></script>
+
 <script>
     // Handle on success condition with the decoded text or result.
     function onScanSuccess(decodedText, decodedResult) {
