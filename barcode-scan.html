@@ -233,14 +233,11 @@
          * { id: "id", label: "label" }
          */
         if (devices && devices.length) {
-            // var cameraId = devices[i].id;
             // Здесь начинается процесс сканирования:
             for (let i = 0; i < devices.length; i++) {
+                var cameraId = devices[i].id;
                 alert('i' + i + '~' + devices[i].id + ' | ' + devices[i].label);
             }
-
-
-
 
             // 
             const html5QrCode = new Html5Qrcode("reader");
@@ -250,6 +247,13 @@
                 // Останавливаем использование камеры
                 html5QrCode.stop().then((ignore) => {
                     // Сканирование QR-кода остановлено.
+                    document.getElementById('text').innerText = `${decodedText}`; // .
+                    document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`; // .
+                    document.querySelector('#reader').classList.add("d-none"); // .
+
+                    interfaceReload(); // .
+
+                    parseBarcodeOne(decodedText); // .
                 }).catch((err) => {
                     // Остановка не удалась, смирись.
                 });
@@ -265,13 +269,7 @@
             };
 
             // 
-            html5QrCode.start({
-                deviceId: {
-                    exact: cameraId
-                }
-            },
-                config,
-                qrCodeSuccessCallback);
+            html5QrCode.start({ deviceId: { exact: cameraId } }, config, qrCodeSuccessCallback);
         }
     }).catch(err => {
         // handle err
