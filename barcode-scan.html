@@ -38,11 +38,11 @@
     <div class="container-fluid m-0 p-0 mb-4" id="reader"></div>
     <div class="" id="barcode-device-list"></div>
 
-    <div class="container-fluid my-3 d-none" id="scan-info">
-        <h3 class="d-flex justify-content-between align-items-center mb-4 ms-1 ps-1">
-            <span class="text-success fs-2">Информация о изделии:</span>
+    <div class="container-fluid d-none" id="scan-info">
+        <h3 class="d-flex justify-content-between align-items-center my-4 ms-1 ps-1 py-2">
+            <span class="text-success fs-1">Информация о изделии:</span>
         </h3>
-        <div class="card m-1 shadow-lg border-0 rounded-4 pt-2">
+        <div class="card m-0 shadow-lg border-0 rounded-4 pt-2">
             <div class="card-body p-3">
                 <h5 class="card-subtitle mb-4 text-muted" id="Наименование"></h5>
                 <span class="fw-bold">Серийный номер: </span>
@@ -115,7 +115,7 @@
             сканирование</button>
     </div> -->
 
-    <span id="scan-info"></span>
+    <span id="scan-infosss"></span>
 
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
         <symbol id="arrow-up-short" viewBox="0 0 16 16">
@@ -128,11 +128,10 @@
             <use xlink:href="#arrow-up-short"></use>
         </svg>
     </div>
-    <!-- <a href="#" onclick="location.reload(); return false;" class="d-none" id="scan-info"> -->
     <a href="#" class="d- none" id="barcode-scanner-on-off">
         <div class="btn-up btn-scan shadow-lg">
-            <i class="fa-regular fa-qrcode fa-2x5" id="barcode-scanner-icon-start"></i>
-            <i class="fa-duotone fa-pause fa-2x5" id="barcode-scanner-icon-stop"></i>
+            <i class="fa-regular fa-qrcode fa-2x5 d-none" id="barcode-scanner-icon-start"></i>
+            <i class="fa-duotone fa-pause fa-2x5 d-none" id="barcode-scanner-icon-stop"></i>
         </div>
     </a>
 </body>
@@ -384,7 +383,6 @@
         document.querySelectorAll('#scan-info').forEach((slider) => {
             slider.classList.remove("d-none");
             slider.classList.add("d-block");
-            // console.log(slider);
         });
     }
 
@@ -496,8 +494,8 @@
             let btn_start = document.querySelector('#barcode-scanner-icon-start');
             let btn_stop = document.querySelector('#barcode-scanner-icon-stop');
             let barcode_scanner_on_off_state = true;
-            if (barcode_scanner_on_off_state) { btn_start.classList.add("d-none") }
-            else { btn_stop.classList.add("d-none") }
+            if (!barcode_scanner_on_off_state) { btn_start.classList.add("d-block") }
+            else { btn_stop.classList.add("d-block") }
             document.querySelector('#barcode-scanner-on-off').addEventListener('click', function () {
                 barcode_scanner_on_off_state = !barcode_scanner_on_off_state;
                 if (!barcode_scanner_on_off_state) {
@@ -511,7 +509,7 @@
                     btn_start.classList.add("d-none");
                 }
 
-                //document.getElementById('scan-info').innerText = `${html5QrCode.getState()}`;
+                //document.getElementById('scan-infosss').innerText = `${html5QrCode.getState()}`;
             });
 
             // Идентификатор кнопки факела:
