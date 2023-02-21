@@ -35,7 +35,7 @@
 </head>
 
 <body>
-    <div class="container-fluid m-0 p-0 mb-4" id="barcode-scanner"></div>
+    <div class="container-fluid m-0 p-0 mb-4" id="reader"></div>
     <div class="" id="barcode-device-list"></div>
 
     <div class="container-fluid my-3 d-none" id="scan-info">
@@ -236,7 +236,7 @@
 
             // Здесь начинается процесс сканирования:
             // Получаем идентификатор родительского контейнера сканера баркодов: 
-            const html5QrCode = new Html5Qrcode("barcode-scanner");
+            const html5QrCode = new Html5Qrcode("reader");
 
             // Обратный вызов при успешном сканировании:
             const qrCodeSuccessCallback = (decodedText, decodedResult) => {
