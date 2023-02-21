@@ -167,8 +167,8 @@
                 document.getElementById('БИП').innerText = `${data.Серия}`;
                 document.getElementById('МД').innerText = `${data.Модель.МД['G' + str[10]].Имя}`;
                 document.getElementById('АМ').innerText = `${data.Модель.АМ}`;
-                document.getElementById('И1').innerText = `${data.Модель.МД.G1.И1[str[12]]}`;
-                document.getElementById('И2').innerText = `${data.Модель.МД.G1.И2[str[13]]}`;
+                document.getElementById('И1').innerText = `${data.Модель.МД['G' + str[10]].И1[str[12]]}`;
+                document.getElementById('И2').innerText = `${data.Модель.МД['G' + str[10]].И2[str[13]]}`;
                 document.getElementById('И3').innerText = `${data.Модель.И3[str[14]]}`;
                 document.getElementById('И4').innerText = `${data.Модель.И4[str[15]]}`;
                 document.getElementById('СИ').innerText = `${data.Модель.СИ['0']}`;
@@ -353,8 +353,6 @@
     // NAME.classList.remove("html5-qrcode-element");
     // NAME.classList.add("");
     // NAME.textContent = 'Масштабирование';
-
-
 
     // let readerHeaderMessage = document.getElementById('#reader__header_message');
     // if (readerHeaderMessage != null) {
