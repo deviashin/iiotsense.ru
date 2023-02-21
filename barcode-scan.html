@@ -236,12 +236,11 @@
             var cameraId = devices[0].id;
             // Здесь начинается процесс сканирования:
 
-            alert('0' + cameraId);
+            alert('0~' + cameraId);
             cameraId = devices[1].id;
-            alert('1' + cameraId);
-            cameraId = devices[2].id;
-            alert('2' + cameraId);
+            alert('1~' + cameraId);
 
+            // 
             const html5QrCode = new Html5Qrcode("reader");
 
             // Обратный вызов при успешном сканировании:
@@ -254,6 +253,7 @@
                 });
             };
 
+            // 
             const config = {
                 fps: 10,
                 qrbox: {
@@ -262,6 +262,7 @@
                 }
             };
 
+            // 
             html5QrCode.start({ deviceId: { exact: cameraId } }, config, qrCodeSuccessCallback);
         }
     }).catch(err => {
