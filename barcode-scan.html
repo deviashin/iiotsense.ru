@@ -18,10 +18,10 @@
     <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/fontawesome.min.css">
     <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/brands.css">
     <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/duotone.css">
-    <!-- <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/light.css"> -->
+    <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/light.css">
     <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/regular.css">
-    <!-- <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/solid.css"> -->
-    <!-- <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/thin.css"> -->
+    <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/solid.css">
+    <link rel="stylesheet" href="dist/fontawesome-pro-6.1.0-web/css/thin.css">
 
     <!-- PF BeauSans Pro -->
     <!-- <link rel="stylesheet" href="css/fonts.css"> -->
@@ -107,12 +107,16 @@
             </div>
         </div>
     </div>
+
     <div class="text-center p-2">
         <button class="btn btn-success shadow w-100 my-4" id="html5-qrcode-button-camera-start">Начать
             сканирование</button>
         <button class="btn btn-success shadow w-100" id="html5-qrcode-button-camera-stop">Закончить
             сканирование</button>
     </div>
+
+    <span id="scan-info"></span>
+
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
         <symbol id="arrow-up-short" viewBox="0 0 16 16">
             <path fill-rule="evenodd"
@@ -124,10 +128,12 @@
             <use xlink:href="#arrow-up-short"></use>
         </svg>
     </div>
-    <a href="#" onclick="location.reload(); return false;" class="d-none" id="scan-info">
-        <div class="btn-up btn-scan shadow-lg">
-            <i class="fa-regular fa-qrcode fa-2xl"></i>
-        </div>
+    <!-- <a href="#" onclick="location.reload(); return false;" class="d-none" id="scan-info"> -->
+    <a href="#" class="d- none" id="barcode-scanner-on-off"></a>
+    <div class="btn-up btn-scan shadow-lg">
+        <i class="fa-regular fa-qrcode fa-2xl d-none"></i>
+        <i class="fa-regular fa-pause fa-2xl d-none"></i>
+    </div>
     </a>
 </body>
 
@@ -478,6 +484,11 @@
             // Идентификатор кнопки остановки камеры:
             document.querySelector('#html5-qrcode-button-camera-stop').addEventListener('click', function () {
                 html5QrCode.stop()
+            });
+
+            // Переключатель запуска/остановки сканирования:
+            document.querySelector('#barcode-scanner-on-off').addEventListener('click', function () {
+                document.querySelector('#scan-info').innerText = html5QrCode.getState();
             });
 
             // Идентификатор кнопки факела:
