@@ -174,79 +174,141 @@
         console.log('Получен документ: ' + jsonLink);
 
         // :
-        getData(jsonLink)
-            .then(data => {
-                // Получаем настоящий серийный номер:
-                let SerialN = str[0] + str[1];
-                for (let i = 5; i < 10; i++) { SerialN += str[i]; }
-                document.getElementById('SN').innerText = `${SerialN}`;
+        getData(jsonLink).then(data => {
+            // Получаем основную информацию об устройстве:
+            document.getElementById('device-line').innerText = `${data.Серия}`;
+            document.getElementById('АМ').innerText = `${data.Модель.АМ}`;
 
-                // Получаем основную информацию об устройстве:
-                document.getElementById('device-line').innerText = `${data.Серия}`;
-                document.getElementById('АМ').innerText = `${data.Модель.АМ}`;
+            // Получаем настоящий серийный номер:
+            let SerialN = str[0] + str[1];
+            for (let i = 3; i < 10; i++) { SerialN += str[i]; }
+            document.getElementById('SN').innerText = `${SerialN}`;
 
-                // http://IIOTSENSE.RU/P?D10000034710111105871
-                // D1 - 0, 1
-                // 00000347 - 2, 3, 4, 5, 6, 7, 8, 9
-                // 1 - 10
-                // 01 - 11, 12
-                // 1110 - 13, 14, 15, 16
-                // 5871 - 17, 18, 19, 20
 
-                // http://IIOTSENSE.RU/P?CC0000026901112204046
-                // CC - 0, 1
-                // 00000269 - 2, 3, 4, 5, 6, 7, 8, 9
-                // 01 - 10, 11
-                // 11220 - 12, 13, 14, 15, 16
-                // 4046 - 17, 18, 19, 20
+            // БИП-Т . К . XX . X   X   X   X   X . X
+            //       (Мд).(АМ).(И1)(И2)(И3)(И4)(И5).(СИ) 
+            const bipTK = {
+                "(Мд)": "Модель устройства: ",
+                "(АМ)": "Аппаратная модификация устройства: ",
+                "(И1)": "Исполнение по измерению: ",
+                "(И2)": "Исполнение по типу монтажной части (1): ",
+                "(И3)": "Исполнение по типу монтажной части (2): ",
+                "(И4)": "Исполнение по антенне: ",
+                "(И5)": "Исполнение по электропитанию: ",
+                "(СИ)": "Код специсполнения: ",
+            };
+            // http://IIOTSENSE.RU/P?CC0000026901112204046
+            // CC - 0, 1
+            // 00000269 - 2, 3, 4, 5, 6, 7, 8, 9
+            // 01 - 10, 11
+            // 11220 - 12, 13, 14, 15, 16
+            // 4046 - 17, 18, 19, 20
 
-                // Получаем дополнительную информацию в зависимости от типа устройства:
-                switch (str[0] + str[1]) {
-                    case 'CC':
-                        document.getElementById('МД').innerText = `${data.Модель.МД['К'].Имя}`;
-                        // addElementsList('Модель устройства: ', data.Модель.МД['К'].Имя);
 
-                        // document.getElementById('И1').innerText = `${data.Модель.МД['К'].И1[str[12]]}`;
-                        addElementsList('Исполнение по измерению: ', data.Модель.МД['К'].И1[str[12]]);
+            // БИП-Т . В . XX . X   X   X   X  . X
+            //       (Мд).(АМ).(И1)(И2)(И3)(И4).(СИ)
+            const bipTV = {
+                "(Мд)": "Модель устройства: ",
+                "(АМ)": "Аппаратная модификация устройства: ",
+                "(И1)": "Исполнение по измерению температуры (1): ",
+                "(И2)": "Исполнение по измерению температуры (2): ",
+                "(И3)": "Исполнение по антенне: ",
+                "(И4)": "Исполнение по электропитанию: ",
+                "(СИ)": "Код специсполнения: ",
+            };
 
-                        // document.getElementById('И2').innerText = `${data.Модель.МД['К'].И2[str[13]]}`;
-                        addElementsList('Монтажная часть тип 1: ', data.Модель.МД['К'].И2['1' + str[13]]);
 
-                        // document.getElementById('И2').innerText = `${data.Модель.МД['К'].И3[str[14]]}`;
-                        addElementsList('Монтажная часть тип 2: ', data.Модель.МД['К'].И3['2' + str[14]]);
+            // БИП-У . 1 . XX . X   X   X   X  . X
+            //       (Мд).(АМ).(И1)(И2)(И3)(И4).(СИ)
+            const bipU = {
+                "(Мд)": "Модель устройства: ",
+                "(АМ)": "Аппаратная модификация устройства: ",
+                "(И1)": "Исполнение по измерению унифицированных сигналов (1): ",
+                "(И2)": "Исполнение по измерению унифицированных сигналов (2): ",
+                "(И3)": "Исполнение по антенне: ",
+                "(И4)": "Исполнение по электропитанию: ",
+                "(СИ)": "Код специсполнения: ",
+            };
+            // http://IIOTSENSE.RU/P?D00000019910110114629
+            // D0 - 0, 1
+            // 00000199 - 2, 3, 4, 5, 6, 7, 8, 9
+            // 1 - 10
+            // 01 - 11, 12
+            // 1011 - 13, 14, 15, 16
+            // 4629 - 17, 18, 19, 20
 
-                        // document.getElementById('И4').innerText = `${data.Модель.И4[str[15]]}`;
-                        addElementsList('Исполнение по типу антенны: ', data.Модель.И4[str[15]]);
 
-                        // document.getElementById('И5').innerText = `${data.Модель.И5[str[16]]}`;                      
-                        addElementsList('Исполнение по электропитанию: ', data.Модель.И5[str[16]], false);
+            // БИП-G . X . XX . X   X   X   X  . X
+            //       (Мд).(АМ).(И1)(И2)(И3)(И4).(СИ)
+            const bipG = {
+                "(Мд)": "Модель устройства: ",
+                "(АМ)": "Аппаратная модификация устройства: ",
+                "(И1)": "Исполнение по подключению ПИП вибрации: ",
+                "(И2)": "Исполнение по подключению ПИП температуры: ",
+                "(И3)": "Исполнение по антенне: ",
+                "(И4)": "Исполнение по электропитанию: ",
+                "(СИ)": "Код специсполнения: ",
+            };
+            // http://IIOTSENSE.RU/P?D10000034710111105871
+            // D1 - 0, 1
+            // 00000347 - 2, 3, 4, 5, 6, 7, 8, 9
+            // 1 - 10
+            // 01 - 11, 12
+            // 1110 - 13, 14, 15, 16
+            // 5871 - 17, 18, 19, 20
 
-                        // document.getElementById('СИ').innerText = `${data.Модель.СИ['0']}`;
-                        break;
+            // Получаем дополнительную информацию в зависимости от типа устройства:
+            switch (str[0] + str[1]) {
+                case 'CC':
+                    document.getElementById('МД').innerText = `${data.Модель.МД['К'].Имя}`;
+                    // addElementsList('Модель устройства: ', data.Модель.МД['К'].Имя);
 
-                    case 'D1':
-                        document.getElementById('МД').innerText = `${data.Модель.МД['G' + str[10]].Имя}`;
-                        // addElementsList('Модель устройства: ', data.Модель.МД['G' + str[10]].Имя);
+                    // document.getElementById('И1').innerText = `${data.Модель.МД['К'].И1[str[12]]}`;
+                    addElementsList('Исполнение по измерению: ', data.Модель.МД['К'].И1[str[12]]);
 
-                        // document.getElementById('И1').innerText = `${data.Модель.МД['G' + str[10]].И1[str[13]]}`;
-                        addElementsList('Исполнение по подключению ПИП вибрации: ', data.Модель.МД['G' + str[10]].И1[str[13]]);
+                    // document.getElementById('И2').innerText = `${data.Модель.МД['К'].И2[str[13]]}`;
+                    addElementsList('Монтажная часть тип 1: ', data.Модель.МД['К'].И2['1' + str[13]]);
 
-                        // document.getElementById('И2').innerText = `${data.Модель.МД['G' + str[10]].И2[str[14]]}`;
-                        addElementsList('Исполнение по подключению ПИП температуры: ', data.Модель.МД['G' + str[10]].И2[str[14]]);
+                    // document.getElementById('И2').innerText = `${data.Модель.МД['К'].И3[str[14]]}`;
+                    addElementsList('Монтажная часть тип 2: ', data.Модель.МД['К'].И3['2' + str[14]]);
 
-                        // document.getElementById('И3').innerText = `${data.Модель.И3[str[15]]}`;
-                        addElementsList('Исполнение по типу антенны: ', data.Модель.И3[str[15]]);
+                    // document.getElementById('И4').innerText = `${data.Модель.И4[str[15]]}`;
+                    addElementsList('Исполнение по типу антенны: ', data.Модель.И4[str[15]]);
 
-                        // document.getElementById('И4').innerText = `${data.Модель.И4[str[16]]}`;
-                        addElementsList('Исполнение по электропитанию: ', data.Модель.И4[str[16]], false);
+                    // document.getElementById('И5').innerText = `${data.Модель.И5[str[16]]}`;                      
+                    addElementsList('Исполнение по электропитанию: ', data.Модель.И5[str[16]]);
 
-                        // document.getElementById('СИ').innerText = `${data.Модель.СИ['0']}`;
-                        break;
+                    // document.getElementById('СИ').innerText = `${data.Модель.СИ['0']}`;
+                    addElementsList('Код специсполнения: ', data.Модель.СИ['0'], false);
+                    break;
 
-                    default:
-                        break;
-                }
-            });
+                case 'D0':
+                    break;
+
+                case 'D1':
+                    document.getElementById('МД').innerText = `${data.Модель.МД['G' + str[10]].Имя}`;
+                    // addElementsList('Модель устройства: ', data.Модель.МД['G' + str[10]].Имя);
+
+                    // document.getElementById('И1').innerText = `${data.Модель.МД['G' + str[10]].И1[str[13]]}`;
+                    addElementsList('Исполнение по подключению ПИП вибрации: ', data.Модель.МД['G' + str[10]].И1[str[13]]);
+
+                    // document.getElementById('И2').innerText = `${data.Модель.МД['G' + str[10]].И2[str[14]]}`;
+                    addElementsList('Исполнение по подключению ПИП температуры: ', data.Модель.МД['G' + str[10]].И2[str[14]]);
+
+                    // document.getElementById('И3').innerText = `${data.Модель.И3[str[15]]}`;
+                    addElementsList('Исполнение по типу антенны: ', data.Модель.И3[str[15]]);
+
+                    // document.getElementById('И4').innerText = `${data.Модель.И4[str[16]]}`;
+                    addElementsList('Исполнение по электропитанию: ', data.Модель.И4[str[16]], false);
+
+                    // document.getElementById('СИ').innerText = `${data.Модель.СИ['0']}`;
+                    addElementsList('Код специсполнения: ', data.Модель.СИ['0'], false);
+                    break;
+
+                default:
+                    break;
+            }
+        });
     }
 
     // function parseBarcodeTwo(str) {
