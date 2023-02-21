@@ -204,6 +204,7 @@
                 switch (str[0] + str[1]) {
                     case 'CC':
                         document.getElementById('МД').innerText = `${data.Модель.МД['К'].Имя}`;
+                        // addElementsList('Модель устройства: ', data.Модель.МД['К'].Имя);
 
                         // document.getElementById('И1').innerText = `${data.Модель.МД['К'].И1[str[12]]}`;
                         addElementsList('Исполнение по измерению: ', data.Модель.МД['К'].И1[str[12]]);
@@ -224,8 +225,8 @@
                         break;
 
                     case 'D1':
-                        // document.getElementById('МД').innerText = `${data.Модель.МД['G' + str[10]].Имя}`;
-                        addElementsList('Исполнение по типу антенны: ', data.Модель.МД['G' + str[10]].Имя);
+                        document.getElementById('МД').innerText = `${data.Модель.МД['G' + str[10]].Имя}`;
+                        // addElementsList('Модель устройства: ', data.Модель.МД['G' + str[10]].Имя);
 
                         // document.getElementById('И1').innerText = `${data.Модель.МД['G' + str[10]].И1[str[13]]}`;
                         addElementsList('Исполнение по подключению ПИП вибрации: ', data.Модель.МД['G' + str[10]].И1[str[13]]);
@@ -282,9 +283,9 @@
     }
 
 
-    interfaceReload();
+    // interfaceReload();
     // parseBarcodeOne('IIOTSENSE.RU/P?CC0000026901112204046');
-    parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');
+    // parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');
 </script>
 
 <!-- Bootstrap 5.3.0 alpha 1 -->
@@ -337,8 +338,20 @@
                 }
             };
 
-            // 
-            html5QrCode.start({ deviceId: { exact: cameraId } }, config, qrCodeSuccessCallback);
+            // Ручной выбор источника видеозахвата:
+            // html5QrCode.start({ deviceId: { exact: cameraId } }, config, qrCodeSuccessCallback);
+
+            // If you want to prefer front camera
+            // html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
+
+            // If you want to prefer back camera
+            html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+
+            // Select front camera or fail with `OverconstrainedError`.
+            // html5QrCode.start({ facingMode: { exact: "user" } }, config, qrCodeSuccessCallback);
+
+            // Select back camera or fail with `OverconstrainedError`.
+            // html5QrCode.start({ facingMode: { exact: "environment" } }, config, qrCodeSuccessCallback);
         }
     }).catch(err => {
         // handle err
