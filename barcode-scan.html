@@ -233,12 +233,14 @@
          * { id: "id", label: "label" }
          */
         if (devices && devices.length) {
-            var cameraId = devices[0].id;
+            // var cameraId = devices[i].id;
             // Здесь начинается процесс сканирования:
+            for (let i = 0; i < devices.length; i++) {
+                alert('i' + i + '~' + devices[i].id + ' | ' + devices[i].label);
+            }
 
-            alert('0~' + cameraId);
-            cameraId = devices[1].id;
-            alert('1~' + cameraId);
+
+
 
             // 
             const html5QrCode = new Html5Qrcode("reader");
@@ -263,7 +265,13 @@
             };
 
             // 
-            html5QrCode.start({ deviceId: { exact: cameraId } }, config, qrCodeSuccessCallback);
+            html5QrCode.start({
+                deviceId: {
+                    exact: cameraId
+                }
+            },
+                config,
+                qrCodeSuccessCallback);
         }
     }).catch(err => {
         // handle err
