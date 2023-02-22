@@ -698,14 +698,19 @@
     //         });
     // }
 
-    function interfaceReload(str) {
+    function interfaceRender(state) {
         document.querySelectorAll('#scan-info').forEach((slider) => {
-            slider.classList.remove("d-none");
-            slider.classList.add("d-block");
+            if (state) {
+                slider.classList.remove('d-none');
+                slider.classList.add('d-block');
+            } else {
+                slider.classList.remove('d-block');
+                slider.classList.add('d-none');
+            }
         });
     }
 
-    // interfaceReload();
+    // interfaceRender();
     // parseBarcodeOne('IIOTSENSE.RU/P?CC0000026901112204046');
     // parseBarcodeOne('IIOTSENSE.RU/P?D00000019910110114629');
     // parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');
@@ -765,19 +770,7 @@
 
             // Обратный вызов при успешном сканировании:
             const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-                // Останавливаем использование камеры
-                html5QrCode.stop().then((ignore) => {
-                    // Сканирование QR-кода остановлено.
-                    document.getElementById('text').innerText = `${decodedText}`; // .
-                    document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`; // .
-                    document.querySelector('#reader').classList.add("d-none"); // .
-
-                    interfaceReload(); // .
-
-                    parseBarcodeOne(decodedText); // .
-                }).catch((err) => {
-                    // Остановка не удалась, смирись.
-                });
+                parseBarcodeOne(decodedText); // Передаём распознанный текст в функцию парсера.
             };
 
             // Конфигурация сканера:
@@ -853,11 +846,22 @@
             document.querySelector('#barcode-scanner-on-off').addEventListener('click', function () {
                 barcode_scanner_on_off_state = !barcode_scanner_on_off_state;
                 if (!barcode_scanner_on_off_state) {
-                    html5QrCode.stop();
+                    // Останавливаем использование камеры
+                    html5QrCode.stop().then((ignore) => {
+                        // Сканирование QR-кода остановлено.
+                        document.getElementById('text').innerText = `${decodedText}`; // .
+                        document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`; // .
+                        document.querySelector('#reader').classList.add("d-none"); // .
+
+                        interfaceRender(true); // Отрисовываем интерфейс.
+                    }).catch((err) => {
+                        // Остановка не удалась, смирись.
+                    });
                     btn_start.classList.remove("d-none");
                     btn_stop.classList.add("d-none");
                 }
                 else {
+                    interfaceRender(false); // Скрываем список параметров устройства (выход парсера баркода).
                     html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
                     btn_stop.classList.remove("d-none");
                     btn_start.classList.add("d-none");
@@ -901,7 +905,7 @@
         document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`;
         document.querySelector('#reader').classList.add("d-none");
 
-        interfaceReload();
+        interfaceRender();
 
         // parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');
         parseBarcodeOne(decodedText);
