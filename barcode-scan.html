@@ -315,6 +315,7 @@
     <!-- header -->
 
     <div class="container-fluid m-0 p-0 mb-4" id="reader"></div>
+    <p>Сканер с парсером</p>
     <div class="" id="barcode-device-list"></div>
 
     <div class="container-fluid d-none" id="scan-info">
@@ -743,13 +744,15 @@
             // Обратный вызов при успешном сканировании:
             const qrCodeSuccessCallback = (decodedText, decodedResult) => {
                 html5QrCode.stop();
+
+
+
+
+                parseBarcodeOne(decodedText); // Передаём распознанный текст в функцию парсера.
                 document.getElementById('text').innerText = `${decodedText}`; // .
                 document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`; // .
                 document.querySelector('#reader').classList.add("d-none"); // .
-
-                interfaceRender(true); // Отрисовываем интерфейс.
                 interfaceRender(true);
-                parseBarcodeOne(decodedText); // Передаём распознанный текст в функцию парсера.
             };
 
             // Конфигурация сканера:
