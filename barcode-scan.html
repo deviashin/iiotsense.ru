@@ -236,47 +236,7 @@
                 </div>
                 <div class="offcanvas-body p-4 pt-0 p-lg-0">
                     <hr class="d-lg-none text-white-50">
-                    <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav ms-md-auto fs-5">
-                        <li class="nav-item col-6 col-lg-auto">
-                            <a class="nav-link py-2 px-0 px-lg-2" href="#about">О нас</a>
-                        </li>
-                        <li class="nav-item col-6 col-lg-auto">
-                            <a class="nav-link py-2 px-0 px-lg-2" href="#news">Новости</a>
-                        </li>
-                        <li class="nav-item col-6 col-lg-auto">
-                            <a class="nav-link py-2 px-0 px-lg-2" href="#products">Продукты</a>
-                        </li>
-                        <li class="nav-item col-6 col-lg-auto">
-                            <a class="nav-link py-2 px-0 px-lg-2" href="#info">Информация</a>
-                        </li>
-                        <li class="nav-item col-6 col-lg-auto">
-                            <a class="nav-link py-2 px-0 px-lg-2" href="#services">Сервис</a>
-                        </li>
-                        <li class="nav-item col-6 col-lg-auto">
-                            <a class="nav-link py-2 px-0 px-lg-2 active" href="#contacts">Контакты</a>
-                        </li>
-                    </ul>
-                    <hr class="d-lg-none text-white-50">
                     <ul class="navbar-nav flex-row flex-wrap ms-md-auto d-block d-lg-none">
-                        <li class="nav-item col-6 col-lg-auto">
-                            <a class="nav-link py-2 px-0 px-lg-2" href="#" target="_blank" rel="noopener">
-                                <i class="fa-brands fa-vk fa-2xl"></i>
-                                <span class="d-lg-none ms-2">Вконтакте</span>
-                            </a>
-                        </li>
-                        <li class="nav-item col-6 col-lg-auto">
-                            <a class="nav-link py-2 px-0 px-lg-2" href="#" target="_blank" rel="noopener">
-                                <i class="fa-brands fa-youtube fa-2xl"></i>
-                                <span class="d-lg-none ms-2">YouTube</span>
-                            </a>
-                        </li>
-                        <li class="nav-item col-6 col-lg-auto">
-                            <a class="nav-link py-2 px-0 px-lg-2" href="#" target="_blank" rel="noopener">
-                                <i class="fa-brands fa-telegram fa-2xl"></i>
-                                <span class="d-lg-none ms-2">Telegram</span>
-                            </a>
-                        </li>
-                        <hr class="d-lg-none text-white-50">
                         <li class="nav-item col col-lg-auto">
                             <a class="nav-link py-2 px-0 px-lg-2" href="barcode-scan.html" target="_blank"
                                 rel="noopener">
@@ -698,18 +658,6 @@
     //         });
     // }
 
-    function interfaceRender(state) {
-        document.querySelectorAll('#scan-info').forEach((slider) => {
-            if (state) {
-                slider.classList.remove('d-none');
-                slider.classList.add('d-block');
-            } else {
-                slider.classList.remove('d-block');
-                slider.classList.add('d-none');
-            }
-        });
-    }
-
     // interfaceRender();
     // parseBarcodeOne('IIOTSENSE.RU/P?CC0000026901112204046');
     // parseBarcodeOne('IIOTSENSE.RU/P?D00000019910110114629');
@@ -752,6 +700,29 @@
 <!-- html5-qrcode 2.3.7 (stable) -->
 <script src="js/html5-qrcode.min@2.3.7.js"></script>
 <script>
+    // :
+    function interfaceRender(state) {
+        document.querySelectorAll('#scan-info').forEach((slider) => {
+            if (state) {
+                slider.classList.remove('d-none');
+                slider.classList.add('d-block');
+            } else {
+                slider.classList.remove('d-block');
+                slider.classList.add('d-none');
+            }
+        });
+    }
+
+    // :
+    function barcode_scanner_start(barcodeScanner) {
+
+    }
+
+    // :
+    function barcode_scanner_stop(barcodeScanner) {
+
+    }
+
     // Этот метод активирует разрешения пользователя:
     Html5Qrcode.getCameras().then(devices => {
         /** Устройства (камеры) будут массивом объектов типа:
@@ -770,6 +741,7 @@
 
             // Обратный вызов при успешном сканировании:
             const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+                interfaceRender(true);
                 parseBarcodeOne(decodedText); // Передаём распознанный текст в функцию парсера.
             };
 
