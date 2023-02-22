@@ -402,13 +402,13 @@
                 d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z" />
         </symbol>
     </svg>
-    <div class="btn-up btn-up-style btn-up_hide shadow-lg">
+    <!-- <div class="btn-up btn-up_hide btn-up-style shadow-lg">
         <svg class="btn-up-icon" role="img" aria-label="Прокрутить страницу к началу">
             <use xlink:href="#arrow-up-short"></use>
         </svg>
-    </div>
+    </div> -->
     <a href="#" class="d- none" id="barcode-scanner-on-off">
-        <div class="btn-up-style btn-scan shadow-lg">
+        <div class="btn-scan btn-up-style shadow-lg">
             <i class="fa-regular fa-qrcode fa-2x5 d-none" id="barcode-scanner-icon-start"></i>
             <i class="fa-duotone fa-pause fa-2x5 d-none" id="barcode-scanner-icon-stop"></i>
         </div>
@@ -742,12 +742,8 @@
 
             // Обратный вызов при успешном сканировании:
             const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+                console.log('+' + html5QrCode.getState());
                 html5QrCode.stop();
-                document.getElementById('text').innerText = `${decodedText}`; // .
-                document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`; // .
-                document.querySelector('#reader').classList.add("d-none"); // .
-
-                interfaceRender(true); // Отрисовываем интерфейс.
                 interfaceRender(true);
                 parseBarcodeOne(decodedText); // Передаём распознанный текст в функцию парсера.
             };
@@ -825,27 +821,38 @@
             document.querySelector('#barcode-scanner-on-off').addEventListener('click', function () {
                 barcode_scanner_on_off_state = !barcode_scanner_on_off_state;
                 if (!barcode_scanner_on_off_state) {
-                    // Останавливаем использование камеры
-                    html5QrCode.stop().then((ignore) => {
-                        // Сканирование QR-кода остановлено.
+                    // 0 - выключена, 1 - включена, 2 - пауза.
+                    if (0 == html5QrCode.getState()) {
                         document.getElementById('text').innerText = `${decodedText}`; // .
                         document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`; // .
                         document.querySelector('#reader').classList.add("d-none"); // .
 
                         interfaceRender(true); // Отрисовываем интерфейс.
-                    }).catch((err) => {
-                        // Остановка не удалась, смирись.
-                    });
+                    }
+                    else if (1 == html5QrCode.getState()) {
+                        // Останавливаем использование камеры:
+                        html5QrCode.stop().then((ignore) => {
+                            // Сканирование QR-кода остановлено.
+
+                        }).catch((err) => {
+                            // Остановка не удалась, смирись.
+                            console.log("Не тормознулось((");
+                        });
+                    }
                     btn_start.classList.remove("d-none");
                     btn_stop.classList.add("d-none");
                 }
                 else {
                     interfaceRender(false); // Скрываем список параметров устройства (выход парсера баркода).
-                    html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+                    if (0 == html5QrCode.getState()) {
+                        html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+                    }
                     btn_stop.classList.remove("d-none");
                     btn_start.classList.add("d-none");
                 }
-                //document.getElementById('scan-infosss').innerText = `${html5QrCode.getState()}`;
+
+                // document.getElementById('scan-infosss').innerText = html5QrCode.getState();
+
             });
 
             // Идентификатор кнопки факела:

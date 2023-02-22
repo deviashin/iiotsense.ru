@@ -154,7 +154,7 @@
     box-shadow: transparent !important;
 }
 
-.btn-up {
+.btn-up-style {
     position: fixed;
     background-color: var(--bs-green);
     right: 30px;
