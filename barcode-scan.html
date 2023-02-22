@@ -712,6 +712,13 @@
 </script>
 
 <script>
+    // <input type="checkbox" id="1" class="box">checkbox1</input><br>
+    // <input type="checkbox" id="2" class="box">checkbox2</input><br>
+    // <input type="checkbox" id="3" class="box">checkbox3</input><br>
+    // <input type="checkbox" id="4" class="box">checkbox4</input><br>
+    // <input type="checkbox" id="5" class="box">checkbox5</input><br>
+    // <input type="checkbox" id="6" class="box">checkbox6</input><br>
+
     // Локальное хранилище для сохранения настроек приложения:
     let boxes = document.getElementsByClassName('box').length;
     function save() {
@@ -728,6 +735,9 @@
     }
     window.addEventListener('change', save);
 </script>
+
+<!-- Смена темы оформления с сохранением в локальное хранилище -->
+<script src="js/sense-scripts-color-modes.js"></script>
 
 <!-- Bootstrap 5.3.0 alpha 1 -->
 <script src="js/bootstrap.js"></script>
@@ -809,29 +819,33 @@
             //     html5QrCode.stop();
             // });
 
-            // Переключатель запуска/остановки сканирования:
-            let btn_start = document.querySelector('#barcode-scanner-icon-start');
-            let btn_stop = document.querySelector('#barcode-scanner-icon-stop');
-            let barcode_scanner_on_off_state = true; // 
+            // Переключатель запуска/остановки сканирования:           
+            let barcode_scanner_select_camera = false; // Флаг автоматического выбора источника видеозахвата.
+            let barcode_scanner_on_off_state = true; // Флаг автоматического старта процесса сканирования.
+            let btn_start = document.querySelector('#barcode-scanner-icon-start'); // Иконка запуска сканирования.
+            let btn_stop = document.querySelector('#barcode-scanner-icon-stop'); // Иконка остановки сканирования.
 
             if (!barcode_scanner_on_off_state) {
                 btn_start.classList.remove("d-none")
             }
             else {
                 // Ручной выбор источника видеозахвата:
-                // html5QrCode.start({ deviceId: { exact: cameraId } }, config, qrCodeSuccessCallback);
+                if (barcode_scanner_select_camera) {
+                    html5QrCode.start({ deviceId: { exact: cameraId } }, config, qrCodeSuccessCallback);
+                }
+                else {
+                    // Если вы хотите предпочесть фронтальную камеру:
+                    // html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
 
-                // If you want to prefer front camera
-                // html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
+                    // Если вы хотите предпочесть заднюю камеру:
+                    html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
 
-                // If you want to prefer back camera ВЕРНУТЬ!!!
-                html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+                    // Выберите переднюю камеру или завершите работу с ошибкой "OverconstrainedError":
+                    // html5QrCode.start({ facingMode: { exact: "user" } }, config, qrCodeSuccessCallback);
 
-                // Select front camera or fail with `OverconstrainedError`.
-                // html5QrCode.start({ facingMode: { exact: "user" } }, config, qrCodeSuccessCallback);
-
-                // Select back camera or fail with `OverconstrainedError`.
-                // html5QrCode.start({ facingMode: { exact: "environment" } }, config, qrCodeSuccessCallback);
+                    // Выберите заднюю камеру или завершите работу с ошибкой "OverconstrainedError":
+                    // html5QrCode.start({ facingMode: { exact: "environment" } }, config, qrCodeSuccessCallback);
+                }
 
                 btn_stop.classList.remove("d-none")
             }
