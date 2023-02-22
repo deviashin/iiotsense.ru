@@ -741,6 +741,7 @@
 
             // Обратный вызов при успешном сканировании:
             const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+                html5QrCode.stop();
                 interfaceRender(true);
                 parseBarcodeOne(decodedText); // Передаём распознанный текст в функцию парсера.
             };
