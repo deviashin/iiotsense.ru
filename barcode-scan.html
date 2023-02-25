@@ -1084,7 +1084,7 @@
     const debug = true; // if (debug) { console.log(); }.
 
     function getHashFromQRCode(qrCodeString) {
-        const result = 0; // Переменная для хранения результата выполнения функции.
+        let result = 0; // Переменная для хранения результата выполнения функции.
 
         // 1. Забираем исходную строку полученную из QR-кода.
         // Например, "IIOTSENSE.RU/P?D10000021410111103607".
@@ -1097,8 +1097,10 @@
         // 3. Отсекаем оригинальный хеш "3607" - последние 4 символа исходной строки:
         const originalHash = originalString.substring(originalString.length - 4);
         const originalStringWithoutHash = originalString.substring(0, originalString.length - 4);
-        if (debug) { console.log('originalHash: ' + originalHash); }
-        if (debug) { console.log('originalStringWithoutHash: ' + originalStringWithoutHash); }
+        if (debug) {
+            console.log('originalHash: ' + originalHash);
+            console.log('originalStringWithoutHash: ' + originalStringWithoutHash);
+        }
 
         // 4. Конкатенируем отсеченную строку с "солью":
         const salt = 'iaaiOdy78sfLkj1vhIe,,,,h2la49\r\n';
@@ -1123,24 +1125,68 @@
 
         // 9. Сравниваем с исходным числом из п.3:
         if (finalHash === originalHash) {
-            if (debug) { console.log('finalHash: ' + finalHash + ' === ' + 'originalHash: ' + originalHash); }
-            if (debug) { console.log('Проверка хеша пройдена!\r\n\r\n'); }
+            if (debug) {
+                console.log('finalHash: ' + finalHash + ' === ' + 'originalHash: ' + originalHash);
+                console.log('Проверка хеша пройдена успешно!\r\n\r\n');
+            }
         } else {
-            if (debug) { console.log('finalHash: ' + finalHash + ' !=== ' + 'originalHash: ' + originalHash); }
-            if (debug) { console.log('Ошибка! Хеш не соответствует исходному числу.\r\n\r\n'); }
+            if (debug) {
+                result = 1;
+                console.log('finalHash: ' + finalHash + ' !=== ' + 'originalHash: ' + originalHash);
+                console.log('Ошибка! Хеш не соответствует исходному числу.\r\n\r\n');
+            }
         }
 
         return result;
     }
 
-    if (debug) {
-        const qrCodeStrings = [
-            'IIOTSENSE.RU/P?CC0000026901112204046',
-            'http://IIOTSENSE.RU/P?D00000019910110114629',
-            'IIOTSENSE.RU/P?D10000021410111103607'
-        ];
+    // Отсечение любых символов до исходной строки:
+    function removeLinkPrefix(str) {
+        var originalString = str; // Исходная строка.
+        var substring = "IIOTSENSE.RU/P?"; // До какой подстроки необходимо отсечь лишнее.
+        var startIndex = originalString.indexOf(substring);
 
-        qrCodeStrings.forEach(getHashFromQRCode);
+        // Если подстрока не найдена - метод "indexOf" вернет "-1":
+        if (startIndex !== -1) {
+            var result = originalString.substring(startIndex);
+            console.log(result);
+        }
+
+        // Вызов функции проверки хеша из полученной строки:
+        getHashFromQRCode(result);
+    }
+
+    // Может не работать, если файл находится на другом домене из-за политики безопасности Same Origin Policy.
+    // Преобразование TXT-файла в массив:
+    function convertTxtToArray(str) {
+        fetch(str)
+            .then(response => response.text())
+            .then(text => {
+                const array = []; // Массив для хранения строк.
+                const lines = text.split(/\r?\n/); // Разбиваем текст на строки.
+
+                // Проверяем строки на наличие символов "БИП-"
+                for (let i = 0; i < lines.length; i++) {
+                    if (lines[i].includes('БИП-')) {
+                        const line = lines[i].trim(); // Удаляем начальные и конечные пробелы с помощью метода "trim".
+                        array.push(line); // Добавляем каждую строку в массив.
+                    }
+                }
+                array.forEach(removeLinkPrefix); // Выводим результат.
+            })
+            .catch(error => console.error(error));
+    }
+
+    // Иммитация настоящих данных, для тестирования:
+    if (debug) {
+        // convertTxtToArray('БИП-G 29.09.2022.txt');
+        // convertTxtToArray('БИП-К.2 26.10.2021.txt');
+        // convertTxtToArray('БИП-Т.П 22.10.2021.txt');
+
+        removeLinkPrefix('IIOTSENSE.RU/P?CC0000026901112204046');
+        removeLinkPrefix('IIOTSENSE.RU/P?D00000019910110114629');
+        removeLinkPrefix('http://IIOTSENSE.RU/P?D10000034710111105871');
+        removeLinkPrefix('IIOTSENSE.RU/P?D10000021410111103607');
     }
 </script>
 
