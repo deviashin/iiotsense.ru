@@ -395,25 +395,75 @@
             сканирование</button>
     </div> -->
 
-    <span id="scan-infosss"></span>
 
-    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-        <symbol id="arrow-up-short" viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
-                d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z" />
-        </symbol>
-    </svg>
-    <div class="btn-up btn-up-style btn-up_hide shadow-lg">
-        <svg class="btn-up-icon" role="img" aria-label="Прокрутить страницу к началу">
-            <use xlink:href="#arrow-up-short"></use>
-        </svg>
+    <div class="mobile-only">
+        <style>
+            .mobile-only {
+                display: none;
+            }
+
+            @media only screen and (max-width: 767px) {
+                .mobile-only {
+                    display: block;
+                    position: fixed;
+                    bottom: 0;
+                    right: 0;
+                    padding: 1rem;
+                }
+
+                .my-button {
+                    align-items: center;
+                    justify-content: center;
+                    width: 60px;
+                    height: 60px;
+                    border: none;
+                    border-radius: 50%;
+                    background-color: var(--bs-green);
+                    color: #fff;
+                    opacity: .95;
+                    cursor: pointer;
+                    user-select: none;
+                }
+            }
+        </style>
+        <button id="barcodeScannerStartButton" class="my-button">
+            <i id="barcodeScannerStartButtonIcon" class="fa-regular fa-qrcode fa-2x5"></i>
+        </button>
+        <script>
+            const barcode_scanner_start_button = document.querySelector('#barcodeScannerStartButton');
+            const barcode_scanner_start_button_icon = document.querySelector('#barcodeScannerStartButtonIcon');
+            let barcode_scanner_start_button_state = localStorage.getItem('barcode_scanner_start_button_state') === 'true';
+
+            updateButtonState();
+
+            barcode_scanner_start_button.addEventListener('click', () => {
+                barcode_scanner_start_button_state = !barcode_scanner_start_button_state;
+                localStorage.setItem('barcode_scanner_start_button_state', barcode_scanner_start_button_state);
+                updateButtonState();
+            });
+
+            function updateButtonState() {
+                if (barcode_scanner_start_button_state) {
+                    barcode_scanner_start_button.classList.add('active');
+                    barcode_scanner_start_button_icon.classList.replace('fa-regular', 'fa-duotone');
+                    barcode_scanner_start_button_icon.classList.replace('fa-qrcode', 'fa-pause');
+                } else {
+                    barcode_scanner_start_button.classList.remove('active');
+                    barcode_scanner_start_button_icon.classList.replace('fa-duotone', 'fa-regular');
+                    barcode_scanner_start_button_icon.classList.replace('fa-pause', 'fa-qrcode');
+                }
+            }
+        </script>
     </div>
-    <a href="#" class="d- none" id="barcode-scanner-on-off">
-        <div class="btn-up-style btn-scan shadow-lg">
-            <i class="fa-regular fa-qrcode fa-2x5 d-none" id="barcode-scanner-icon-start"></i>
-            <i class="fa-duotone fa-pause fa-2x5 d-none" id="barcode-scanner-icon-stop"></i>
-        </div>
-    </a>
+
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Devices
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="deviceList">
+        </ul>
+    </div>
 </body>
 
 <!-- Испытательный скриптовый полигон -->
@@ -695,6 +745,9 @@
 <script src="js/sense-scripts-color-modes.js"></script>
 
 <!-- Bootstrap 5.3.0 alpha 1 -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+    crossorigin="anonymous"></script>
 <script src="js/bootstrap.js"></script>
 
 <!-- html5-qrcode 2.3.4 (stable) -->
@@ -743,16 +796,18 @@
 
             // Обратный вызов при успешном сканировании:
             const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-                html5QrCode.stop();
+                // Останавливаем использование камеры
+                html5QrCode.stop().then((ignore) => {
+                    // Сканирование QR-кода остановлено.
+                    document.getElementById('text').innerText = `${decodedText}`; // .
+                    document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`; // .
+                    document.querySelector('#reader').classList.add("d-none"); // .
 
-
-
-
-                parseBarcodeOne(decodedText); // Передаём распознанный текст в функцию парсера.
-                document.getElementById('text').innerText = `${decodedText}`; // .
-                document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`; // .
-                document.querySelector('#reader').classList.add("d-none"); // .
-                interfaceRender(true);
+                    parseBarcodeOne(decodedText); // Передаём распознанный текст в функцию парсера.
+                    interfaceRender(true); // Отрисовываем интерфейс.
+                }).catch((err) => {
+                    // Остановка не удалась, смирись.
+                });
             };
 
             // Конфигурация сканера:
@@ -781,6 +836,50 @@
                 // ],
             };
 
+            // Сохраняем массив в localStorage при первой загрузке страницы
+            if (!localStorage.getItem('devices44')) {
+                localStorage.setItem('devices44', JSON.stringify(devices));
+            }
+
+            // Получаем сохраненный массив из localStorage
+            var storedDevices = JSON.parse(localStorage.getItem('devices44'));
+
+            console.log(storedDevices);
+
+            // Строим список устройств
+            storedDevices.forEach(function (device) {
+                var li = document.createElement('li');
+                li.innerHTML = '<a href="#" data-id="' + device.id + '">' + device.label + '</a>';
+                deviceList.appendChild(li);
+            });
+
+            // Обработчик клика на элемент списка устройств
+            deviceList.addEventListener('click', function (e) {
+                var cameraId = e.target.getAttribute('data-id');
+                if (cameraId) {
+                    html5QrCode.start({ deviceId: { exact: cameraId } }, config, qrCodeSuccessCallback);
+                }
+            });
+
+            // Обработчик события изменения состояния чекбокса
+            checkbox.addEventListener('change', function () {
+                if (this.checked) {
+                    localStorage.setItem('rememberDevices', 'true');
+                } else {
+                    localStorage.removeItem('rememberDevices');
+                }
+            });
+
+            // Проверяем состояние чекбокса и запоминаем выбор пользователя
+            if (localStorage.getItem('rememberDevices') === 'true') {
+                checkbox.checked = true;
+            } else {
+                checkbox.checked = false;
+            }
+
+
+
+
             // Идентификатор кнопки разрешения камеры:
             // document.querySelector('#html5-qrcode-button-camera-permission');
 
@@ -800,78 +899,32 @@
             let btn_start = document.querySelector('#barcode-scanner-icon-start'); // Иконка запуска сканирования.
             let btn_stop = document.querySelector('#barcode-scanner-icon-stop'); // Иконка остановки сканирования.
 
-            if (!barcode_scanner_on_off_state) {
-                btn_start.classList.remove("d-none")
-            }
-            else {
-                // Ручной выбор источника видеозахвата:
-                if (barcode_scanner_select_camera) {
-                    html5QrCode.start({ deviceId: { exact: cameraId } }, config, qrCodeSuccessCallback);
-                }
-                else {
-                    // Если вы хотите предпочесть фронтальную камеру:
-                    // html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
 
-                    // Если вы хотите предпочесть заднюю камеру:
-                    html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
-
-                    // Выберите переднюю камеру или завершите работу с ошибкой "OverconstrainedError":
-                    // html5QrCode.start({ facingMode: { exact: "user" } }, config, qrCodeSuccessCallback);
-
-                    // Выберите заднюю камеру или завершите работу с ошибкой "OverconstrainedError":
-                    // html5QrCode.start({ facingMode: { exact: "environment" } }, config, qrCodeSuccessCallback);
-                }
-
-                btn_stop.classList.remove("d-none")
-            }
-
-            document.querySelector('#barcode-scanner-on-off').addEventListener('click', function () {
-                barcode_scanner_on_off_state = !barcode_scanner_on_off_state;
-                if (!barcode_scanner_on_off_state) {
-                    // Останавливаем использование камеры
-                    html5QrCode.stop().then((ignore) => {
-                        // Сканирование QR-кода остановлено.
-                        document.getElementById('text').innerText = `${decodedText}`; // .
-                        document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`; // .
-                        document.querySelector('#reader').classList.add("d-none"); // .
-
-                        interfaceRender(true); // Отрисовываем интерфейс.
-                    }).catch((err) => {
-                        // Остановка не удалась, смирись.
-                    });
-                    btn_start.classList.remove("d-none");
-                    btn_stop.classList.add("d-none");
-                }
-                else {
-                    interfaceRender(false); // Скрываем список параметров устройства (выход парсера баркода).
-                    html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
-                    btn_stop.classList.remove("d-none");
-                    btn_start.classList.add("d-none");
-                }
-                //document.getElementById('scan-infosss').innerText = `${html5QrCode.getState()}`;
-            });
+            // Ручной выбор источника видеозахвата:
+            // html5QrCode.start({ deviceId: { exact: cameraId } }, config, qrCodeSuccessCallback);
+            // Если вы хотите предпочесть фронтальную камеру:
+            // html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
+            // Если вы хотите предпочесть заднюю камеру:
+            // html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+            // Выберите переднюю камеру или завершите работу с ошибкой "OverconstrainedError":
+            // html5QrCode.start({ facingMode: { exact: "user" } }, config, qrCodeSuccessCallback);
+            // Выберите заднюю камеру или завершите работу с ошибкой "OverconstrainedError":
+            // html5QrCode.start({ facingMode: { exact: "environment" } }, config, qrCodeSuccessCallback);
 
             // Идентификатор кнопки факела:
             // document.querySelector('#html5-qrcode-button-torch');
-
             // Идентификатор элемента select, используемого для выбора камеры:
             // document.querySelector('#html5-qrcode-select-camera');
-
             // Идентификатор кнопки, используемой для выбора файла:
             // document.querySelector('#html5-qrcode-button-file-selection');
-
             // Идентификатор диапазона ввода для масштабирования:
             // document.querySelector('#html5-qrcode-input-range-zoom');
-
             // Идентификатор элемента привязки {@code <a>}, используемого для переключения между сканированием файлов и сканированием камеры:
             // document.querySelector('#html5-qrcode-anchor-scan-type-change');
-
             // Класс кнопки фонарика, когда фонарик включен:
             // document.querySelector('#html5-qrcode-button-torch-on');
-
             // Класс кнопки фонарика, когда фонарик выключен:
             // document.querySelector('#html5-qrcode-button-torch-off');
-
             // Идентификатор кнопки разрешения камеры:
             // document.querySelector('#html5-qrcode-button-camera-permission');
         }
@@ -1021,62 +1074,6 @@
     //     btnTorchOff.textContent = 'Выключить фонарик';
     // }
 </script> -->
-
-<script>
-    const btnUp = {
-        el: document.querySelector('.btn-up'),
-        scrolling: false,
-        show() {
-            if (this.el.classList.contains('btn-up_hide') && !this.el.classList.contains('btn-up_hiding')) {
-                this.el.classList.remove('btn-up_hide');
-                this.el.classList.add('btn-up_hiding');
-                window.setTimeout(() => {
-                    this.el.classList.remove('btn-up_hiding');
-                }, 300);
-            }
-        },
-        hide() {
-            if (!this.el.classList.contains('btn-up_hide') && !this.el.classList.contains('btn-up_hiding')) {
-                this.el.classList.add('btn-up_hiding');
-                window.setTimeout(() => {
-                    this.el.classList.add('btn-up_hide');
-                    this.el.classList.remove('btn-up_hiding');
-                }, 300);
-            }
-        },
-        addEventListener() {
-            // при прокрутке окна (window)
-            window.addEventListener('scroll', () => {
-                const scrollY = window.scrollY || document.documentElement.scrollTop;
-                if (this.scrolling && scrollY > 0) {
-                    return;
-                }
-                this.scrolling = false;
-                // если пользователь прокрутил страницу более чем на 200px
-                if (scrollY > 400) {
-                    // сделаем кнопку .btn-up видимой
-                    this.show();
-                } else {
-                    // иначе скроем кнопку .btn-up
-                    this.hide();
-                }
-            });
-            // при нажатии на кнопку .btn-up
-            document.querySelector('.btn-up').onclick = () => {
-                this.scrolling = true;
-                this.hide();
-                // переместиться в верхнюю часть страницы
-                window.scrollTo({
-                    top: 0,
-                    left: 0,
-                    behavior: 'smooth'
-                });
-            }
-        }
-    }
-
-    btnUp.addEventListener();
-</script>
 
 <!-- https://cdnjs.com/libraries/crypto-js -->
 <script src="js/crypto-js.min@4.1.1.js"></script>
