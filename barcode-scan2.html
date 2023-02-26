@@ -848,13 +848,22 @@
 
 
 
-            
+
             // Сохраняем выбранное значение "barcode_scanner_camera_id" в localStorage, если чекбокс включен
             function barcode_scanner_remember_devices_save_to_local_storage(id) {
                 // ну тут понятно почему камера не сохраняется, она сохр. в локалсторадж, но нигде не вызыывается:::
                 localStorage.setItem('barcode_scanner_selected_device_id', JSON.stringify(id));
             }
 
+            // тут была попытки вернуть состояние ID камеры? ваще работает, но в функцию старт-камера надо как то передать красиво:
+            function barcode_scanner_remember_devices_get_to_local_storage() {
+                // var zalupki = JSON.parse(localStorage.getItem('barcode_scanner_selected_device_id'));
+                var zalupki = localStorage.getItem('barcode_scanner_selected_device_id');
+                console.log('последняя камера из хранилища :: ', zalupki);
+                return zalupki;
+            }
+            // barcode_scanner_remember_devices_get_to_local_storage();
+            // Но я еще не очищал хранилище, так что может все норм или все очень плохо...........!
 
 
 
