@@ -837,19 +837,28 @@
             var barcode_scanner_camera_lable = null;
 
             // Загружаем состояние чекбокса из localStorage при загрузке страницы
-            const barcode_scanner_remember_devices = JSON.parse(localStorage.getItem('barcode_scanner_remember_devices'));
+            // const barcode_scanner_remember_devices = JSON.parse(localStorage.getItem('barcode_scanner_remember_devices'));
+            const barcode_scanner_remember_devices = localStorage.getItem('barcode_scanner_remember_devices');
             if (barcode_scanner_remember_devices) { console.log('barcode_scanner_remember_devices:: ', barcode_scanner_remember_devices); }
             else { console.log('barcode_scanner_remember_devices:: null'); }
 
-            // Записываем состояние чекбокса в атрибут элемента:
-            if (barcode_scanner_remember_devices !== null) {
-                barcode_scanner_remember_devices_checkbox.checked = barcode_scanner_remember_devices;
-            }
+            // Перезаписываем состояние чекбокса в атрибут элемента:
+            if (barcode_scanner_remember_devices !== null) { barcode_scanner_remember_devices_checkbox.checked = barcode_scanner_remember_devices; }
 
+
+
+
+            
             // Сохраняем выбранное значение "barcode_scanner_camera_id" в localStorage, если чекбокс включен
             function barcode_scanner_remember_devices_save_to_local_storage(id) {
+                // ну тут понятно почему камера не сохраняется, она сохр. в локалсторадж, но нигде не вызыывается:::
                 localStorage.setItem('barcode_scanner_selected_device_id', JSON.stringify(id));
             }
+
+
+
+
+
 
             // Обработчик клика на элемент списка устройств:
             deviceList.addEventListener('click', function (e) {
