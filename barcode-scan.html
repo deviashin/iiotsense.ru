@@ -410,50 +410,17 @@
                     right: 0;
                     padding: 1rem;
                 }
-
-                .my-button {
-                    align-items: center;
-                    justify-content: center;
-                    width: 60px;
-                    height: 60px;
-                    border: none;
-                    border-radius: 50%;
-                    background-color: var(--bs-green);
-                    color: #fff;
-                    opacity: .95;
-                    cursor: pointer;
-                    user-select: none;
-                }
             }
         </style>
-        <button id="barcodeScannerStartButton" class="my-button">
+        <button id="barcodeScannerStartButton" style="align-items: center; justify-content: center; width: 4.2rem; height: 4.2rem; border: none; border-radius: 50%; 
+            background-color: var(--bs-green); color: #fff; opacity: .90; user-select: none; z-index: 999;">
             <i id="barcodeScannerStartButtonIcon" class="fa-regular fa-qrcode fa-2x5"></i>
         </button>
-        <script>
-            const barcode_scanner_start_button = document.querySelector('#barcodeScannerStartButton');
-            const barcode_scanner_start_button_icon = document.querySelector('#barcodeScannerStartButtonIcon');
-            let barcode_scanner_start_button_state = localStorage.getItem('barcode_scanner_start_button_state') === 'true';
+    </div>
 
-            updateButtonState();
-
-            barcode_scanner_start_button.addEventListener('click', () => {
-                barcode_scanner_start_button_state = !barcode_scanner_start_button_state;
-                localStorage.setItem('barcode_scanner_start_button_state', barcode_scanner_start_button_state);
-                updateButtonState();
-            });
-
-            function updateButtonState() {
-                if (barcode_scanner_start_button_state) {
-                    barcode_scanner_start_button.classList.add('active');
-                    barcode_scanner_start_button_icon.classList.replace('fa-regular', 'fa-duotone');
-                    barcode_scanner_start_button_icon.classList.replace('fa-qrcode', 'fa-pause');
-                } else {
-                    barcode_scanner_start_button.classList.remove('active');
-                    barcode_scanner_start_button_icon.classList.replace('fa-duotone', 'fa-regular');
-                    barcode_scanner_start_button_icon.classList.replace('fa-pause', 'fa-qrcode');
-                }
-            }
-        </script>
+    <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="rememberDevices" checked>
+        <label class="form-check-label" for="rememberDevices">Запоминать камеру</label>
     </div>
 
     <div class="dropdown">
@@ -716,7 +683,7 @@
     // parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');
 </script>
 
-<script>
+<!-- <script>
     // <input type="checkbox" id="1" class="box">checkbox1</input><br>
     // <input type="checkbox" id="2" class="box">checkbox2</input><br>
     // <input type="checkbox" id="3" class="box">checkbox3</input><br>
@@ -739,15 +706,13 @@
         }
     }
     window.addEventListener('change', save);
-</script>
+</script> -->
 
 <!-- Смена темы оформления с сохранением в локальное хранилище -->
 <script src="js/sense-scripts-color-modes.js"></script>
 
 <!-- Bootstrap 5.3.0 alpha 1 -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-    crossorigin="anonymous"></script>
+<script src="js/popper.min.js"></script>
 <script src="js/bootstrap.js"></script>
 
 <!-- html5-qrcode 2.3.4 (stable) -->
@@ -768,28 +733,24 @@
         });
     }
 
-    // :
-    function barcode_scanner_start(barcodeScanner) {
 
-    }
 
-    // :
-    function barcode_scanner_stop(barcodeScanner) {
 
-    }
+
+
+
+
+
+
+
+
+
 
     // Этот метод активирует разрешения пользователя:
     Html5Qrcode.getCameras().then(devices => {
         /** Устройства (камеры) будут массивом объектов типа:
          * { id: "id", label: "label" } */
         if (devices && devices.length) {
-
-            // Перебираем все доступные устройства для захвата видеопотока:
-            for (let i = 0; i < devices.length; i++) {
-                var cameraId = devices[i].id;
-                // alert('i' + i + '~' + devices[i].id + ' p~ ' + devices.length + ' l ' + devices[i].label);
-            }
-
             // Здесь начинается процесс сканирования:
             // Получаем идентификатор родительского контейнера сканера баркодов: 
             const html5QrCode = new Html5Qrcode("reader");
@@ -844,8 +805,6 @@
             // Получаем сохраненный массив из localStorage
             var storedDevices = JSON.parse(localStorage.getItem('devices44'));
 
-            console.log(storedDevices);
-
             // Строим список устройств
             storedDevices.forEach(function (device) {
                 var li = document.createElement('li');
@@ -861,6 +820,66 @@
                 }
             });
 
+            // Работа с кнопкой старт/стоп сканирование:
+            const barcode_scanner_start_button = document.querySelector('#barcodeScannerStartButton');
+            const barcode_scanner_start_button_icon = document.querySelector('#barcodeScannerStartButtonIcon');
+
+            // Получаем последнее состояние кнопки из хранилища при загрузке страницы:
+            var barcode_scanner_start_button_state = localStorage.getItem('barcode_scanner_start_button_state') === 'true';
+
+            // Обновляем состояние: кнопки и работы сканера:
+            updateButtonState(barcode_scanner_start_button_state);
+
+            // Отслеживаем нажатие, меняем в хранилище и обновляем на странице состояние кнопки:
+            barcode_scanner_start_button.addEventListener('click', () => {
+                barcode_scanner_start_button_state = !barcode_scanner_start_button_state;
+                localStorage.setItem('barcode_scanner_start_button_state', barcode_scanner_start_button_state);
+                updateButtonState(barcode_scanner_start_button_state);
+            });
+
+            function updateButtonState(state) {
+                if (state) {
+                    barcode_scanner_start_button.classList.add('active');
+                    barcode_scanner_start_button_icon.classList.replace('fa-regular', 'fa-duotone');
+                    barcode_scanner_start_button_icon.classList.replace('fa-qrcode', 'fa-pause');
+                } else {
+                    barcode_scanner_start_button.classList.remove('active');
+                    barcode_scanner_start_button_icon.classList.replace('fa-duotone', 'fa-regular');
+                    barcode_scanner_start_button_icon.classList.replace('fa-pause', 'fa-qrcode');
+                }
+                console.log(barcode_scanner_start_button_state);
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            if (document.getElementById('rememberDevices').checked) {
+                // Получаем список устройств из localStorage
+            } else {
+                // Построение списка устройств на основе исходного массива
+            }
             // Обработчик события изменения состояния чекбокса
             checkbox.addEventListener('change', function () {
                 if (this.checked) {
@@ -869,7 +888,6 @@
                     localStorage.removeItem('rememberDevices');
                 }
             });
-
             // Проверяем состояние чекбокса и запоминаем выбор пользователя
             if (localStorage.getItem('rememberDevices') === 'true') {
                 checkbox.checked = true;
@@ -1175,10 +1193,10 @@
     // convertTxtToArray('БИП-К.2 26.10.2021.txt');
     // convertTxtToArray('БИП-Т.П 22.10.2021.txt');
 
-    removeLinkPrefix('IIOTSENSE.RU/P?CC0000026901112204046');
-    removeLinkPrefix('IIOTSENSE.RU/P?D00000019910110114629');
-    removeLinkPrefix('http://IIOTSENSE.RU/P?D10000034710111105871');
-    removeLinkPrefix('IIOTSENSE.RU/P?D10000021410111103607');
+    // removeLinkPrefix('IIOTSENSE.RU/P?CC0000026901112204046');
+    // removeLinkPrefix('IIOTSENSE.RU/P?D00000019910110114629');
+    // removeLinkPrefix('http://IIOTSENSE.RU/P?D10000034710111105871');
+    // removeLinkPrefix('IIOTSENSE.RU/P?D10000021410111103607');
 </script>
 
 </html>
