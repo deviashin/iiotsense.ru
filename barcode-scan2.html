@@ -758,13 +758,13 @@
 
             // Обратный вызов при успешном сканировании:
             const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-                // barcode_scanner_stop();
-                // document.getElementById('text').innerText = `${decodedText}`; // .
-                // document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`; // .
-                // document.querySelector('#reader').classList.add("d-none"); // .
+                barcode_scanner_stop();
+                document.getElementById('text').innerText = `${decodedText}`; // .
+                document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`; // .
+                document.querySelector('#reader').classList.add("d-none"); // .
 
-                // parseBarcodeOne(decodedText); // Передаём распознанный текст в функцию парсера.
-                // interfaceRender(true); // Отрисовываем интерфейс.
+                parseBarcodeOne(decodedText); // Передаём распознанный текст в функцию парсера.
+                interfaceRender(true); // Отрисовываем интерфейс.
             };
 
             // Обратный вызов при ошибке сканирования:
@@ -833,13 +833,13 @@
             const barcode_scanner_remember_devices_checkbox = document.querySelector('#barcode_scanner_remember_devices');
 
             // Определяем переменную, в которую будем записывать выбранный элемент:
-            let barcode_scanner_camera_id = null;
-            let barcode_scanner_camera_lable = null;
+            var barcode_scanner_camera_id = null;
+            var barcode_scanner_camera_lable = null;
 
             // Загружаем состояние чекбокса из localStorage при загрузке страницы
             const barcode_scanner_remember_devices = JSON.parse(localStorage.getItem('barcode_scanner_remember_devices'));
-            // if (barcode_scanner_remember_devices) { console.log('barcode_scanner_remember_devices:: ', barcode_scanner_remember_devices); }
-            // else { console.log('barcode_scanner_remember_devices:: null'); }
+            if (barcode_scanner_remember_devices) { console.log('barcode_scanner_remember_devices:: ', barcode_scanner_remember_devices); }
+            else { console.log('barcode_scanner_remember_devices:: null'); }
 
             // Записываем состояние чекбокса в атрибут элемента:
             if (barcode_scanner_remember_devices !== null) {
@@ -847,9 +847,9 @@
             }
 
             // Сохраняем выбранное значение "barcode_scanner_camera_id" в localStorage, если чекбокс включен
-            function barcode_scanner_remember_devices_save_to_local_storage(id) { localStorage.setItem('barcode_scanner_selected_device_id', JSON.stringify(id)); }
-
-
+            function barcode_scanner_remember_devices_save_to_local_storage(id) {
+                localStorage.setItem('barcode_scanner_selected_device_id', JSON.stringify(id));
+            }
 
             // Обработчик клика на элемент списка устройств:
             deviceList.addEventListener('click', function (e) {
@@ -857,15 +857,19 @@
                 barcode_scanner_camera_lable = e.target.getAttribute('data-label');
 
                 // Сохраняем элемент если установлен чекбокс:
-                if (barcode_scanner_remember_devices) { barcode_scanner_remember_devices_save_to_local_storage(barcode_scanner_camera_id); }
+                if (barcode_scanner_remember_devices) {
+                    barcode_scanner_remember_devices_save_to_local_storage(barcode_scanner_camera_id);
+                }
                 // else { localStorage.removeItem('barcode_scanner_selected_device_id'); } // Иначе удаляем элемент.
             });
 
             // При изменении состояния чекбокса - сохраняем состояние в localStorage:
             barcode_scanner_remember_devices_checkbox.addEventListener('change', (event) => {
-                JSON.stringify(localStorage.setItem('barcode_scanner_remember_devices', event.target.checked)); // Самого чекбокса.
+                // JSON.stringify(localStorage.setItem('barcode_scanner_remember_devices', event.target.checked)); // Самого чекбокса.
+                localStorage.setItem('barcode_scanner_remember_devices', event.target.checked);
                 barcode_scanner_remember_devices_save_to_local_storage(barcode_scanner_camera_id); // ID камеры.
             });
+
 
 
 
@@ -880,8 +884,10 @@
             // html5QrCode.start({ facingMode: { exact: "user" } }, config, qrCodeSuccessCallback);
             // Выберите заднюю камеру или завершите работу с ошибкой "OverconstrainedError":
             // html5QrCode.start({ facingMode: { exact: "environment" } }, config, qrCodeSuccessCallback);
-            function barcode_scanner_start() {
-                html5QrCode.start({ deviceId: { exact: barcode_scanner_camera_id } }, config, qrCodeSuccessCallback);
+            function barcode_scanner_start(camera_id) {
+                if (camera_id) {
+                    html5QrCode.start({ deviceId: { exact: camera_id } }, config, qrCodeSuccessCallback);
+                }
             }
 
             // Останавливаем использование камеры:
@@ -913,7 +919,7 @@
 
             function updateButtonState(state) {
                 if (state) {
-                    barcode_scanner_start(); /////// !!!!!!!!!!!! barcode_scanner_camera_id почему то не записывается!!!!!!!!!!
+                    barcode_scanner_start(barcode_scanner_camera_id); /////// !!!!!!!!!!!! barcode_scanner_camera_id почему то не записывается!!!!!!!!!!
                     barcode_scanner_start_button.classList.add('active');
                     barcode_scanner_start_button_icon.classList.replace('fa-regular', 'fa-duotone');
                     barcode_scanner_start_button_icon.classList.replace('fa-qrcode', 'fa-pause');
@@ -923,9 +929,11 @@
                     barcode_scanner_start_button_icon.classList.replace('fa-duotone', 'fa-regular');
                     barcode_scanner_start_button_icon.classList.replace('fa-pause', 'fa-qrcode');
                 }
-                console.log(barcode_scanner_start_button_state);
+                // console.log(barcode_scanner_start_button_state);
             }
 
+            // Пока работает только ручной выбор камеры, после нажатие на кнопку с иконкой сканера. КНопки стоп - ломает всё!
+            // если решится вопрос с передайчей ID камеры, то скорее всего можно будет активировать barcode_scanner_stop();
 
 
 
