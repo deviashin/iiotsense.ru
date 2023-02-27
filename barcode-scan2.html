@@ -418,43 +418,59 @@
     </div>
 
     <div class="form-check form-switch m-3">
-        <input class="form-check-input" type="checkbox" role="switch" id="barcode_scanner_remember_devices"
-            style="transform: scale(1.4);">
-        <label class="form-check-label ms-2" for="barcode_scanner_remember_devices">Запоминать камеру</label>
+        <input class="form-check-input border-0 shadow" type="checkbox" role="switch"
+            id="barcode_scanner_remember_devices" style="transform: scale(1.4);">
+        <label class="form-check-label ms-2" for="barcode_scanner_remember_devices">Запоминать источник</label>
     </div>
     <div class="form-check form-switch m-3">
-        <input class="form-check-input" type="checkbox" role="switch" id="checkbox1" style="transform: scale(1.4);"
-            disabled>
+        <input class="form-check-input border-0 shadow" type="checkbox" role="switch" id="checkbox1"
+            style="transform: scale(1.4);" disabled>
         <label class="form-check-label ms-2" for="checkbox1">Checkbox 1</label>
     </div>
     <div class="form-check form-switch m-3">
-        <input class="form-check-input" type="checkbox" role="switch" id="checkbox2" style="transform: scale(1.4);">
+        <input class="form-check-input border-0 shadow" type="checkbox" role="switch" id="checkbox2"
+            style="transform: scale(1.4);">
         <label class="form-check-label ms-2" for="checkbox2">Checkbox 2</label>
     </div>
     <div class="form-check form-switch m-3">
-        <input class="form-check-input" type="checkbox" role="switch" id="checkbox3" style="transform: scale(1.4);">
+        <input class="form-check-input border-0 shadow" type="checkbox" role="switch" id="checkbox3"
+            style="transform: scale(1.4);">
         <label class="form-check-label ms-2" for="checkbox3">Checkbox 3</label>
     </div>
 
-    <div class="container-fluid" id="">
+    <div class="container-fluid p-3" id="">
         <div class="dropdown">
-            <button class="btn btn-success dropdown-toggle w-100" type="button" id="dropdownMenuButton"
-                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Выбрать камеру
+            <button class="btn btn-success dropdown-toggle w-100 border-0 shadow rounded-3" type="button"
+                id="dropdownMenuButton" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-haspopup="true"
+                aria-expanded="false">
+                Выбрать источник для распознавания
             </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="camera-list">
-                <!-- <li>
-                    <h6 class="dropdown -header">Список найденых камер:</h6>
-                </li> -->
+            <ul class="dropdown-menu mt-3 w-100 border-0 shadow-lg rounded-4 p-1" aria-labelledby="dropdownMenuButton"
+                id="camera-list">
+                <li class="ps-3 pt-1">
+                    <figure>
+                        <blockquote class="blockquote mb-0">
+                            <span>Список доступных источников:</span>
+                        </blockquote>
+                        <span class="text-muted">* Не все камеры могут быть доступны</span>
+                    </figure>
+                </li>
                 <li>
                     <hr class="dropdown-divider">
                 </li>
-                <li class="form-check m-3"><input class="form-check-input rounded-5" type="checkbox"
-                        id="fake-id-camera1" style="transform: scale(1.5);">
+                <li class="form-check m-3">
+                    <input class="form-check-input rounded-5" type="radio" name="flexRadioDefault" id="localImageSource"
+                        style="transform: scale(1.5);">
+                    <label class="form-check-label ms-2" for="localImageSource">Выбрать на устройстве</label>
+                </li>
+                <li class="form-check m-3">
+                    <input class="form-check-input rounded-5" type="radio" name="flexRadioDefault" id="fake-id-camera1"
+                        style="transform: scale(1.5);">
                     <label class="form-check-label ms-2" for="fake-id-camera1">Fake camera 1 (344f:5h39)</label>
                 </li>
-                <li class="form-check m-3"><input class="form-check-input rounded-5" type="checkbox"
-                        id="fake-id-camera2" style="transform: scale(1.5);">
+                <li class="form-check m-3">
+                    <input class="form-check-input rounded-5" type="radio" name="flexRadioDefault" id="fake-id-camera2"
+                        style="transform: scale(1.5);">
                     <label class="form-check-label ms-2" for="fake-id-camera2">Fake camera 2 (ba34:ff32)</label>
                 </li>
             </ul>
@@ -846,14 +862,7 @@
                 // ],
             };
 
-
-
-
-            // // Строим список устройств
-            // li.innerHTML = '<a href="#" data-id="' + device.id + '" data-label="' + device.label + '">' + device.label + '</a>';
-
-
-            // Сохраняем массив в localStorage при первой загрузке страницы
+            // Сохраняем массив видеокамер в localStorage при первой загрузке страницы:
             if (!localStorage.getItem('barcode_scanner_all_devices_list')) { localStorage.setItem('barcode_scanner_all_devices_list', JSON.stringify(devices)); }
 
             // Получаем сохраненный массив из localStorage
@@ -861,6 +870,9 @@
 
             // Получаем ссылку на элемент ul, в котором будут располагаться элементы списка
             const cameraList = document.querySelector('#camera-list');
+
+            // Временные флаги для выбора что формировать, чекбокс или радио:
+            const flagCheckboxVsRadio = 'radio';
 
             // Проходимся по массиву устройств и создаем для каждого чекбокс
             devicesFromStorage.forEach((device, index) => {
@@ -871,7 +883,13 @@
                 // Создаем чекбокс и задаем его атрибуты
                 const input = document.createElement("input");
                 input.classList.add("form-check-input", "rounded-5");
-                input.type = "checkbox";
+                if (flagCheckboxVsRadio === 'checkbox') {
+                    input.type = "checkbox";
+                }
+                else if (flagCheckboxVsRadio === 'radio') {
+                    input.type = "radio";
+                    input.name = "flexRadioDefault";
+                }
                 input.id = device.id;
                 input.style.transform = "scale(1.5)";
 
@@ -889,25 +907,7 @@
                 cameraList.appendChild(li);
             });
 
-
-
-            // Определяем переменную, в которую будем записывать выбранный элемент:
-            var barcode_scanner_camera_id = null;
-            var barcode_scanner_camera_lable = null;
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // Отслеживание, сохранение и загрузка состояний всех checkbox элементов на странице:
+            // Отслеживаем состояние чекбоксов:
             function trackCheckboxes() {
                 const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
@@ -927,91 +927,95 @@
                     }
                 }
 
-                checkboxes.forEach((checkbox) => { checkbox.addEventListener('change', saveCheckboxState); });
+                checkboxes.forEach((checkbox) => {
+                    checkbox.addEventListener('change', (event) => {
+                        saveCheckboxState();
+                        // barcode_scanner_camera_id = event.target.id;
+                    });
+                });
+
+                loadCheckboxState();
+            }
+
+            // Функция для выбора источника для распознавания:
+            var storageCameraID = null;
+
+            const rememberLastCamera = JSON.parse(localStorage.getItem('checkboxStates'))['barcode_scanner_remember_devices'];
+            const radioButtons = document.querySelectorAll('input[type="radio"][name="flexRadioDefault"]');
+            console.log('last---', rememberLastCamera);
+            console.log('radio---', radioButtons);
+            if (rememberLastCamera === true) {
+                console.log('a???---');
+
+                const camID = JSON.parse(localStorage.getItem('barcode_scanner_camera_id'));
+                // Если источник был сохранен, восстанавливаем его значение:
+                if (camID) {
+                    storageCameraID = camID;
+                }
+                // Иначе устанавливаем источник по умолчанию (локальное изоражение).
+                else {
+                    storageCameraID = 'localImageSource';
+                    // устанавливаем выбранную радиокнопку
+                    radioButtons[0].checked = true;
+                }
+            }
+            else {
+                localStorage.removeItem('barcode_scanner_camera_id'); // Удаляем предыдущий источник.
+                // снимаем выбор со всех радиокнопок
+                radioButtons.forEach((radioButton) => {
+                    radioButton.checked = false;
+                });
+            }
+
+
+
+
+
+
+
+
+
+            // Определяем переменную, в которую будем записывать выбранный элемент:
+            var barcode_scanner_camera_id = null;
+
+            // Отслеживаем состояние радиокнопок:
+            function track_check_radio() {
+                const radio = document.querySelectorAll('input[type="radio"]');
+
+                function saveCheckboxState() {
+                    const checkboxStates = {};
+                    radio.forEach((radio) => { checkboxStates[radio.id] = radio.checked; });
+                    localStorage.setItem('radioStates', JSON.stringify(checkboxStates));
+                }
+
+                function loadCheckboxState() {
+                    const savedCheckboxStates = JSON.parse(localStorage.getItem('radioStates'));
+                    if (savedCheckboxStates) {
+                        Object.entries(savedCheckboxStates).forEach(([id, checked]) => {
+                            const radio = document.getElementById(id);
+                            if (radio) { radio.checked = checked; }
+                        });
+                    }
+                }
+
+                radio.forEach((radio) => {
+                    radio.addEventListener('change', (event) => {
+                        saveCheckboxState();
+                        barcode_scanner_camera_id = event.target.id;
+                        localStorage.setItem('barcode_scanner_camera_id', JSON.stringify(barcode_scanner_camera_id));
+                    });
+                });
 
                 loadCheckboxState();
             }
 
             // После загрузки всех элементов списка обновляем состояние чекбосов:
             trackCheckboxes();
-
-            // Устанавливаем всем чекбоксам списка камер значение false кроме того, что был нажат:
-            function clearCameraCheckboxes(clickedCheckbox) {
-                const cameraCheckboxes = cameraList.querySelectorAll('input[type="checkbox"]');
-                cameraCheckboxes.forEach((checkbox) => {
-                    if (checkbox !== clickedCheckbox) {
-                        checkbox.checked = false;
-                    } else {
-                        checkbox.checked = true;
-                    }
-                });
-                const selectedCameraId = clickedCheckbox.id;
-                // do something with the selectedCameraId
-
-                console.log(selectedCameraId);
-            }
-
-            // console.log('boxID ', checkbox.id, '!==', 'clickID ', clickedCheckbox);
-            // console.log('boxIDch ', checkbox.id.checked, '!==', 'clickIDch ', clickedCheckbox.checked);
-
-            // Отслеживаем нажатие на чекбоксы списка камер, 
-            cameraList.addEventListener('change', (event) => {
-                const clickedCheckbox = event.target;
-                // console.log(clickedCheckbox);
-                clearCameraCheckboxes(clickedCheckbox);
-                trackCheckboxes();
-            });
-
-
-
-            // типа поиск проверка на чек тру 
-            // function handleCameraClick(id) {
-            //     const cameraList = document.querySelector('#camera-list');
-            //     const selectedCheckbox = cameraList.querySelector('[type="checkbox"]:checked');
-            //     const selectedId = selectedCheckbox ? selectedCheckbox.id : null;
-
-            //     const checkboxes = cameraList.querySelectorAll('input[type="checkbox"]');
-            //     checkboxes.forEach((checkbox) => {
-            //         checkbox.checked = checkbox.id === id;
-            //     });
-
-            //     trackCheckboxes();
-
-            //     return selectedId;
-            // }
+            track_check_radio();
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // // Обработчик клика на элемент списка устройств:
-            // devicesFromStorage.addEventListener('click', function (e) {
-            //     barcode_scanner_camera_id = e.target.getAttribute('data-id');
-            //     barcode_scanner_camera_lable = e.target.getAttribute('data-label');
-
-            //     // Сохраняем элемент если установлен чекбокс:
-            //     if (barcode_scanner_remember_devices) {
-            //         barcode_scanner_remember_devices_save_to_local_storage(barcode_scanner_camera_id);
-            //     }
-            //     // else { localStorage.removeItem('barcode_scanner_selected_device_id'); } // Иначе удаляем элемент.
-            // });
 
 
 
@@ -1116,8 +1120,11 @@
             });
 
             function updateButtonState(state) {
+                console.log('state---', state);
+                console.log('camID---', storageCameraID);
                 if (state) {
                     // barcode_scanner_start(barcode_scanner_camera_id); /////// !!!!!!!!!!!! barcode_scanner_camera_id почему то не записывается!!!!!!!!!!
+                    // html5QrCode.start({ deviceId: { exact: storageCameraID } }, config, qrCodeSuccessCallback);
                     barcode_scanner_start_button.classList.add('active');
                     barcode_scanner_start_button_icon.classList.replace('fa-regular', 'fa-duotone');
                     barcode_scanner_start_button_icon.classList.replace('fa-qrcode', 'fa-pause');
