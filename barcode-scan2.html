@@ -438,7 +438,7 @@
         <label class="form-check-label ms-2" for="checkbox3">Checkbox 3</label>
     </div>
 
-    <div class="container-fluid p-3" id="">
+    <div class="container-fluid p-2" id="">
         <div class="dropdown">
             <button class="btn btn-success dropdown-toggle w-100 border-0 shadow rounded-3" type="button"
                 id="dropdownMenuButton" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-haspopup="true"
@@ -937,44 +937,6 @@
                 loadCheckboxState();
             }
 
-            // Функция для выбора источника для распознавания:
-            var storageCameraID = null;
-
-            const rememberLastCamera = JSON.parse(localStorage.getItem('checkboxStates'))['barcode_scanner_remember_devices'];
-            const radioButtons = document.querySelectorAll('input[type="radio"][name="flexRadioDefault"]');
-            console.log('last---', rememberLastCamera);
-            console.log('radio---', radioButtons);
-            if (rememberLastCamera === true) {
-                console.log('a???---');
-
-                const camID = JSON.parse(localStorage.getItem('barcode_scanner_camera_id'));
-                // Если источник был сохранен, восстанавливаем его значение:
-                if (camID) {
-                    storageCameraID = camID;
-                }
-                // Иначе устанавливаем источник по умолчанию (локальное изоражение).
-                else {
-                    storageCameraID = 'localImageSource';
-                    // устанавливаем выбранную радиокнопку
-                    radioButtons[0].checked = true;
-                }
-            }
-            else {
-                localStorage.removeItem('barcode_scanner_camera_id'); // Удаляем предыдущий источник.
-                // снимаем выбор со всех радиокнопок
-                radioButtons.forEach((radioButton) => {
-                    radioButton.checked = false;
-                });
-            }
-
-
-
-
-
-
-
-
-
             // Определяем переменную, в которую будем записывать выбранный элемент:
             var barcode_scanner_camera_id = null;
 
@@ -1001,7 +963,7 @@
                 radio.forEach((radio) => {
                     radio.addEventListener('change', (event) => {
                         saveCheckboxState();
-                        barcode_scanner_camera_id = event.target.id;
+                        barcode_scanner_camera_id = event.target.id; // Сохраняем ID камеры в переменную и хранилище.
                         localStorage.setItem('barcode_scanner_camera_id', JSON.stringify(barcode_scanner_camera_id));
                     });
                 });
@@ -1016,65 +978,30 @@
 
 
 
+            // Функция для выбора источника для распознавания:
+            var storageCameraID = null;
 
+            function updateCameraSource() {
+                const rememberLastCamera = JSON.parse(localStorage.getItem('checkboxStates'))['barcode_scanner_remember_devices'];
+                const radioButtons = document.querySelectorAll('input[type="radio"][name="flexRadioDefault"]');
 
+                if (rememberLastCamera === true) {
+                    const camID = JSON.parse(localStorage.getItem('barcode_scanner_camera_id'));
 
-
-
-
-
-
-
-
-            // Получаем чекбокс:
-            const barcode_scanner_remember_devices_checkbox = document.querySelector('#barcode_scanner_remember_devices');
-
-
-
-            // Загружаем состояние чекбокса из localStorage при загрузке страницы
-            // const barcode_scanner_remember_devices = JSON.parse(localStorage.getItem('barcode_scanner_remember_devices'));
-            // const barcode_scanner_remember_devices = localStorage.getItem('barcode_scanner_remember_devices');
-            // if (barcode_scanner_remember_devices) { console.log('barcode_scanner_remember_devices:: ', barcode_scanner_remember_devices); }
-            // else { console.log('barcode_scanner_remember_devices:: null'); }
-
-            // Перезаписываем состояние чекбокса в атрибут элемента:
-            // if (barcode_scanner_remember_devices !== null) { barcode_scanner_remember_devices_checkbox.checked = barcode_scanner_remember_devices; }
-
-
-
-
-
-            // Сохраняем выбранное значение "barcode_scanner_camera_id" в localStorage, если чекбокс включен
-            // function barcode_scanner_remember_devices_save_to_local_storage(id) {
-            //     // ну тут понятно почему камера не сохраняется, она сохр. в локалсторадж, но нигде не вызыывается:::
-            //     localStorage.setItem('barcode_scanner_selected_device_id', JSON.stringify(id));
-            // }
-
-            // тут была попытки вернуть состояние ID камеры? ваще работает, но в функцию старт-камера надо как то передать красиво:
-            // function barcode_scanner_remember_devices_get_to_local_storage() {
-            //     // var zalupki = JSON.parse(localStorage.getItem('barcode_scanner_selected_device_id'));
-            //     var zalupki = localStorage.getItem('barcode_scanner_selected_device_id');
-            //     console.log('последняя камера из хранилища :: ', zalupki);
-            //     return zalupki;
-            // }
-            // barcode_scanner_remember_devices_get_to_local_storage();
-            // Но я еще не очищал хранилище, так что может все норм или все очень плохо...........!
-
-
-
-
-
-
-
-            // При изменении состояния чекбокса - сохраняем состояние в localStorage:
-            // barcode_scanner_remember_devices_checkbox.addEventListener('change', (event) => {
-            //     // JSON.stringify(localStorage.setItem('barcode_scanner_remember_devices', event.target.checked)); // Самого чекбокса.
-            //     localStorage.setItem('barcode_scanner_remember_devices', event.target.checked);
-            //     barcode_scanner_remember_devices_save_to_local_storage(barcode_scanner_camera_id); // ID камеры.
-            // });
-
-
-
+                    // Если источник был сохранен, восстанавливаем его значение:
+                    if (camID) { storageCameraID = camID; }
+                    else {
+                        // console.log('Старого источника не обнаружено! Устанавливаем значение по умолчанию:');
+                        storageCameraID = 'localImageSource';
+                        radioButtons[0].checked = true; // Устанавливаем радиокнопку выбора локального изображения.
+                    }
+                }
+                else {
+                    localStorage.removeItem('barcode_scanner_camera_id'); // Удаляем предыдущий источник.
+                    // снимаем выбор со всех радиокнопок
+                    radioButtons.forEach((radioButton) => { radioButton.checked = false; });
+                }
+            }
 
             // :
             // Ручной выбор источника видеозахвата:
@@ -1120,25 +1047,53 @@
             });
 
             function updateButtonState(state) {
+                updateCameraSource();
+
+                // получаем текущее состояние сканера
+                const scannerState = html5QrCode.getState();
+
+                // проверяем состояние сканера
+                if (scannerState === Html5QrcodeScannerState.NOT_STARTED) {
+                    console.log("Сканирование не запущено");
+                    console.log("Сканирование не запущено", scannerState);
+                } else if (scannerState === Html5QrcodeScannerState.SCANNING) {
+                    console.log("Сканирование выполняется");
+                    console.log("Сканирование выполняется", scannerState);
+                } else if (scannerState === Html5QrcodeScannerState.PAUSED) {
+                    console.log("Сканирование приостановлено");
+                    console.log("Сканирование приостановлено", scannerState);
+                }
+
                 console.log('state---', state);
-                console.log('camID---', storageCameraID);
+                // Управляем состониянием сканирования (старт, стоп, пауза):
+                if (!state) { barcode_scanner_stop(); }
+                else {
+                    if (scannerState) { barcode_scanner_start(storageCameraID); }
+                }
+
+                // проверяем состояние сканера
+                if (scannerState === Html5QrcodeScannerState.NOT_STARTED) {
+                    console.log("Сканирование не запущено2");
+                    console.log("Сканирование не запущено2", scannerState);
+                } else if (scannerState === Html5QrcodeScannerState.SCANNING) {
+                    console.log("Сканирование выполняется2");
+                    console.log("Сканирование выполняется2", scannerState);
+                } else if (scannerState === Html5QrcodeScannerState.PAUSED) {
+                    console.log("Сканирование приостановлено2");
+                    console.log("Сканирование приостановлено2", scannerState);
+                }
+
+                // Меняем визуальную часть кнопки управления сканированием:
                 if (state) {
-                    // barcode_scanner_start(barcode_scanner_camera_id); /////// !!!!!!!!!!!! barcode_scanner_camera_id почему то не записывается!!!!!!!!!!
-                    // html5QrCode.start({ deviceId: { exact: storageCameraID } }, config, qrCodeSuccessCallback);
                     barcode_scanner_start_button.classList.add('active');
                     barcode_scanner_start_button_icon.classList.replace('fa-regular', 'fa-duotone');
                     barcode_scanner_start_button_icon.classList.replace('fa-qrcode', 'fa-pause');
                 } else {
-                    // barcode_scanner_stop();
                     barcode_scanner_start_button.classList.remove('active');
                     barcode_scanner_start_button_icon.classList.replace('fa-duotone', 'fa-regular');
                     barcode_scanner_start_button_icon.classList.replace('fa-pause', 'fa-qrcode');
                 }
-                // console.log(barcode_scanner_start_button_state);
             }
-
-            // Пока работает только ручной выбор камеры, после нажатие на кнопку с иконкой сканера. КНопки стоп - ломает всё!
-            // если решится вопрос с передайчей ID камеры, то скорее всего можно будет активировать barcode_scanner_stop();
 
 
 
