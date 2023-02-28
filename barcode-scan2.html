@@ -834,25 +834,6 @@
 
     });
 
-
-
-
-
-    // :
-    function interfaceRender(state) {
-        document.querySelectorAll('#scan-info').forEach((slider) => {
-            if (state) {
-                slider.classList.remove('d-none');
-                slider.classList.add('d-block');
-            } else {
-                slider.classList.remove('d-block');
-                slider.classList.add('d-none');
-            }
-        });
-    }
-
-
-
     // Этот метод активирует разрешения пользователя:
     Html5Qrcode.getCameras().then(devices => {
         // Устройства (камеры) будут массивом объектов типа: { id: "id", label: "label" }.
@@ -881,7 +862,7 @@
                 experimentalFeatures: {
                     useBarCodeDetectorIfSupported: true
                 },
-                rememberLastUsedCamera: true,
+                // rememberLastUsedCamera: true,
                 focusMode: "continuous",
                 fps: saveFps,
                 qrbox: {
@@ -946,6 +927,19 @@
                 // Добавляем элемент li в список
                 cameraList.appendChild(li);
             });
+
+            // :
+            function interfaceRender(state) {
+                document.querySelectorAll('#scan-info').forEach((slider) => {
+                    if (state) {
+                        slider.classList.remove('d-none');
+                        slider.classList.add('d-block');
+                    } else {
+                        slider.classList.remove('d-block');
+                        slider.classList.add('d-none');
+                    }
+                });
+            }
 
             // Отслеживаем состояние чекбоксов:
             function trackCheckboxes() {
@@ -1109,18 +1103,6 @@
                 if (!state) { barcode_scanner_stop(); }
                 else {
                     if (scannerState) { barcode_scanner_start(storageCameraID); }
-                }
-
-                // проверяем состояние сканера
-                if (scannerState === Html5QrcodeScannerState.NOT_STARTED) {
-                    console.log("Сканирование не запущено2");
-                    console.log("Сканирование не запущено2", scannerState);
-                } else if (scannerState === Html5QrcodeScannerState.SCANNING) {
-                    console.log("Сканирование выполняется2");
-                    console.log("Сканирование выполняется2", scannerState);
-                } else if (scannerState === Html5QrcodeScannerState.PAUSED) {
-                    console.log("Сканирование приостановлено2");
-                    console.log("Сканирование приостановлено2", scannerState);
                 }
 
                 // Меняем визуальную часть кнопки управления сканированием:
