@@ -417,26 +417,66 @@
         </label>
     </div>
 
-    <div class="form-check form-switch m-3">
-        <input class="form-check-input border-0 shadow" type="checkbox" role="switch"
-            id="barcode_scanner_remember_devices" style="transform: scale(1.4);">
-        <label class="form-check-label ms-2" for="barcode_scanner_remember_devices">Запоминать источник</label>
-    </div>
-    <div class="form-check form-switch m-3">
-        <input class="form-check-input border-0 shadow" type="checkbox" role="switch" id="checkbox1"
-            style="transform: scale(1.4);" disabled>
-        <label class="form-check-label ms-2" for="checkbox1">Checkbox 1</label>
-    </div>
-    <div class="form-check form-switch m-3">
-        <input class="form-check-input border-0 shadow" type="checkbox" role="switch" id="checkbox2"
-            style="transform: scale(1.4);">
-        <label class="form-check-label ms-2" for="checkbox2">Checkbox 2</label>
-    </div>
-    <div class="form-check form-switch m-3">
-        <input class="form-check-input border-0 shadow" type="checkbox" role="switch" id="checkbox3"
-            style="transform: scale(1.4);">
-        <label class="form-check-label ms-2" for="checkbox3">Checkbox 3</label>
-    </div>
+
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item bg-transparent mb-0 pb-0 border-0">
+            <h5>Сканирование:</h5>
+        </li>
+        <li class="list-group-item bg-transparent">
+            <div class="form-check form-switch my-2">
+                <input class="form-check-input border-0 shadow" type="checkbox" role="switch"
+                    id="barcode_scanner_remember_devices" style="transform: scale(1.4);">
+                <label class="form-check-label ms-2" for="barcode_scanner_remember_devices">Запоминать источник
+                    изображения</label>
+            </div>
+        </li>
+        <li class="list-group-item bg-transparent">
+            <div class="form-check form-switch my-2">
+                <input class="form-check-input border-0 shadow" type="checkbox" role="switch" id="checkbox2"
+                    style="transform: scale(1.4);" disabled>
+                <label class="form-check-label ms-2" for="checkbox2">Автоматическая фокусировка</label>
+            </div>
+        </li>
+        <li class="list-group-item bg-transparent">
+            <div class="form-check my-2 ps-0">
+                <label for="rangeValueFps" class="form-label">
+                    Количество кадров в секунду -
+                    <span id="rangeTextFps">5</span> fps
+                </label>
+                <input type="range" class="form-range my-2" min="0" max="10" step="1" id="rangeValueFps">
+            </div>
+            <script>
+                const value = document.querySelector("#rangeTextFps")
+                const input = document.querySelector("#rangeValueFps")
+                const saveFps = JSON.parse(localStorage.getItem('rangeValueFps'));
+                if (saveFps) {
+                    input.value = value.textContent = saveFps;
+                }
+                input.addEventListener("input", (event) => {
+                    value.textContent = event.target.value
+                    localStorage.setItem('rangeValueFps', JSON.stringify(value.textContent));
+                })
+            </script>
+        </li>
+        <li class="list-group-item bg-transparent">
+            <div class="form-check form-switch my-2">
+                <input class="form-check-input border-0 shadow" type="checkbox" role="switch" id="checkbox3"
+                    style="transform: scale(1.4);" disabled>
+                <label class="form-check-label ms-2" for="checkbox3">Checkbox 3</label>
+            </div>
+        </li>
+        <li class="list-group-item bg-transparent mt-3 mb-0 pb-0 border-0">
+            <h5>Экспериментальные функции:</h5>
+        </li>
+        <li class="list-group-item bg-transparent">
+            <div class="form-check form-switch my-2">
+                <input class="form-check-input border-0 shadow" type="checkbox" role="switch"
+                    id="useBarCodeDetectorIfSupported" style="transform: scale(1.4);" disabled>
+                <label class="form-check-label ms-2" for="useBarCodeDetectorIfSupported">API BarcodeDetector</label>
+            </div>
+        </li>
+    </ul>
+
 
     <div class="container-fluid p-2" id="">
         <div class="dropdown">
@@ -843,7 +883,7 @@
                 },
                 rememberLastUsedCamera: true,
                 focusMode: "continuous",
-                fps: 10,
+                fps: saveFps,
                 qrbox: {
                     width: 250,
                     height: 250
