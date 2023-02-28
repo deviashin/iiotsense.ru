@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <h1>Input Storage</h1>
+    <p>
+        <label>Text input:</label>
+        <input input-data-no-save="false" type="text" id="text-input1" />
+        <input input-data-no-save="false" type="text" id="text-input2" />
+        <input input-data-no-save="false" type="text" id="text-input3" value="!This value will not be saved">
+    </p>
+    <p>
+        <label>Checkbox:</label>
+        <input type="checkbox" id="checkbox-input1" />
+        <input type="checkbox" id="checkbox-input2" />
+        <input type="checkbox" id="checkbox-input3" />
+        <input type="checkbox" id="checkbox-input4" />
+        <input type="checkbox" id="checkbox-input5" />
+    </p>
+    <p>
+        <label>Radio 1:</label>
+        <input type="radio" name="radioinput" id="radio-input-1" value="" />
+        <label>Radio 2:</label>
+        <input type="radio" name="radioinput" id="radio-input-2" value="" />
+        <label>Radio 3:</label>
+        <input type="radio" name="radioinput" id="radio-input-3" value="" />
+        <label>Radio 4:</label>
+        <input type="radio" name="radioinput" id="radio-input-4" value="" />
+    </p>
+    <p>
+        <label>Range:</label>
+        <input type="range" id="range-input1" />
+        <input type="range" id="range-input2" />
+    </p>
+    <p>
+        <label>Button:</label>
+        <button id="button-input">Click me</button>
+    </p>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+    <script>
+
+
+
+        // localStorage.clear();
+        for (var key in localStorage) {
+            if (localStorage.hasOwnProperty(key)) {
+                console.log(key + ': ' + localStorage.getItem(key) + '\n');
+
+            }
+        }
+
+
+        function trackInputs() {
+            const inputs = document.querySelectorAll('input');
+
+            // :
+            function saveInputValue() {
+                const inputValues = {};
+                inputs.forEach((input) => {
+                    if (!input.hasAttribute('data-no-save')) {
+                        const type = input.type;
+                        let value = input.value;
+
+                        if (type === 'checkbox' || type === 'radio') {
+                            value = input.checked;
+                        }
+
+                        inputValues[`${type}-${input.id}`] = value;
+                    }
+                });
+                localStorage.setItem('inputValues', JSON.stringify(inputValues));
+            }
+
+            // :
+            function restoreInputValue() {
+                const savedInputValues = JSON.parse(localStorage.getItem('inputValues'));
+                if (savedInputValues) {
+                    inputs.forEach((input) => {
+                        const type = input.type;
+                        const savedValue = savedInputValues[`${type}-${input.id}`];
+                        if (savedValue !== undefined) {
+                            if (type === 'checkbox' || type === 'radio') {
+                                input.checked = savedValue;
+                            } else {
+                                input.value = savedValue;
+                            }
+                        }
+                        if (input.getAttribute('data-no-save') === 'true' && savedValue !== undefined) {
+                            delete savedInputValues[`${type}-${input.id}`];
+                        }
+                    });
+                    localStorage.setItem('inputValues', JSON.stringify(savedInputValues));
+                }
+            }
+
+            // :
+            inputs.forEach((input) => {
+                input.addEventListener('input', () => {
+                    saveInputValue();
+                });
+            });
+
+            // :
+            restoreInputValue();
+        }
+
+        trackInputs(); // .
+
+
+
+
+
+
+        /*
+        Некоторые улучшения, которые можно добавить в эту функцию:
+
+Обработка всех типов элементов input (text, number, range и т.д.), а не только checkbox и radio.
+Добавление возможности указывать, какие элементы input нужно отслеживать (например, по классу или атрибуту).
+Обработка изменений значений элементов input, которые произошли не только через пользовательский ввод, но и программно.
+Вот как могла бы выглядеть улучшенная функция:
+*/
+        function trackInputElements(options = {}) {
+            const inputs = document.querySelectorAll(options.selector || 'input');
+            const elementsToTrack = options.elementsToTrack || ['checkbox', 'radio', 'text', 'number', 'range'];
+
+            function saveInputValue() {
+                const inputValues = {};
+                inputs.forEach((input) => {
+                    if (elementsToTrack.includes(input.type)) {
+                        let value = input.value;
+                        if (input.type === 'checkbox' || input.type === 'radio') {
+                            value = input.checked;
+                        }
+                        inputValues[input.id] = value;
+                    }
+                });
+                localStorage.setItem('inputValues', JSON.stringify(inputValues));
+            }
+
+            function loadInputValue() {
+                const savedInputValues = JSON.parse(localStorage.getItem('inputValues'));
+                if (savedInputValues) {
+                    Object.entries(savedInputValues).forEach(([id, value]) => {
+                        const input = document.getElementById(id);
+                        if (input) {
+                            if (input.type === 'checkbox' || input.type === 'radio') {
+                                input.checked = value;
+                            } else {
+                                input.value = value;
+                            }
+                        }
+                    });
+                }
+            }
+
+            inputs.forEach((input) => {
+                if (elementsToTrack.includes(input.type)) {
+                    input.addEventListener('input', saveInputValue);
+                }
+            });
+
+            loadInputValue();
+        }
+
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        function trackInputs() {
+            // Получаем все элементы input на странице
+            const inputs = document.querySelectorAll('input');
+
+            // Функция для сохранения состояния всех input элементов
+            function saveInputValue() {
+                const inputValues = {};
+                // Проходимся циклом по каждому элементу input
+                inputs.forEach((input) => {
+                    // Получаем тип элемента input
+                    const type = input.type;
+                    // Получаем id элемента input
+                    const id = input.id;
+                    // Получаем значение элемента input в зависимости от его типа
+                    let value;
+                    if (type === 'checkbox' || type === 'radio') {
+                        value = input.checked;
+                    } else {
+                        value = input.value;
+                    }
+                    // Проверяем, есть ли у элемента атрибут "data-no-save"
+                    const noSave = input.getAttribute('data-no-save');
+                    // Если атрибута нет или он равен "false", сохраняем значение элемента в объект inputValues
+                    if (!noSave || noSave === 'false') {
+                        inputValues[id] = value;
+                    } else {
+                        // Иначе, если атрибут равен "true", удаляем значение элемента из localStorage
+                        localStorage.removeItem(id);
+                    }
+                });
+                // Сохраняем объект inputValues в localStorage
+                localStorage.setItem('inputValues', JSON.stringify(inputValues));
+            }
+
+            // Функция для восстановления состояния всех input элементов
+            function restoreInputValue() {
+                // Получаем сохраненные значения из localStorage
+                const savedInputValues = JSON.parse(localStorage.getItem('inputValues'));
+                if (savedInputValues) {
+                    // Проходимся циклом по каждому сохраненному значению
+                    Object.entries(savedInputValues).forEach(([id, value]) => {
+                        // Получаем элемент input по его id
+                        const input = document.getElementById(id);
+                        if (input) {
+                            // Устанавливаем значение элемента в зависимости от его типа
+                            const type = input.type;
+                            if (type === 'checkbox' || type === 'radio') {
+                                input.checked = value;
+                            } else {
+                                input.value = value;
+                            }
+                        }
+                    });
+                }
+                // Проверяем все элементы input на наличие атрибута "data-no-save"
+                inputs.forEach((input) => {
+                    const id = input.id;
+                    const noSave = input.getAttribute('data-no-save');
+                    if (noSave === 'true') {
+                        // Если атрибут равен "true", удаляем значение элемента из localStorage
+                        localStorage.removeItem(id);
+                    }
+                });
+            }
+
+            // Добавляем обработчик события на все элементы input на странице
+            inputs.forEach((input) => {
+                input.addEventListener('input', (event) => {
+                    // Вызываем функцию сохранения состояния элемента input при изменении его значения
+                    saveInputValue();
+                });
+            });
+
+            // Вызываем функцию восстановления состояния элементов input при загрузке страницы
+            restoreInputValue();
+        }
+
+        // inputElement.addEventListener('change', () => {
+        //     saveInputValue(inputElement);
+        // });
+
+
+
+        // // Отслеживаем нажатие на любую из кнопок на странице:
+        // // Принимает функцию обратного вызова в качестве параметра.
+        // function watchButtonClick(callback) {
+        //     const buttons = document.querySelectorAll('button'); // Получаем все кнопки на странице.
+
+        //     // Перебираем все кнопки и добавляем обработчик события на клик
+        //     buttons.forEach(button => {
+        //         button.addEventListener('click', () => {
+        //             callback(button.id); // Вызываем callback функцию и передаем ей id кнопки
+        //         });
+        //     });
+
+        //     // Например:
+        //     // watchButtonClick((id) => {
+        //     //     console.log('Кнопка с id ' + id + ' была нажата.');
+        //     // });
+        // }
+
+        // // Удалить значение из localStorage с помощью кнопки:
+        // function removeInputValue(element) {
+        //     const type = element.type;
+        //     const key = element.id;
+
+        //     localStorage.removeItem(type + '_' + key);
+        // }
+
+        // // Сохранить значение value элемента input в localStorage:
+        // function saveInputValue(element) {
+        //     const type = element.type;
+        //     const key = element.id;
+        //     // const name = element.name;
+        //     let value = '';
+
+        //     // У всех элементов, кроме checkbox и radio, мы сохраняем значение value как есть:
+        //     if (type === 'checkbox') {
+        //         value = element.checked;
+        //     }
+        //     else if (type === 'radio') {
+
+        //     }
+        //     else {
+        //         value = element.value;
+        //     }
+
+        //     // Удаляем input элемент из localStorage, если установлен атрибут input-data-no-save="true":
+        //     if (element.getAttribute('input-data-no-save') === 'true') {
+        //         localStorage.removeItem(type + '_' + key);
+        //     }
+        //     else {
+        //         localStorage.setItem(type + '_' + key, value); // Иначе сохраняем новое значение.
+        //     }
+        // }
+
+        // // Восстанавливаем значения input элементов из localStorage при загрузке страницы:
+        // function restoreInputValue(element) {
+        //     let type = element.type;
+        //     let key = element.id;
+
+        //     // Перед подстановкой сохраненного ранее значения в элемент, проверяем наличие разрешения на запись значения:
+        //     // Удаляем input элемент из localStorage, если с момента последнего сохранения был добавлен атрибут input-data-no-save="true":
+        //     if (element.getAttribute('input-data-no-save') === 'true') {
+        //         localStorage.removeItem(type + '_' + key);
+        //     }
+
+        //     // Если значение найдено, восстанавливаем:
+        //     if (localStorage.getItem(type + '_' + key)) {
+        //         let value = localStorage.getItem(type + '_' + key);
+
+        //         if (type === 'checkbox' || type === 'radio') {
+        //             element.checked = (value === 'true');
+        //         } else {
+        //             element.value = value;
+        //         }
+        //     }
+        // }
+
+
+        // // function to track the change of an input element and save its value in localStorage
+        // function trackInputChange(event) {
+        //     saveInputValue(event.target);
+        //     pageRender();
+        // }
+
+        // // function to hide the page content
+        // function hidePageContent() {
+        //     document.body.style.opacity = 0;
+        // }
+
+        // // function to show the page content
+        // function showPageContent() {
+        //     document.body.style.opacity = 1;
+        // }
+
+        // // function to restore the values of all input elements from localStorage
+        // function restoreInputValuesFromLocalStorage(inputs) {
+        //     inputs.forEach(function (input) {
+        //         restoreInputValue(input);
+        //     });
+        // }
+
+        // // track the state/value change of all input elements on the page
+        // let inputs = document.querySelectorAll('input');
+        // inputs.forEach(function (input) {
+        //     input.addEventListener('change', trackInputChange);
+        // });
+
+        // // hide the page content
+        // hidePageContent();
+
+        // // restore the values of all input elements from localStorage
+        // restoreInputValuesFromLocalStorage(inputs);
+
+        // // show the page content
+        // showPageContent();
+
+        // // function to render the page
+        // function pageRender() {
+        //     // your code to display the updated values on the page
+        // }
+    </script>
+</body>
+
+</html>
