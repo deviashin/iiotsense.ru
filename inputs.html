@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <script>
+        // Функция для проверки, посещал ли пользователь ранее этот ресурс. 
+        function checkVisited() {
+            if (!localStorage.getItem('visited')) {
+                localStorage.setItem('visited', true); // Если нет, записываем это в localstorage.
+            }
+        }
+
+
+        /**
+         * В JS функции `save_input_to_local_storage` необходимо первым проверить атрибут `data-save` у текущего `input element`, если атрибут присутствует 
+         * или равен `true`, то продолжаем. Разбираем по условию с каким типом `input element` мы работаем: `checkbox, radio, text, range` и т.д. 
+         * На основе типа элемента правильно записываем его состояние (`value` или `checked`) и назначаем префикс в формате `bool_`, `num_`, `text_`, для 
+         * логического разделения и удобного хранения элементов в `localstorage`. Если же атрибут `data-save`  отсутствует или равно `false`, то работать с 
+         * этим `input element` в этой функции нам запрещено, но при этом обязательно нужно проверить, существует ли в `localstorage` запись текущего `input element` 
+         * сделанная ранее, и, если она существует - удалить. Будет замечательно, если ты сразу же расставишь комментарии в коде. 
+         * 
+         * Разберем его по шагам:
+         * Функция save_input_to_local_storage принимает аргумент input_element, который представляет собой элемент input, который мы хотим сохранить или удалить 
+         * из localstorage. Сначала мы получаем значение атрибута data-save у переданного элемента. Если значение отсутствует или равно false, то мы ничего не делаем и 
+         * проверяем, есть ли запись о данном элементе в localstorage. Если запись существует, мы удаляем ее из localstorage. Если же значение атрибута data-save равно 
+         * true или присутствует, то мы определяем тип элемента и присваиваем ему соответствующий префикс (bool_, num_, или text_). Затем мы создаем ключ для записи в 
+         * localstorage, используя id или name элемента. В зависимости от типа элемента, мы получаем его значение (value для text, number или range, checked для checkbox 
+         * или radio) и сохраняем его в localstorage, используя префикс и ключ. Готово! Теперь мы можем сохранять и удалять состояние элементов input в localstorage.
+        */
+        // 
+        function save_input_to_local_storage(input_element) {
+            // Проверяем наличие атрибута data-save и его значение
+            const data_save = input_element.getAttribute('data-save');
+            if (!data_save || data_save.toLowerCase() === 'false') {
+                // Если атрибут отсутствует или равен false, то ничего не делаем
+                // Проверяем, есть ли запись о данном элементе в localStorage и удаляем ее, если она есть
+                const storage_key = input_element.id || input_element.name;
+                if (localStorage.getItem(storage_key)) {
+                    localStorage.removeItem(storage_key);
+                }
+                return;
+            }
+
+            // Определяем тип элемента и присваиваем соответствующий префикс
+            let prefix = '';
+            switch (input_element.type) {
+                case 'checkbox':
+                case 'radio':
+                    prefix = 'bool_';
+                    break;
+                case 'number':
+                case 'range':
+                    prefix = 'num_';
+                    break;
+                default:
+                    prefix = 'text_';
+                    break;
+            }
+
+            // Сохраняем значение элемента в localStorage с использованием префикса
+            const storage_key = input_element.id || input_element.name;
+            const value = input_element.type === 'checkbox' ? input_element.checked : input_element.value;
+            localStorage.setItem(prefix + storage_key, value);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function save_input_to_local_storage(input_element) {
+            // Получаем родительскую форму элемента
+            const parent_form = input_element.form;
+            if (!parent_form) {
+                return;
+            }
+
+            // Создаем префикс для ключа на основе id или name формы
+            const form_id = parent_form.id || parent_form.name;
+            const prefix = `form_${form_id}_`;
+
+            // Проверяем наличие атрибута data-save и его значение
+            const data_save = input_element.getAttribute('data-save');
+            if (!data_save || data_save.toLowerCase() === 'false') {
+                // Если атрибут отсутствует или равен false, то ничего не делаем
+                // Проверяем, есть ли запись о данном элементе в localStorage и удаляем ее, если она есть
+                const storage_key = input_element.id || input_element.name;
+                if (localStorage.getItem(prefix + storage_key)) {
+                    localStorage.removeItem(prefix + storage_key);
+                }
+                return;
+            }
+
+            // Определяем тип элемента и присваиваем соответствующий префикс
+            let input_prefix = '';
+            switch (input_element.type) {
+                case 'checkbox':
+                case 'radio':
+                    input_prefix = 'bool_';
+                    break;
+                case 'number':
+                case 'range':
+                    input_prefix = 'num_';
+                    break;
+                default:
+                    input_prefix = 'text_';
+                    break;
+            }
+
+            // Сохраняем значение элемента в localStorage с использованием префикса
+            const storage_key = input_element.id || input_element.name;
+            const value = input_element.type === 'checkbox' ? input_element.checked : input_element.value;
+            localStorage.setItem(prefix + input_prefix + storage_key, value);
+        }
+
+
+
+        /**
+         * Теперь, если у нас есть родительская форма, мы используем ее id или name в качестве префикса. Если нет родительской формы, мы можем 
+         * использовать bool_, num_, text_ в зависимости от типа элемента, либо использовать id или name элемента, чтобы создать уникальный префикс. 
+         * Затем мы соединяем префикс и имя элемента с символом подчеркивания и сохраняем значение в localStorage.
+         */
+        function save_input_to_local_storage(input_element) {
+            const save = input_element.getAttribute("data-save");
+            if (save === null || save === "false") {
+                const key = input_element.id || input_element.name;
+                const storedValue = localStorage.getItem(key);
+                if (storedValue !== null) {
+                    localStorage.removeItem(key);
+                }
+            } else {
+                const value =
+                    input_element.type === "checkbox" || input_element.type === "radio"
+                        ? input_element.checked
+                        : input_element.value;
+                const formElement = input_element.closest("form");
+                let keyPrefix = "";
+                if (formElement) {
+                    keyPrefix = formElement.id || formElement.name;
+                } else {
+                    if (input_element.type === "checkbox" || input_element.type === "radio") {
+                        keyPrefix = "bool_";
+                    } else if (!isNaN(input_element.value)) { // попробовать применить Number.isNaN()
+                        keyPrefix = "num_";
+                    } else {
+                        keyPrefix = "text_";
+                    }
+                    if (input_element.id) {
+                        keyPrefix += input_element.id;
+                    } else {
+                        keyPrefix += input_element.name;
+                    }
+                }
+                const key = keyPrefix + "_" + (input_element.id || input_element.name);
+                localStorage.setItem(key, JSON.stringify(value));
+            }
+        }
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
