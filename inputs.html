@@ -14,6 +14,97 @@
 </head>
 
 <body>
+    <style>
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.5s ease;
+        }
+
+        .loading-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 50px;
+        }
+
+        .circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #333;
+            margin: 0 5px;
+            animation: bounce 1.5s infinite ease-in-out;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(-25px);
+            }
+
+            50% {
+                transform: translateY(0);
+            }
+        }
+
+        .loading-icon .circle:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .loading-icon .circle:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        .loading-icon .circle:nth-child(3) {
+            animation-delay: 0s;
+        }
+
+        .loading-icon .circle.at {
+            background-color: #00bfff;
+        }
+
+        #loading-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+    <div id="loading-overlay">
+        <div class="loading-icon">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var loadingOverlay = document.getElementById("loading-overlay");
+            var circles = loadingOverlay.getElementsByClassName("circle");
+            var randomCircle = circles[Math.floor(Math.random() * circles.length)];
+            randomCircle.classList.add("at");
+
+            window.addEventListener("load", function () {
+                loadingOverlay.classList.add("active");
+                setTimeout(function () {
+                    loadingOverlay.style.display = "none";
+                }, 3500);
+            });
+        });
+    </script>
+
+
     <h1>Input Storage</h1>
     <form id="vhodi-form">
         <label>Text input:</label>
