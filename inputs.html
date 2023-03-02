@@ -14,9 +14,6 @@
 </head>
 
 <body>
-    <div id="loading-animation" style="display: none;">Загрузка...</div>
-
-
     <h1>Input Storage</h1>
     <form id="vhodi-form">
         <label>Text input:</label>
@@ -66,16 +63,25 @@
     <script>
         // Функция для проверки, посещал ли пользователь ранее этот ресурс. 
         function checkVisited() {
-            if (!localStorage.getItem('visited')) {
-                localStorage.setItem('visited', true); // Если нет, записываем это в localstorage.
+            if (!localStorage.getItem('visited-page')) {
+                localStorage.setItem('visited-page', true); // Если нет, записываем это в localstorage.
             }
         }
+        checkVisited();
 
 
+        // ВСЁ ЧТО НИЖЕ - ТОЧНО РАБОТАЕТ!!! но нужно немного тестов...
 
         // Секретный ключ для шифрования данных в Local Storage. Обычно его длина составляет от 32 до 128 символов. 
         // Рекомендуется использовать случайные символы, такие как буквы (верхнего и нижнего регистра), цифры и специальные символы.
+        const secretKey = 'Да что ж такое то блять, то одно, то другое.. то - одно блять, то - другое!';
+        // const value = 'Какой-то рандомный текст для тестов!';
 
+        // const encryptedValue = encryptValue(value, secretKey);
+        // console.log('Encrypted value:', encryptedValue);
+
+        // const decryptedValue = decryptValue(encryptedValue, secretKey);
+        // console.log('Decrypted value:', decryptedValue);
 
 
         function encryptValue(value, secretKey) {
@@ -87,19 +93,6 @@
             CryptoJS.AES.decrypt(value, secretKey).bytes.toString(CryptoJS.enc.Utf8);
             return decipheredText;
         }
-
-        const secretKey = 'mysecretkey';
-        // const value = 'мои зdfалупки';
-
-        // const encryptedValue = encryptValue(value, secretKey);
-        // console.log('Encrypted value:', encryptedValue);
-
-        // const decryptedValue = decryptValue(encryptedValue, secretKey);
-        // console.log('Decrypted value:', decryptedValue);
-
-
-
-        // ВСЁ ЧТО НИЖЕ - ТОЧНО РАБОТАЕТ!!! но нужно немного тестов...
 
         function save_input_to_local_storage(input_element) {
             // получаем значение атрибута 'data-save' у input элемента
