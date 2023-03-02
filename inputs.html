@@ -72,93 +72,34 @@
         }
 
 
-        // 
-        // function save_input_to_local_storage(input_element) {
-        //     // получаем значение атрибута 'data-save' у input элемента
-        //     const save = input_element.getAttribute("data-save");
-
-        //     // если значение атрибута равно null или 'false', значит сохранение не требуется
-        //     if (save === null || save === "false") {
-        //         // получаем ключ из id или name элемента
-        //         const key = input_element.id || input_element.name;
-
-        //         // проверяем, есть ли сохраненное значение по ключу, и если есть - удаляем его из localStorage
-        //         const storedValue = localStorage.getItem(key);
-        //         if (storedValue !== null) {
-        //             localStorage.removeItem(key);
-        //         }
-        //     }
-        //     // если значение атрибута равно 'true', значит нужно сохранить значение элемента в localStorage
-        //     else {
-        //         // получаем значение элемента в зависимости от типа (для чекбоксов и радиокнопок - checked, для остальных - value)
-        //         const value =
-        //             input_element.type === "checkbox" || input_element.type === "radio"
-        //                 ? input_element.checked
-        //                 : input_element.value;
-
-        //         // получаем родительскую форму элемента
-        //         const formElement = input_element.closest("form");
-
-        //         // устанавливаем префикс ключа в зависимости от наличия родительской формы и типа элемента
-        //         let keyPrefix = "";
-        //         if (formElement) {
-        //             // если есть родительская форма, то префикс - ее id или name
-        //             keyPrefix = formElement.id || formElement.name;
-        //         } else {
-        //             // если нет родительской формы, то префикс - 'bool_', 'num_' или 'text_' в зависимости от типа элемента
-        //             if (input_element.type === "checkbox" || input_element.type === "radio") {
-        //                 keyPrefix = "bool_";
-        //             } else if (!Number.isNaN(Number(input_element.value))) {
-        //                 keyPrefix = "num_";
-        //             } else {
-        //                 keyPrefix = "text_";
-        //             }
-        //             // добавляем к префиксу id или name элемента (если есть)
-        //             if (input_element.id) {
-        //                 keyPrefix += input_element.id;
-        //             } else {
-        //                 keyPrefix += input_element.name;
-        //             }
-        //         }
-
-        //         // создаем ключ из префикса и id или name элемента
-        //         const key = keyPrefix + "_" + (input_element.id || input_element.name);
-
-        //         // сохраняем значение элемента в localStorage, преобразуя его в строку JSON
-        //         localStorage.setItem(key, JSON.stringify(value));
-        //     }
-        // }
-
-
-
-
-
-
-
-
-
-
-
 
         // Секретный ключ для шифрования данных в Local Storage. Обычно его длина составляет от 32 до 128 символов. 
         // Рекомендуется использовать случайные символы, такие как буквы (верхнего и нижнего регистра), цифры и специальные символы.
-        const SECRET_KEY = "My-seeEeecret_Key:123!";
 
 
-        function decryptValue(value) {
-            try {
-                const decryptedValue = CryptoJS.AES.decrypt(value, SECRET_KEY).toString(CryptoJS.enc.Utf8);
-                return decryptedValue;
-            } catch (e) {
-                console.error(e);
-                return null;
-            }
+
+        function encryptValue(value, secretKey) {
+            const cipherText = CryptoJS.AES.encrypt(value, secretKey);
+            return cipherText.toString();
         }
 
-        function encryptValue(value) {
-            const encryptedValue = CryptoJS.AES.encrypt(value, SECRET_KEY).toString();
-            return encryptedValue;
+        function decryptValue(value, secretKey) {
+            CryptoJS.AES.decrypt(value, secretKey).bytes.toString(CryptoJS.enc.Utf8);
+            return decipheredText;
         }
+
+        const secretKey = 'mysecretkey';
+        // const value = 'мои зdfалупки';
+
+        // const encryptedValue = encryptValue(value, secretKey);
+        // console.log('Encrypted value:', encryptedValue);
+
+        // const decryptedValue = decryptValue(encryptedValue, secretKey);
+        // console.log('Decrypted value:', decryptedValue);
+
+
+
+        // ВСЁ ЧТО НИЖЕ - ТОЧНО РАБОТАЕТ!!! но нужно немного тестов...
 
         function save_input_to_local_storage(input_element) {
             // получаем значение атрибута 'data-save' у input элемента
@@ -206,10 +147,9 @@
                 const key = keyPrefix + (input_element.id || input_element.name);
 
                 // сохраняем значение элемента в localStorage, преобразуя его в строку JSON
-                // localStorage.setItem(key, JSON.stringify(encryptValue(value)));
-                // console.log('Обратное с криптой ', JSON.parse(decryptValue(value)));
+                // localStorage.setItem(key, JSON.stringify(encryptValue(value, secretKey)));            
                 localStorage.setItem(key, JSON.stringify(value));
-                console.log('Обратное ', JSON.parse(value));
+                console.log('Туда в крипту: ', value);
             }
         }
 
@@ -260,10 +200,9 @@
                     let decryptedValue;
                     try {
                         decryptedValue = JSON.parse(storedValue);
-                        // decryptedValue = JSON.parse(decryptValue(storedValue));
+                        // decryptedValue = JSON.parse(decryptValue(storedValue, secretKey));
+                        console.log('Сюда после крипты: ', decryptedValue);
                     } catch (error) {
-                        console.error("Error parsing JSON value for input element:", input_element.id);
-                        console.error(error);
                         decryptedValue = null;
                     }
 
@@ -306,6 +245,7 @@
             });
         });
 
+        // Выводим хранилище в консоль:
         // localStorage.clear();
         for (var key in localStorage) {
             if (localStorage.hasOwnProperty(key)) {
