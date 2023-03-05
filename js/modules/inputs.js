@@ -37,7 +37,7 @@ function save_input_to_local_storage(input_element) {
         const key = input_element.id || input_element.name; // Получаем ключ из id или name элемента.
 
         // Проверяем, есть ли сохраненное значение по ключу, и если есть - удаляем его из localStorage:
-        const storedValue = localStorage.getItem(key); // ПРОВЕРКА ПО key здесь НЕВЕРНА, ВЕДЬ ТАМ МОЖЕТ БЫТЬ РОД.ФОРМА или другой префикс!!!!
+        const storedValue = localStorage.getItem(key); // ПРОВЕРКА ПО key здесь НЕВЕРНА, ВЕДЬ ТАМ МОЖЕТ БЫТЬ РОД.ФОРМА или другой префикс, к тому же оно должно учитывать, что возможная работа с радиокнопками!!!!
         if (storedValue !== null) {
             localStorage.removeItem(key);
         }
