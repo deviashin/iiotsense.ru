@@ -37,11 +37,96 @@
 
 
 <body class=" bg-light-subtle">
-    <div class="skippy visually-hidden-focusable overflow-hidden">
-        <div class="container-xl">
-            <a class="d-inline-flex p-2 m-1" href="#content">Skip to main content</a>
+    <style>
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 1);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0s ease;
+        }
+
+        .loading-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #loading-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+    <div id="loading-overlay">
+        <div class="loading-icon">
+            <div class="loader-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="290px" height="256px" version="1.1"
+                    style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                    viewBox="0 0 15.09 13.32" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+                    <style>
+                        .str0 {
+                            stroke: #888888;
+                            stroke-width: 0.2;
+                        }
+
+                        .fil0 {
+                            fill: none;
+                        }
+
+                        .flame {
+                            animation-name: flame;
+                            animation-duration: 6s;
+                            animation-timing-function: linear;
+                            animation-iteration-count: infinite;
+                        }
+
+                        @keyframes flame {
+                            0% {
+                                stroke-dasharray: 0 40;
+                                stroke-dashoffset: 0;
+                            }
+
+                            50% {
+                                stroke-dasharray: 20 40;
+                                stroke-dashoffset: 0;
+                            }
+
+                            100% {
+                                stroke-dasharray: 20 40;
+                                stroke-dashoffset: -40;
+                            }
+                        }
+                    </style>
+                    <path class="fil0 str0 flame"
+                        d="M15.07 7.02c-0.09,-1.01 -0.26,-1.72 -0.63,-2.55 -0.16,-0.36 -0.36,-0.71 -0.55,-1.02 -0.1,-0.16 -0.21,-0.29 -0.32,-0.45 -0.12,-0.16 -0.24,-0.29 -0.36,-0.44 -0.15,-0.19 -0.21,-0.22 -0.38,-0.39 -0.35,-0.37 -0.88,-0.78 -1.32,-1.05 -3.78,-2.29 -8.59,-0.93 -10.62,2.84 -0.8,1.49 -1.12,3.36 -0.71,5.26 0.26,1.22 1.27,3.24 2.39,3.9 0.87,0.51 1.76,-0.04 2.06,-0.67 0.49,-1.02 -0.3,-1.65 -0.68,-2.17 -2.23,-3.04 -0.18,-7.16 3.48,-7.24 1.99,-0.04 3.36,1.08 4.04,2.26 1.55,2.71 -0.37,5.58 -1.09,5.57 -0.16,0 -0.73,-0.28 -0.17,-0.9 1.79,-1.98 0.88,-5.15 -1.66,-5.9 -1.98,-0.58 -3.59,0.65 -4.19,1.83 -0.61,1.19 -0.58,2.51 0.2,3.66 0.2,0.3 0.48,0.74 0.86,0.68 0.43,-0.07 0.62,-0.59 0.3,-0.93 -0.25,-0.27 -0.44,-0.55 -0.59,-0.98 -0.3,-0.9 -0.01,-1.94 0.48,-2.46 1.24,-1.34 3.3,-1.1 4.15,0.41 0.43,0.77 0.44,1.75 0,2.51 -0.35,0.61 -1.18,1.13 -0.73,2.21 0.27,0.66 1.12,1.22 2.01,0.76 0.6,-0.3 1.13,-1 1.47,-1.68 1.58,-3.14 -0.06,-6.96 -3.47,-7.91 -1.92,-0.53 -3.74,0.04 -4.92,0.98 -0.21,0.17 -0.65,0.56 -0.82,0.76 -0.77,0.97 -1.29,2.02 -1.33,3.4 -0.05,1.26 0.37,2.73 1.14,3.59 0.17,0.19 0.63,0.58 0.6,0.97 -0.01,0.27 -0.38,0.65 -0.93,0.11 -0.7,-0.69 -1.38,-2.09 -1.6,-3.12 -0.71,-3.38 1.36,-6.68 4.72,-7.6 1.83,-0.5 3.78,-0.05 5.1,0.79 3.36,2.14 4.01,6.68 1.53,9.63 -0.32,0.38 -0.67,0.59 -0.51,1 0.07,0.17 0.21,0.31 0.44,0.34 0.35,0.05 0.68,-0.42 0.89,-0.67 1.07,-1.26 1.89,-3.36 1.72,-5.33z" />
+                </svg>
+            </div>
         </div>
     </div>
+    <!-- <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var loadingOverlay = document.getElementById("loading-overlay");
+            var circles = loadingOverlay.getElementsByClassName("loader-logo");
+            var randomCircle = circles[Math.floor(Math.random() * circles.length)];
+            randomCircle.classList.add("at");
+
+            window.addEventListener("load", function () {
+                loadingOverlay.classList.add("active");
+                setTimeout(function () {
+                    loadingOverlay.style.display = "none";
+                }, 3500);
+            });
+        });
+    </script> -->
 
     <!-- Bootstrap SVG -->
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -394,28 +479,7 @@
     </div> -->
 
 
-    <div class="mobile-only">
-        <style>
-            .mobile-only {
-                display: none;
-            }
 
-            @media only screen and (max-width: 767px) {
-                .mobile-only {
-                    display: block;
-                    position: fixed;
-                    bottom: 0;
-                    right: 0;
-                    padding: 1rem;
-                }
-            }
-        </style>
-        <label style="display: flex; align-items: center; justify-content: center; width: 4rem; height: 4rem; border: none; border-radius: 50%; 
-        background-color: var(--bs-green); color: #fff; opacity: .90; user-select: none; z-index: 999;">
-            <input type="checkbox" id="barcode_scanner_start_button" style="display: none;">
-            <i id="barcode_scanner_start_button_icon" class="fa-regular fa-qrcode fa-2x5"></i>
-        </label>
-    </div>
 
 
     <ul class="list-group list-group-flush">
@@ -424,7 +488,7 @@
         </li>
         <li class="list-group-item bg-transparent">
             <div class="form-check form-switch my-2">
-                <input class="form-check-input border-0 shadow" type="checkbox" role="switch"
+                <input data-save="true" class="form-check-input border-0 shadow" type="checkbox" role="switch"
                     id="barcode_scanner_remember_devices" style="transform: scale(1.4);">
                 <label class="form-check-label ms-2" for="barcode_scanner_remember_devices">Запоминать источник
                     изображения</label>
@@ -432,8 +496,8 @@
         </li>
         <li class="list-group-item bg-transparent">
             <div class="form-check form-switch my-2">
-                <input class="form-check-input border-0 shadow" type="checkbox" role="switch" id="checkbox2"
-                    style="transform: scale(1.4);" disabled>
+                <input data-save="true" class="form-check-input border-0 shadow" type="checkbox" role="switch"
+                    id="checkbox2" style="transform: scale(1.4);" disabled>
                 <label class="form-check-label ms-2" for="checkbox2">Автоматическая фокусировка</label>
             </div>
         </li>
@@ -443,25 +507,14 @@
                     Количество кадров в секунду -
                     <span id="rangeTextFps">5</span> fps
                 </label>
-                <input type="range" class="form-range my-2" min="0" max="10" step="1" id="rangeValueFps">
+                <input data-save="true" type="range" class="form-range my-2" min="0" max="10" step="1"
+                    id="rangeValueFps">
             </div>
-            <script>
-                const value = document.querySelector("#rangeTextFps")
-                const input = document.querySelector("#rangeValueFps")
-                const saveFps = JSON.parse(localStorage.getItem('rangeValueFps'));
-                if (saveFps) {
-                    input.value = value.textContent = saveFps;
-                }
-                input.addEventListener("input", (event) => {
-                    value.textContent = event.target.value
-                    localStorage.setItem('rangeValueFps', JSON.stringify(value.textContent));
-                })
-            </script>
         </li>
         <li class="list-group-item bg-transparent">
             <div class="form-check form-switch my-2">
-                <input class="form-check-input border-0 shadow" type="checkbox" role="switch" id="checkbox3"
-                    style="transform: scale(1.4);" disabled>
+                <input data-save="true" class="form-check-input border-0 shadow" type="checkbox" role="switch"
+                    id="checkbox3" style="transform: scale(1.4);" disabled>
                 <label class="form-check-label ms-2" for="checkbox3">Checkbox 3</label>
             </div>
         </li>
@@ -470,7 +523,7 @@
         </li>
         <li class="list-group-item bg-transparent">
             <div class="form-check form-switch my-2">
-                <input class="form-check-input border-0 shadow" type="checkbox" role="switch"
+                <input data-save="true" class="form-check-input border-0 shadow" type="checkbox" role="switch"
                     id="useBarCodeDetectorIfSupported" style="transform: scale(1.4);" disabled>
                 <label class="form-check-label ms-2" for="useBarCodeDetectorIfSupported">API BarcodeDetector</label>
             </div>
@@ -499,803 +552,85 @@
                     <hr class="dropdown-divider">
                 </li>
                 <li class="form-check m-3">
-                    <input class="form-check-input rounded-5" type="radio" name="flexRadioDefault" id="localImageSource"
-                        style="transform: scale(1.5);">
+                    <input data-save="true" class="form-check-input rounded-5" type="radio" name="flexRadioDefault"
+                        id="localImageSource" style="transform: scale(1.5);">
                     <label class="form-check-label ms-2" for="localImageSource">Выбрать на устройстве</label>
                 </li>
                 <li class="form-check m-3">
-                    <input class="form-check-input rounded-5" type="radio" name="flexRadioDefault" id="fake-id-camera1"
-                        style="transform: scale(1.5);">
+                    <input data-save="true" class="form-check-input rounded-5" type="radio" name="flexRadioDefault"
+                        id="fake-id-camera1" style="transform: scale(1.5);">
                     <label class="form-check-label ms-2" for="fake-id-camera1">Fake camera 1 (344f:5h39)</label>
                 </li>
                 <li class="form-check m-3">
-                    <input class="form-check-input rounded-5" type="radio" name="flexRadioDefault" id="fake-id-camera2"
-                        style="transform: scale(1.5);">
+                    <input data-save="true" class="form-check-input rounded-5" type="radio" name="flexRadioDefault"
+                        id="fake-id-camera2" style="transform: scale(1.5);">
                     <label class="form-check-label ms-2" for="fake-id-camera2">Fake camera 2 (ba34:ff32)</label>
                 </li>
             </ul>
         </div>
+
+        <div class="mobile-only">
+            <style>
+                .mobile-only {
+                    display: none;
+                }
+
+                @media only screen and (max-width: 767px) {
+                    .mobile-only {
+                        display: block;
+                        position: fixed;
+                        bottom: 0;
+                        right: 0;
+                        padding: 1rem;
+                    }
+                }
+            </style>
+            <label
+                style="display: flex; align-items: center; justify-content: center; width: 4rem; height: 4rem; border: none; border-radius: 50%; 
+            background-color: var(--bs-green); color: #fff; opacity: .90; user-select: none; z-index: 9999 !important;">
+                <input data-save="true" type="checkbox" id="barcode_scanner_start_button" style="display: none;">
+                <i id="barcode_scanner_start_button_icon" class="fa-regular fa-qrcode fa-2x5"></i>
+            </label>
+        </div>
     </div>
 
+    <!-- Испытательный скриптовый полигон -->
+    <script>
+        // localStorage.clear();
+        for (var key in localStorage) { if (localStorage.hasOwnProperty(key)) { console.log(key + ': ' + localStorage.getItem(key)); } }
+    </script>
+
+    <!-- Асинхронный обработчик JSON документов -->
+    <script>
+        const get_json_data = async url => {
+            const response = await fetch(url);
+            const data = await response.json();
+            return data;
+        }
+    </script>
+
+    <!-- Смена темы оформления с сохранением в локальное хранилище -->
+    <script src="js/sense-scripts-color-modes.js"></script>
+
+    <!-- Bootstrap 5.3.0 alpha 1 -->
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+
+    <!-- https://cdnjs.com/libraries/crypto-js -->
+    <script src="js/crypto-js.min@4.1.1.js"></script>
+
+    <!-- Сохранение и восстановления <input> элементов из Local Storage -->
+    <script src="js/modules/inputs.js"></script>
+
+    <!-- Проверка и рассчет MD5 суммы с использованием собственного форматирования -->
+    <script src="js/modules/link_md5_hash.js"></script>
+
+    <!-- Парсер для отсканированной ссылки из QR-кода -->
+    <script src="js/modules/link_parser.js"></script>
+
+    <!-- html5-qrcode 2.3.7 (stable) -->
+    <script src="js/html5-qrcode.min@2.3.7.js"></script>
+    <script src="js/modules/barcode_scanner.js"></script>
 </body>
-
-<!-- Испытательный скриптовый полигон -->
-<script>
-    // localStorage.clear();
-    for (var key in localStorage) { if (localStorage.hasOwnProperty(key)) { console.log(key + ': ' + localStorage.getItem(key)); } }
-</script>
-<!-- Испытательный скриптовый полигон -->
-
-<!-- Отслеживание, сохранение и загрузка состояний всех checkbox элементов на странице -->
-<script>
-    // function trackCheckboxes() {
-    //     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    //     function saveCheckboxState() {
-    //         const checkboxStates = {};
-    //         checkboxes.forEach((checkbox) => { checkboxStates[checkbox.id] = checkbox.checked; });
-    //         localStorage.setItem('checkboxStates', JSON.stringify(checkboxStates));
-    //     }
-    //     function loadCheckboxState() {
-    //         const savedCheckboxStates = JSON.parse(localStorage.getItem('checkboxStates'));
-    //         if (savedCheckboxStates) {
-    //             Object.entries(savedCheckboxStates).forEach(([id, checked]) => {
-    //                 const checkbox = document.getElementById(id);
-    //                 if (checkbox) { checkbox.checked = checked; }
-    //             });
-    //         }
-    //     }
-    //     checkboxes.forEach((checkbox) => { checkbox.addEventListener('change', saveCheckboxState); });
-    //     loadCheckboxState();
-    // }
-    // trackCheckboxes();
-</script>
-<!-- Отслеживание, сохранение и загрузка состояний всех checkbox элементов на странице -->
-
-<!-- Асинхронный обработчик JSON документов -->
-<script>
-    const get_json_data = async url => {
-        const response = await fetch(url);
-        const data = await response.json();
-        return data;
-    }
-</script>
-<!-- Асинхронный обработчик JSON документов -->
-
-
-
-<!-- ПППППААААААРРРРРРРССССССЕЕЕЕЕЕРРРРР!!!!!!!!!!!! -->
-<script>
-    // 
-    function parseBarcodeOne(str) {
-        // Создание и добавление элементов списка с параметрами изделия:
-        document.querySelector('#collapseFirst').innerHTML = '';
-        function addElementsList(name, addr, hr = 1) {
-            let spanName = document.createElement('span');
-            spanName.className = "fw-bold";
-            spanName.innerText = name;
-            document.querySelector('#collapseFirst').append(spanName);
-
-            let spanAddr = document.createElement('span');
-            spanAddr.className = "card-text";
-            spanAddr.innerText = addr;
-            document.querySelector('#collapseFirst').append(spanAddr);
-
-            if (hr) {
-                let hr = document.createElement('hr');
-                hr.className = "border opacity-50";
-                document.querySelector('#collapseFirst').append(hr);
-            }
-        }
-
-        // :
-        let jsonLink = 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-all.json';
-        str = str.slice(str.split('?')[0].length + 1);
-        switch (str[0] + str[1]) {
-            case 'CC':
-                jsonLink = 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-tk.json';
-                break;
-            case 'D0':
-                jsonLink = 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-u.json';
-                break;
-            case 'D1':
-                jsonLink = 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json';
-                break;
-
-            default:
-                break;
-        }
-        // console.log('Получен документ: ' + jsonLink);
-
-        // :
-        get_json_data(jsonLink).then(data => {
-            // Получаем основную информацию об устройстве:
-            document.getElementById('Наименование').innerText = `${data.Наименование}`;
-            document.getElementById('device-line').innerText = `${data.Серия}`;
-            document.getElementById('АМ').innerText = `${data.Модель.АМ}`;
-
-            // Получаем настоящий серийный номер:
-            // let SerialN = str[0] + str[1]; // Отображать серийный номер с префиксом изделия.
-            let SerialN = 0; // Отображать только серийный номер.
-            for (let i = 3; i < 10; i++) { SerialN += str[i]; }
-            document.getElementById('SN').innerText = `${SerialN}`;
-
-            // БИП-Т . К . XX . X   X   X   X   X . X
-            //       (Мд).(АМ).(И1)(И2)(И3)(И4)(И5).(СИ) 
-            // let bipTK = '{\"(Мд)\": \"Модель устройства: \",\"(АМ)\": \"Аппаратная модификация устройства: \",\"(И1)\": \"Исполнение по измерению: \",\"(И2)\": \"Исполнение по типу монтажной части (1): \",\"(И3)\": \"Исполнение по типу монтажной части (2): \",\"(И4)\": \"Исполнение по антенне: \",\"(И5)\": \"Исполнение по электропитанию: \",\"(СИ)\": \"Код специсполнения: \",}';
-            const bipTK = `{
-                "Мд": "Модель устройства: ",
-                "АМ": "Аппаратная модификация устройства: ",
-                "И1": "Исполнение по измерению: ",
-                "И2": "Исполнение по типу монтажной части (1): ",
-                "И3": "Исполнение по типу монтажной части (2): ",
-                "И4": "Исполнение по антенне: ",
-                "И5": "Исполнение по электропитанию: ",
-                "СИ": "Код специсполнения: "
-            }`;
-            // console.log(JSON.parse(bipTK));
-            // http://IIOTSENSE.RU/P?CC0000026901112204046
-            // CC - 0, 1
-            // 00000269 - 2, 3, 4, 5, 6, 7, 8, 9
-            // 01 - 10, 11
-            // 11220 - 12, 13, 14, 15, 16
-            // 4046 - 17, 18, 19, 20
-
-
-            // БИП-Т . В . XX . X   X   X   X  . X
-            //       (Мд).(АМ).(И1)(И2)(И3)(И4).(СИ)
-            const bipTV = `{
-                "Мд": "Модель устройства: ",
-                "АМ": "Аппаратная модификация устройства: ",
-                "И1": "Исполнение по измерению температуры (1): ",
-                "И2": "Исполнение по измерению температуры (2): ",
-                "И3": "Исполнение по антенне: ",
-                "И4": "Исполнение по электропитанию: ",
-                "СИ": "Код специсполнения: "
-            }`;
-            // console.log(JSON.parse(bipTV));
-
-
-            // БИП-У . 1 . XX . X   X   X   X  . X
-            //       (Мд).(АМ).(И1)(И2)(И3)(И4).(СИ)
-            const bipU = `{
-                "Мд": "Модель устройства: ",
-                "АМ": "Аппаратная модификация устройства: ",
-                "И1": "Исполнение по измерению унифицированных сигналов (1): ",
-                "И2": "Исполнение по измерению унифицированных сигналов (2): ",
-                "И3": "Исполнение по антенне: ",
-                "И4": "Исполнение по электропитанию: ",
-                "СИ": "Код специсполнения: "
-            }`;
-            // console.log(JSON.parse(bipU));
-            // http://IIOTSENSE.RU/P?D00000019910110114629
-            // D0 - 0, 1
-            // 00000199 - 2, 3, 4, 5, 6, 7, 8, 9
-            // 1 - 10
-            // 01 - 11, 12
-            // 1011 - 13, 14, 15, 16
-            // 4629 - 17, 18, 19, 20
-
-
-            // БИП-G . X . XX . X   X   X   X  . X
-            //       (Мд).(АМ).(И1)(И2)(И3)(И4).(СИ)
-            const bipG = `{
-                "Мд": "Модель устройства: ",
-                "АМ": "Аппаратная модификация устройства: ",
-                "И1": "Исполнение по подключению ПИП вибрации: ",
-                "И2": "Исполнение по подключению ПИП температуры: ",
-                "И3": "Исполнение по антенне: ",
-                "И4": "Исполнение по электропитанию: ",
-                "СИ": "Код специсполнения: "
-            }`;
-            // console.log(JSON.parse(bipG));
-            // http://IIOTSENSE.RU/P?D10000034710111105871
-            // D1 - 0, 1
-            // 00000347 - 2, 3, 4, 5, 6, 7, 8, 9
-            // 1 - 10
-            // 01 - 11, 12
-            // 1110 - 13, 14, 15, 16
-            // 5871 - 17, 18, 19, 20
-
-            // 
-            // function listInfo(arr, el) {
-            //     const obj = JSON.parse(arr);
-            //     console.log(obj[el]);
-            // }
-            // listInfo(bipG, 'И4');
-
-            // Получаем дополнительную информацию в зависимости от типа устройства:
-            switch (str[0] + str[1]) {
-                case 'CC':
-                    document.getElementById('МД').innerText = `${data.Модель.МД['К'].Имя}`;
-                    // addElementsList('Модель устройства: ', data.Модель.МД['К'].Имя);
-
-                    // document.getElementById('И1').innerText = `${data.Модель.МД['К'].И1[str[12]]}`;
-                    addElementsList('Исполнение по измерению: ', data.Модель.МД['К'].И1[str[12]]);
-
-                    // document.getElementById('И2').innerText = `${data.Модель.МД['К'].И2[str[13]]}`;
-                    addElementsList('Монтажная часть тип 1: ', data.Модель.МД['К'].И2['1' + str[13]]);
-
-                    // document.getElementById('И2').innerText = `${data.Модель.МД['К'].И3[str[14]]}`;
-                    addElementsList('Монтажная часть тип 2: ', data.Модель.МД['К'].И3['2' + str[14]]);
-
-                    // document.getElementById('И4').innerText = `${data.Модель.И4[str[15]]}`;
-                    addElementsList('Исполнение по типу антенны: ', data.Модель.И4[str[15]]);
-
-                    // document.getElementById('И5').innerText = `${data.Модель.И5[str[16]]}`;                      
-                    addElementsList('Исполнение по электропитанию: ', data.Модель.И5[str[16]]);
-
-                    // document.getElementById('СИ').innerText = `${data.Модель.СИ['0']}`;
-                    addElementsList('Код специсполнения: ', data.Модель.СИ['0'], false);
-                    break;
-
-                case 'D0':
-                    document.getElementById('МД').innerText = `${data.Модель.МД[str[10]]}`;
-                    document.getElementById('АМ').innerText = `${data.Модель.АМ['У' + str[10]][str[11] + str[12]]}`;
-                    addElementsList('Исполнение по измерению унифицированных сигналов: ', data.Модель.И1И2[str[13] + str[14]]);
-                    addElementsList('Исполнение по типу антенны: ', data.Модель.И3[str[15]]);
-                    addElementsList('Исполнение по электропитанию: ', data.Модель.И4[str[16]]);
-                    addElementsList('Код специсполнения: ', data.Модель.СИ['0'], false);
-                    break;
-
-                case 'D1':
-                    document.getElementById('МД').innerText = `${data.Модель.МД['G' + str[10]].Имя}`;
-                    // addElementsList('Модель устройства: ', data.Модель.МД['G' + str[10]].Имя);
-
-                    // document.getElementById('И1').innerText = `${data.Модель.МД['G' + str[10]].И1[str[13]]}`;
-                    addElementsList('Исполнение по подключению ПИП вибрации: ', data.Модель.МД['G' + str[10]].И1[str[13]]);
-
-                    // document.getElementById('И2').innerText = `${data.Модель.МД['G' + str[10]].И2[str[14]]}`;
-                    addElementsList('Исполнение по подключению ПИП температуры: ', data.Модель.МД['G' + str[10]].И2[str[14]]);
-
-                    // document.getElementById('И3').innerText = `${data.Модель.И3[str[15]]}`;
-                    addElementsList('Исполнение по типу антенны: ', data.Модель.И3[str[15]]);
-
-                    // document.getElementById('И4').innerText = `${data.Модель.И4[str[16]]}`;
-                    addElementsList('Исполнение по электропитанию: ', data.Модель.И4[str[16]]);
-
-                    // document.getElementById('СИ').innerText = `${data.Модель.СИ['0']}`;
-                    addElementsList('Код специсполнения: ', data.Модель.СИ['0'], false);
-                    break;
-
-                default:
-                    break;
-            }
-        });
-    }
-
-                // // <input type="checkbox" id="1" class="box">checkbox1</input><br>
-            // // <input type="checkbox" id="2" class="box">checkbox2</input><br>
-            // // <input type="checkbox" id="3" class="box">checkbox3</input><br>
-            // // <input type="checkbox" id="4" class="box">checkbox4</input><br>
-            // // <input type="checkbox" id="5" class="box">checkbox5</input><br>
-            // // <input type="checkbox" id="6" class="box">checkbox6</input><br>
-            // // Локальное хранилище для сохранения настроек приложения:
-            // let boxes = document.getElementsByClassName('box').length;
-            // function save() {
-            //     for (let i = 1; i <= boxes; i++) {
-            //         var checkbox = document.getElementById(String(i));
-            //         localStorage.setItem("checkbox" + String(i), checkbox.checked);
-            //     }
-            // }
-            // for (let i = 1; i <= boxes; i++) {
-            //     if (localStorage.length > 0) {
-            //         var checked = JSON.parse(localStorage.getItem("checkbox" + String(i)));
-            //         document.getElementById(String(i)).checked = checked;
-            //     }
-            // }
-            // window.addEventListener('change', save);
-
-    // function parseBarcodeTwo(str) {
-    //     const strDash = decodedText.split('-');
-    //     const strDot = strDash[1].split('.');
-
-    //     if (strDash[0] == 'device-line') {
-    //         if (strDot[0] == 'G') {
-    //             jsonLink = 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json';
-    //         }
-    //         else { }
-    //     }
-    //     parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');
-    //     get_json_data(jsonLink)
-    //         .then(data => {
-    //             document.getElementById('Наименование').innerText = `${data.Наименование}`;
-    //             document.getElementById('device-line').innerText = `${data.Серия}`;
-    //             document.getElementById('МД').innerText = `${data.Модель.МД[strDot[0] + strDot[1]].Имя}`;
-    //             document.getElementById('АМ').innerText = `${data.Модель.АМ}`;
-    //             document.getElementById('И1').innerText = `${data.Модель.МД.G1.И1[strDot[3][0]]}`;
-    //             document.getElementById('И2').innerText = `${data.Модель.МД.G1.И2[strDot[3][1]]}`;
-    //             document.getElementById('И3').innerText = `${data.Модель.И3[strDot[3][2]]}`;
-    //             document.getElementById('И4').innerText = `${data.Модель.И4[strDot[3][3]]}`;
-    //             document.getElementById('СИ').innerText = `${data.Модель.СИ['0']}`;
-    //         });
-    // }
-
-    // interfaceRender();
-    // parseBarcodeOne('IIOTSENSE.RU/P?CC0000026901112204046');
-    // parseBarcodeOne('IIOTSENSE.RU/P?D00000019910110114629');
-    // parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');
-</script>
-
-
-<!-- Смена темы оформления с сохранением в локальное хранилище -->
-<script src="js/sense-scripts-color-modes.js"></script>
-
-<!-- Bootstrap 5.3.0 alpha 1 -->
-<script src="js/popper.min.js"></script>
-<script src="js/bootstrap.js"></script>
-
-<!-- html5-qrcode 2.3.4 (stable) -->
-<!-- <script src="js/html5-qrcode.min@2.3.4.js"></script> -->
-<!-- html5-qrcode 2.3.7 (stable) -->
-<script src="js/html5-qrcode.min@2.3.7.js"></script>
-<script>
-    window.addEventListener('load', () => {
-        // Весь ваш код, который должен быть выполнен после загрузки всех ресурсов на странице, должен быть помещен внутрь этой функции обратного вызова.
-
-    });
-
-    // Этот метод активирует разрешения пользователя:
-    Html5Qrcode.getCameras().then(devices => {
-        // Устройства (камеры) будут массивом объектов типа: { id: "id", label: "label" }.
-        if (devices && devices.length) {
-            // Здесь начинается процесс сканирования!
-
-            // Получаем идентификатор родительского контейнера сканера баркодов: 
-            const html5QrCode = new Html5Qrcode("reader");
-
-            // Обратный вызов при успешном сканировании:
-            const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-                barcode_scanner_stop();
-                document.getElementById('text').innerText = `${decodedText}`; // .
-                document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`; // .
-                document.querySelector('#reader').classList.add("d-none"); // .
-
-                parseBarcodeOne(decodedText); // Передаём распознанный текст в функцию парсера.
-                interfaceRender(true); // Отрисовываем интерфейс.
-            };
-
-            // Обратный вызов при ошибке сканирования:
-            function onScanError(errorMessage) { }
-
-            // Конфигурация сканера:
-            const config = {
-                experimentalFeatures: {
-                    useBarCodeDetectorIfSupported: true
-                },
-                // rememberLastUsedCamera: true,
-                focusMode: "continuous",
-                fps: saveFps,
-                qrbox: {
-                    width: 250,
-                    height: 250
-                },
-                // qrbox: qrboxFunction,
-                showTorchButtonIfSupported: true,
-                showZoomSliderIfSupported: true,
-                defaultZoomValueIfSupported: 1,
-                // supportedScanTypes: [
-                //     Html5QrcodeScanType.SCAN_TYPE_CAMERA,
-                //     Html5QrcodeScanType.SCAN_TYPE_FILE
-                // ],
-                // formatsToSupport: [
-                //     Html5QrcodeSupportedFormats.QR_CODE,
-                //     Html5QrcodeSupportedFormats.DATA_MATRIX
-                // ],
-            };
-
-            // Сохраняем массив видеокамер в localStorage при первой загрузке страницы:
-            if (!localStorage.getItem('barcode_scanner_all_devices_list')) { localStorage.setItem('barcode_scanner_all_devices_list', JSON.stringify(devices)); }
-
-            // Получаем сохраненный массив из localStorage
-            const devicesFromStorage = JSON.parse(localStorage.getItem('barcode_scanner_all_devices_list'));
-
-            // Получаем ссылку на элемент ul, в котором будут располагаться элементы списка
-            const cameraList = document.querySelector('#camera-list');
-
-            // Временные флаги для выбора что формировать, чекбокс или радио:
-            const flagCheckboxVsRadio = 'radio';
-
-            // Проходимся по массиву устройств и создаем для каждого чекбокс
-            devicesFromStorage.forEach((device, index) => {
-                // Создаем элемент li, который будет содержать чекбокс и метку
-                const li = document.createElement("li");
-                li.classList.add("form-check", "m-3");
-
-                // Создаем чекбокс и задаем его атрибуты
-                const input = document.createElement("input");
-                input.classList.add("form-check-input", "rounded-5");
-                if (flagCheckboxVsRadio === 'checkbox') {
-                    input.type = "checkbox";
-                }
-                else if (flagCheckboxVsRadio === 'radio') {
-                    input.type = "radio";
-                    input.name = "flexRadioDefault";
-                }
-                input.id = device.id;
-                input.style.transform = "scale(1.5)";
-
-                // Создаем метку для чекбокса и задаем ей текст
-                const label = document.createElement("label");
-                label.classList.add("form-check-label", "ms-2");
-                label.setAttribute("for", device.id);
-                label.textContent = device.label;
-
-                // Добавляем чекбокс и метку в элемент li
-                li.appendChild(input);
-                li.appendChild(label);
-
-                // Добавляем элемент li в список
-                cameraList.appendChild(li);
-            });
-
-            // :
-            function interfaceRender(state) {
-                document.querySelectorAll('#scan-info').forEach((slider) => {
-                    if (state) {
-                        slider.classList.remove('d-none');
-                        slider.classList.add('d-block');
-                    } else {
-                        slider.classList.remove('d-block');
-                        slider.classList.add('d-none');
-                    }
-                });
-            }
-
-            // Отслеживаем состояние чекбоксов:
-            function trackCheckboxes() {
-                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-
-                function saveCheckboxState() {
-                    const checkboxStates = {};
-                    checkboxes.forEach((checkbox) => { checkboxStates[checkbox.id] = checkbox.checked; });
-                    localStorage.setItem('checkboxStates', JSON.stringify(checkboxStates));
-                }
-
-                function loadCheckboxState() {
-                    const savedCheckboxStates = JSON.parse(localStorage.getItem('checkboxStates'));
-                    if (savedCheckboxStates) {
-                        Object.entries(savedCheckboxStates).forEach(([id, checked]) => {
-                            const checkbox = document.getElementById(id);
-                            if (checkbox) { checkbox.checked = checked; }
-                        });
-                    }
-                }
-
-                checkboxes.forEach((checkbox) => {
-                    checkbox.addEventListener('change', (event) => {
-                        saveCheckboxState();
-                        // barcode_scanner_camera_id = event.target.id;
-                    });
-                });
-
-                loadCheckboxState();
-            }
-
-            // Определяем переменную, в которую будем записывать выбранный элемент:
-            var barcode_scanner_camera_id = null;
-
-            // Отслеживаем состояние радиокнопок:
-            function track_check_radio() {
-                const radio = document.querySelectorAll('input[type="radio"]');
-
-                function saveCheckboxState() {
-                    const checkboxStates = {};
-                    radio.forEach((radio) => { checkboxStates[radio.id] = radio.checked; });
-                    localStorage.setItem('radioStates', JSON.stringify(checkboxStates));
-                }
-
-                function loadCheckboxState() {
-                    const savedCheckboxStates = JSON.parse(localStorage.getItem('radioStates'));
-                    if (savedCheckboxStates) {
-                        Object.entries(savedCheckboxStates).forEach(([id, checked]) => {
-                            const radio = document.getElementById(id);
-                            if (radio) { radio.checked = checked; }
-                        });
-                    }
-                }
-
-                radio.forEach((radio) => {
-                    radio.addEventListener('change', (event) => {
-                        saveCheckboxState();
-                        barcode_scanner_camera_id = event.target.id; // Сохраняем ID камеры в переменную и хранилище.
-                        localStorage.setItem('barcode_scanner_camera_id', JSON.stringify(barcode_scanner_camera_id));
-                    });
-                });
-
-                loadCheckboxState();
-            }
-
-            // После загрузки всех элементов списка обновляем состояние чекбосов:
-            trackCheckboxes();
-            track_check_radio();
-
-
-
-
-            // Функция для выбора источника для распознавания:
-            var storageCameraID = null;
-
-            function updateCameraSource() {
-                const rememberLastCamera = JSON.parse(localStorage.getItem('checkboxStates'))['barcode_scanner_remember_devices'];
-                const radioButtons = document.querySelectorAll('input[type="radio"][name="flexRadioDefault"]');
-
-                if (rememberLastCamera === true) {
-                    const camID = JSON.parse(localStorage.getItem('barcode_scanner_camera_id'));
-
-                    // Если источник был сохранен, восстанавливаем его значение:
-                    if (camID) { storageCameraID = camID; }
-                    else {
-                        // console.log('Старого источника не обнаружено! Устанавливаем значение по умолчанию:');
-                        storageCameraID = 'localImageSource';
-                        radioButtons[0].checked = true; // Устанавливаем радиокнопку выбора локального изображения.
-                    }
-                }
-                else {
-                    localStorage.removeItem('barcode_scanner_camera_id'); // Удаляем предыдущий источник.
-                    // снимаем выбор со всех радиокнопок
-                    radioButtons.forEach((radioButton) => { radioButton.checked = false; });
-                }
-            }
-
-            // :
-            // Ручной выбор источника видеозахвата:
-            // html5QrCode.start({ deviceId: { exact: barcode_scanner_camera_id } }, config, qrCodeSuccessCallback);
-            // Если вы хотите предпочесть фронтальную камеру:
-            // html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
-            // Если вы хотите предпочесть заднюю камеру:
-            // html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
-            // Выберите переднюю камеру или завершите работу с ошибкой "OverconstrainedError":
-            // html5QrCode.start({ facingMode: { exact: "user" } }, config, qrCodeSuccessCallback);
-            // Выберите заднюю камеру или завершите работу с ошибкой "OverconstrainedError":
-            // html5QrCode.start({ facingMode: { exact: "environment" } }, config, qrCodeSuccessCallback);
-            function barcode_scanner_start(camera_id) {
-                if (camera_id) {
-                    html5QrCode.start({ deviceId: { exact: camera_id } }, config, qrCodeSuccessCallback);
-                }
-            }
-
-            // Останавливаем использование камеры:
-            function barcode_scanner_stop() {
-                // html5QrCode.stop().then((ignore) => {
-                //     console.log('Сканирование QR-кода остановлено!');
-                // }).catch((err) => {
-                //     // Остановка не удалась, смирись.
-                // });
-                html5QrCode.stop();
-            }
-
-            // Работа с кнопкой старт/стоп сканирование:
-            const barcode_scanner_start_button = document.querySelector('#barcode_scanner_start_button');
-            const barcode_scanner_start_button_icon = document.querySelector('#barcode_scanner_start_button_icon');
-
-            // Получаем последнее состояние кнопки из хранилища при загрузке страницы:
-            var barcode_scanner_start_button_state = JSON.parse(localStorage.getItem('checkboxStates'))['barcode_scanner_start_button'];
-
-            // Обновляем состояние: кнопки и работы сканера после загрузки страницы:
-            updateButtonState(barcode_scanner_start_button_state);
-
-            // Отслеживаем нажатие, меняем в хранилище и обновляем на странице состояние кнопки:
-            barcode_scanner_start_button.addEventListener('click', () => {
-                barcode_scanner_start_button_state = !barcode_scanner_start_button_state;
-                updateButtonState(barcode_scanner_start_button_state);
-            });
-
-            function updateButtonState(state) {
-                updateCameraSource();
-
-                // получаем текущее состояние сканера
-                const scannerState = html5QrCode.getState();
-
-                // проверяем состояние сканера
-                if (scannerState === Html5QrcodeScannerState.NOT_STARTED) {
-                    console.log("Сканирование не запущено");
-                    console.log("Сканирование не запущено", scannerState);
-                } else if (scannerState === Html5QrcodeScannerState.SCANNING) {
-                    console.log("Сканирование выполняется");
-                    console.log("Сканирование выполняется", scannerState);
-                } else if (scannerState === Html5QrcodeScannerState.PAUSED) {
-                    console.log("Сканирование приостановлено");
-                    console.log("Сканирование приостановлено", scannerState);
-                }
-
-                console.log('state---', state);
-                // Управляем состониянием сканирования (старт, стоп, пауза):
-                if (!state) { barcode_scanner_stop(); }
-                else {
-                    if (scannerState) { barcode_scanner_start(storageCameraID); }
-                }
-
-                // Меняем визуальную часть кнопки управления сканированием:
-                if (state) {
-                    barcode_scanner_start_button.classList.add('active');
-                    barcode_scanner_start_button_icon.classList.replace('fa-regular', 'fa-duotone');
-                    barcode_scanner_start_button_icon.classList.replace('fa-qrcode', 'fa-pause');
-                } else {
-                    barcode_scanner_start_button.classList.remove('active');
-                    barcode_scanner_start_button_icon.classList.replace('fa-duotone', 'fa-regular');
-                    barcode_scanner_start_button_icon.classList.replace('fa-pause', 'fa-qrcode');
-                }
-            }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // Идентификатор кнопки разрешения камеры:
-            // document.querySelector('#html5-qrcode-button-camera-permission');
-            // Идентификатор кнопки запуска камеры:
-            // document.querySelector('#html5-qrcode-button-camera-start').addEventListener('click', function () { html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback); });
-            // Идентификатор кнопки остановки камеры:
-            // document.querySelector('#html5-qrcode-button-camera-stop').addEventListener('click', function () { html5QrCode.stop(); });
-            // Идентификатор кнопки факела:
-            // document.querySelector('#html5-qrcode-button-torch');
-            // Идентификатор элемента select, используемого для выбора камеры:
-            // document.querySelector('#html5-qrcode-select-camera');
-            // Идентификатор кнопки, используемой для выбора файла:
-            // document.querySelector('#html5-qrcode-button-file-selection');
-            // Идентификатор диапазона ввода для масштабирования:
-            // document.querySelector('#html5-qrcode-input-range-zoom');
-            // Идентификатор элемента привязки {@code <a>}, используемого для переключения между сканированием файлов и сканированием камеры:
-            // document.querySelector('#html5-qrcode-anchor-scan-type-change');
-            // Класс кнопки фонарика, когда фонарик включен:
-            // document.querySelector('#html5-qrcode-button-torch-on');
-            // Класс кнопки фонарика, когда фонарик выключен:
-            // document.querySelector('#html5-qrcode-button-torch-off');
-            // Идентификатор кнопки разрешения камеры:
-            // document.querySelector('#html5-qrcode-button-camera-permission');
-        }
-    }).catch(err => {
-        // handle err
-    });
-
-
-</script>
-
-<!-- <script>
-    // Handle on success condition with the decoded text or result.
-    function onScanSuccess(decodedText, decodedResult) {
-        // document.location.href = "https://api.telegram.org/bot2100711838:AAE2qHOz6R68rHJZB93Xf_CDOyrfCiqCI7Q/sendMessage?chat_id=-1001752025790&text=result:" + `${decodedText}`;
-    }
-    // Square QR Box, with size = 70% of the min edge.
-    let qrboxFunction = function (viewfinderWidth, viewfinderHeight) {
-        let minEdgeSizeThreshold = 300;
-        let edgeSizePercentage = 0.8;
-        let minEdgeSize = (viewfinderWidth > viewfinderHeight) ? viewfinderHeight : viewfinderWidth;
-        let qrboxEdgeSize = Math.floor(minEdgeSize * edgeSizePercentage);
-        if (qrboxEdgeSize < minEdgeSizeThreshold) {
-            if (minEdgeSize < minEdgeSizeThreshold) {
-                return {
-                    width: minEdgeSize,
-                    height: minEdgeSize
-                };
-            } else {
-                return {
-                    width: minEdgeSizeThreshold,
-                    height: minEdgeSizeThreshold
-                };
-            }
-        }
-        return { width: qrboxEdgeSize, height: qrboxEdgeSize };
-    }
-</script> -->
-
-<!-- https://cdnjs.com/libraries/crypto-js -->
-<script src="js/crypto-js.min@4.1.1.js"></script>
-<script>
-    function getHashFromQRCode(qrCodeString) {
-        const debug = true; // if (debug) { console.log(); }.
-        let result = 0; // Переменная для хранения результата выполнения функции.
-
-        // 1. Забираем исходную строку полученную из QR-кода.
-        // Например, "IIOTSENSE.RU/P?D10000021410111103607".
-        if (debug) { console.log('qrCodeString: ', qrCodeString); }
-
-        // 2. Отсекаем ссылку на сайт "IIOTSENSE.RU/P?":
-        const originalString = qrCodeString.substring("IIOTSENSE.RU/P?".length);
-        if (debug) { console.log('originalString: ', originalString); }
-
-        // 3. Отсекаем оригинальный хеш "3607" - последние 4 символа исходной строки:
-        const originalHash = originalString.substring(originalString.length - 4);
-        const originalStringWithoutHash = originalString.substring(0, originalString.length - 4);
-        if (debug) {
-            console.log('originalHash: ', originalHash);
-            console.log('originalStringWithoutHash: ', originalStringWithoutHash);
-        }
-
-        // 4. Конкатенируем отсеченную строку с "солью":
-        const salt = 'iaaiOdy78sfLkj1vhIe,,,,h2la49\r\n';
-        const originalStringWithSalt = originalStringWithoutHash + salt;
-        if (debug) { console.log('originalStringWithSalt: ', originalStringWithSalt); }
-
-        // 5. Получаем MD5 хеш от полученной строки:
-        const md5Hash = CryptoJS.MD5(originalStringWithSalt).toString();
-        if (debug) { console.log('md5Hash: ', md5Hash); }
-
-        // 6. Забираем 7 последних символов от MD5 хеша (7 - зависимость от числа int64, но без учёта знака):
-        const truncatedMd5Hash = md5Hash.substring(md5Hash.length - 7);
-        if (debug) { console.log('truncatedMd5Hash: ', truncatedMd5Hash); }
-
-        // 7. Переводим их в десятичную систему счисления:
-        const truncatedMd5HashDecimal = parseInt(truncatedMd5Hash, 16);
-        if (debug) { console.log('truncatedMd5HashDecimal: ', truncatedMd5HashDecimal); }
-
-        // 8. Забираем последние 4 символа - это и есть получившийся хеш:
-        const finalHash = truncatedMd5HashDecimal.toString().substring(truncatedMd5HashDecimal.toString().length - 4);
-        if (debug) { console.log('finalHash: ', finalHash); }
-
-        // 9. Сравниваем с исходным числом из п.3:
-        if (finalHash === originalHash) {
-            if (debug) {
-                console.log('finalHash: ', finalHash + ' === ', 'originalHash: ', originalHash);
-                console.log('Проверка хеша пройдена успешно!\r\n\r\n');
-            }
-        } else {
-            if (debug) {
-                result = 1;
-                console.log('finalHash: ', finalHash + ' !=== ', 'originalHash: ', originalHash);
-                console.log('Ошибка! Хеш не соответствует исходному числу.\r\n\r\n');
-            }
-        }
-
-        return result;
-    }
-
-    // Отсечение любых символов до исходной строки:
-    function removeLinkPrefix(str) {
-        var originalString = str; // Исходная строка.
-        var substring = "IIOTSENSE.RU/P?"; // До какой подстроки необходимо отсечь лишнее.
-        var startIndex = originalString.indexOf(substring);
-
-        // Если подстрока не найдена - метод "indexOf" вернет "-1":
-        if (startIndex !== -1) { var result = originalString.substring(startIndex); }
-
-        // Вызов функции проверки хеша из полученной строки:
-        getHashFromQRCode(result);
-    }
-
-    // Может не работать, если файл находится на другом домене из-за политики безопасности Same Origin Policy.
-    // Преобразование TXT-файла в массив:
-    function convertTxtToArray(str) {
-        fetch(str)
-            .then(response => response.text())
-            .then(text => {
-                const array = []; // Массив для хранения строк.
-                const lines = text.split(/\r?\n/); // Разбиваем текст на строки.
-
-                // Проверяем строки на наличие символов "БИП-"
-                for (let i = 0; i < lines.length; i++) {
-                    if (lines[i].includes('БИП-')) {
-                        const line = lines[i].trim(); // Удаляем начальные и конечные пробелы с помощью метода "trim".
-                        array.push(line); // Добавляем каждую строку в массив.
-                    }
-                }
-                array.forEach(removeLinkPrefix); // Выводим результат.
-            })
-            .catch(error => console.error(error));
-    }
-
-    // Иммитация настоящих данных, для тестирования:
-    // convertTxtToArray('БИП-G 29.09.2022.txt');
-    // convertTxtToArray('БИП-К.2 26.10.2021.txt');
-    // convertTxtToArray('БИП-Т.П 22.10.2021.txt');
-
-    // removeLinkPrefix('IIOTSENSE.RU/P?CC0000026901112204046');
-    // removeLinkPrefix('IIOTSENSE.RU/P?D00000019910110114629');
-    // removeLinkPrefix('http://IIOTSENSE.RU/P?D10000034710111105871');
-    // removeLinkPrefix('IIOTSENSE.RU/P?D10000021410111103607');
-</script>
 
 </html>
