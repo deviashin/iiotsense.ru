@@ -29,51 +29,52 @@ function decryptValue(value, secretKey) {
 }
 
 function save_input_to_local_storage(input_element) {
-    // получаем значение атрибута 'data-save' у input элемента
-    const save = input_element.getAttribute("data-save");
+    const save = input_element.getAttribute("data-save"); // Получаем значение атрибута 'data-save' у input элемента.
+    const formElement = input_element.closest("form"); // Получаем родительскую форму элемента.
 
-    // если значение атрибута равно null или 'false', значит сохранение не требуется
+    // Если значение атрибута равно 'null' или 'false', значит сохранение не требуется:
     if (save === null || save === "false") {
-        // получаем ключ из id или name элемента
-        const key = input_element.id || input_element.name;
+        const key = input_element.id || input_element.name; // Получаем ключ из id или name элемента.
 
-        // проверяем, есть ли сохраненное значение по ключу, и если есть - удаляем его из localStorage
-        const storedValue = localStorage.getItem(key);
+        // Проверяем, есть ли сохраненное значение по ключу, и если есть - удаляем его из localStorage:
+        const storedValue = localStorage.getItem(key); // ПРОВЕРКА ПО key здесь НЕВЕРНА, ВЕДЬ ТАМ МОЖЕТ БЫТЬ РОД.ФОРМА или другой префикс!!!!
         if (storedValue !== null) {
             localStorage.removeItem(key);
         }
     }
-    // если значение атрибута равно 'true', значит нужно сохранить значение элемента в localStorage
+    // Если значение атрибута равно 'true', значит нужно сохранить значение элемента в localStorage:
     else {
-        // получаем значение элемента в зависимости от типа (для чекбоксов и радиокнопок - checked, для остальных - value)
+        // Получаем значение элемента в зависимости от типа (для чекбоксов и радиокнопок - checked, для остальных - value):
         const value =
             input_element.type === "checkbox" || input_element.type === "radio"
                 ? input_element.checked
                 : input_element.value;
 
-        // получаем родительскую форму элемента
-        const formElement = input_element.closest("form");
+        // Устанавливаем префикс ключа в зависимости от наличия родительской формы и типа элемента:
+        let keyPrefix = '';
 
-        // устанавливаем префикс ключа в зависимости от наличия родительской формы и типа элемента
-        let keyPrefix = "";
+        // Если есть родительская форма, то префикс - ее id с символом "_":
         if (formElement) {
-            // если есть родительская форма, то префикс - ее id или name с символом "_"
-            keyPrefix = (formElement.id || formElement.name) + "_";
-        } else {
-            // если нет родительской формы, то префикс - 'bool_', 'num_' или 'text_' в зависимости от типа элемента
-            if (input_element.type === "checkbox") {
-                keyPrefix = "bool_";
-            } else if (input_element.type === "radio") {
-                keyPrefix = "radio_";
-            } else if (!Number.isNaN(Number(input_element.value))) {
-                keyPrefix = "num_";
-            } else {
-                keyPrefix = "text_";
-            }
+            keyPrefix = (formElement.id) + '_';
         }
 
-        // создаем ключ из префикса и id или name элемента
+        // Но независимо от наличия родительской формы, добавляем префикс в зависимости от типа элемента:
+        if (input_element.type === "checkbox") {
+            keyPrefix = keyPrefix + "bool_";
+        }
+        else if (input_element.type === "radio") {
+            keyPrefix = keyPrefix + "radio_";
+        }
+        else if (!Number.isNaN(Number(input_element.value))) {
+            keyPrefix = keyPrefix + "num_";
+        }
+        else {
+            keyPrefix = keyPrefix + "text_";
+        }
+
+        // Создаем ключ из префикса и id или name элемента:
         const key = keyPrefix + (input_element.id || input_element.name);
+
 
         // сохраняем значение элемента в localStorage, преобразуя его в строку JSON
         // localStorage.setItem(key, JSON.stringify(encryptValue(value, secretKey)));            

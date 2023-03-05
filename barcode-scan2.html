@@ -538,35 +538,37 @@
                 aria-expanded="false">
                 Выбрать источник для распознавания
             </button>
-            <ul class="dropdown-menu mt-3 w-100 border-0 shadow-lg rounded-4 p-1" aria-labelledby="dropdownMenuButton"
-                id="camera-list">
-                <li class="ps-3 pt-1">
-                    <figure>
-                        <blockquote class="blockquote mb-0">
-                            <span>Список доступных источников:</span>
-                        </blockquote>
-                        <span class="text-muted">* Не все камеры могут быть доступны</span>
-                    </figure>
-                </li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-                <li class="form-check m-3">
-                    <input data-save="true" class="form-check-input rounded-5" type="radio" name="flexRadioDefault"
-                        id="localImageSource" style="transform: scale(1.5);">
-                    <label class="form-check-label ms-2" for="localImageSource">Выбрать на устройстве</label>
-                </li>
-                <li class="form-check m-3">
-                    <input data-save="true" class="form-check-input rounded-5" type="radio" name="flexRadioDefault"
-                        id="fake-id-camera1" style="transform: scale(1.5);">
-                    <label class="form-check-label ms-2" for="fake-id-camera1">Fake camera 1 (344f:5h39)</label>
-                </li>
-                <li class="form-check m-3">
-                    <input data-save="true" class="form-check-input rounded-5" type="radio" name="flexRadioDefault"
-                        id="fake-id-camera2" style="transform: scale(1.5);">
-                    <label class="form-check-label ms-2" for="fake-id-camera2">Fake camera 2 (ba34:ff32)</label>
-                </li>
-            </ul>
+            <form id="camerass">
+                <ul class="dropdown-menu mt-3 w-100 border-0 shadow-lg rounded-4 p-1"
+                    aria-labelledby="dropdownMenuButton" id="camera-list">
+                    <li class="ps-3 pt-1">
+                        <figure>
+                            <blockquote class="blockquote mb-0">
+                                <span>Список доступных источников:</span>
+                            </blockquote>
+                            <span class="text-muted">* Не все камеры могут быть доступны</span>
+                        </figure>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li class="form-check m-3">
+                        <input data-save="true" class="form-check-input rounded-5" type="radio" name="flexRadioDefault"
+                            id="localImageSource" style="transform: scale(1.5);">
+                        <label class="form-check-label ms-2" for="localImageSource">Выбрать на устройстве</label>
+                    </li>
+                    <li class="form-check m-3">
+                        <input data-save="true" class="form-check-input rounded-5" type="radio" name="flexRadioDefault"
+                            id="fake-id-camera1" style="transform: scale(1.5);">
+                        <label class="form-check-label ms-2" for="fake-id-camera1">Fake camera 1 (344f:5h39)</label>
+                    </li>
+                    <li class="form-check m-3">
+                        <input data-save="true" class="form-check-input rounded-5" type="radio" name="flexRadioDefault"
+                            id="fake-id-camera2" style="transform: scale(1.5);">
+                        <label class="form-check-label ms-2" for="fake-id-camera2">Fake camera 2 (ba34:ff32)</label>
+                    </li>
+                </ul>
+            </form>
         </div>
 
         <div class="mobile-only">
