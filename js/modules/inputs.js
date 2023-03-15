@@ -53,7 +53,7 @@ function save_input_to_local_storage(input_element) {
         // Устанавливаем префикс ключа в зависимости от наличия родительской формы и типа элемента:
         let keyPrefix = '';
 
-        // Если есть родительская форма, то префикс - ее id с символом "_":
+        // Если есть родительская форма, то префикс - ее id с символом '_':
         if (formElement) {
             keyPrefix = (formElement.id) + '_';
         }
@@ -96,8 +96,8 @@ function load_input_from_local_storage(input_element) {
     // устанавливаем префикс ключа в зависимости от наличия родительской формы и типа элемента
     let keyPrefix = "";
     if (formElement) {
-        // если есть родительская форма, то префикс - ее id или name с символом "_"
-        keyPrefix = (formElement.id || formElement.name) + "_";
+        // если есть родительская форма, то префикс - ее id или name с символом '_'
+        keyPrefix = (formElement.id || formElement.name) + '_';
     } else {
         // если нет родительской формы, то префикс - 'bool_', 'num_' или 'text_' в зависимости от типа элемента
         if (input_element.type === "checkbox" || input_element.type === "radio") {
@@ -189,3 +189,99 @@ document.querySelectorAll('input').forEach((input) => {
 6/ Оптимизировать код для уменьшения его размера и повышения производительности. Например, можно использовать более короткие имена переменных, убрать лишние 
 проверки и т.д. 
 */
+
+
+// специально для радиокнопок, подробности у зеленого
+const radioButtons = document.querySelectorAll('input[type="radio"][name="pupa"]');
+const radioGroupName = 'pupa';
+
+radioButtons.forEach((radioButton) => {
+    const key = generateElementKey(radioButton, radioGroupName);
+    console.log(key);
+});
+
+function generateElementKey(element, radioGroupName = null) {
+    // Проверяем, что элемент существует, перед получением его атрибутов
+    if (!element) {
+        console.error('Функция generateElementKey принимает несуществующий элемент');
+        return;
+    }
+
+    // Получаем атрибуты элемента
+    const elementForm = element.closest('form');
+    const elementId = element.getAttribute('id');
+    const elementName = element.getAttribute('name');
+    const elementType = element.getAttribute('type');
+
+    // Инициализируем ключ
+    let key = '';
+
+    // Если у элемента есть родительская форма
+    if (elementForm) {
+        // Получаем идентификатор или имя формы
+        const formName = elementForm.getAttribute('id') || elementForm.getAttribute('name');
+
+        // Если у формы есть идентификатор или имя, записываем его в ключ
+        if (formName) {
+            key += formName + '_';
+        } else if (!elementId && !elementName) {
+            // Если у формы нет идентификатора и имени, возвращаем ошибку
+            console.error('У формы нет идентификатора или имени');
+            return null;
+        }
+    } else {
+        // Если у элемента нет родительской формы, выводим предупреждение
+        console.warn('Элемент не находится в форме');
+    }
+
+
+
+
+
+
+
+
+
+    // 
+    if (elementType === 'radio') {
+        if (radioGroupName) {
+            key += radioGroupName + '_';
+        } else {
+            console.error('No radio group name provided');
+            return null;
+        }
+    } else {
+        // Если у элемента есть идентификатор, добавляем его в ключ
+        if (elementId) {
+            key += elementId + '_';
+        } else if (elementName) {
+            // Если у элемента есть имя, добавляем его в ключ
+            key += elementName + '_';
+        } else {
+            // Если у элемента нет идентификатора и имени, возвращаем ошибку
+            console.error('У элемента нет идентификатора или имени');
+            return;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+    // Добавляем тип элемента в ключ
+    if (elementType) {
+        key += elementType;
+    } else {
+        // Если у элемента нет типа, возвращаем ошибку
+        console.error('У элемента нет типа');
+        return;
+    }
+
+    // Возвращаем сгенерированный ключ
+    return key;
+}
