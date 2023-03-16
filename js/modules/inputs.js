@@ -191,20 +191,42 @@ document.querySelectorAll('input').forEach((input) => {
 */
 
 
-// специально для радиокнопок, подробности у зеленого
-const radioButtons = document.querySelectorAll('input[type="radio"][name="pupa"]');
-const radioGroupName = 'pupa';
 
-radioButtons.forEach((radioButton) => {
-    const key = generateElementKey(radioButton, radioGroupName);
-    console.log(key);
+// Обрабатываем все инпуты на странице
+document.querySelectorAll('input').forEach((input) => {
+    // Добавляем обработчик события input
+    input.addEventListener('input', () => {
+        // Вызываем функцию getPupa и передаем ей элемент input
+        getPupa(input);
+        // Логируем сообщение об изменении input
+        console.log('Изменен элемент: ', input.id);
+        // Оставляем пустую строку между сообщениями
+        console.log('');
+    });
 });
 
-function generateElementKey(element, radioGroupName = null) {
+// Функция, получающая элемент и вызывающая функцию generateElementKey
+function getInputElement(el) {
+    let elem = null;
+
+    switch (el.getAttribute('type')) {
+        case 'radio':
+            elem = document.querySelectorAll(`input[type='radio'][name='${el.name}']`);
+            break;
+
+        default:
+            elem = el;
+            break;
+    }
+
+    generateElementKey(elem);
+}
+
+function generateInputElementKey(element) {
     // Проверяем, что элемент существует, перед получением его атрибутов
     if (!element) {
         console.error('Функция generateElementKey принимает несуществующий элемент');
-        return;
+        return null;
     }
 
     // Получаем атрибуты элемента
@@ -234,18 +256,10 @@ function generateElementKey(element, radioGroupName = null) {
         console.warn('Элемент не находится в форме');
     }
 
-
-
-
-
-
-
-
-
     // 
     if (elementType === 'radio') {
-        if (radioGroupName) {
-            key += radioGroupName + '_';
+        if (elementName) {
+            key += elementName + '_';
         } else {
             console.error('No radio group name provided');
             return null;
@@ -260,18 +274,9 @@ function generateElementKey(element, radioGroupName = null) {
         } else {
             // Если у элемента нет идентификатора и имени, возвращаем ошибку
             console.error('У элемента нет идентификатора или имени');
-            return;
+            return null;
         }
     }
-
-
-
-
-
-
-
-
-
 
     // Добавляем тип элемента в ключ
     if (elementType) {
