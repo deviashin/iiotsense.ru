@@ -4,3 +4,60 @@ Zigbee2MQTT:info  2023-04-04 07:59:16: MQTT publish: topic 'zigbee2mqtt/0xa4c138
 Zigbee2MQTT:info  2023-04-04 07:59:16: MQTT publish: topic 'zigbee2mqtt/0xa4c138d24a7f0934', payload '{"linkquality":654,"temperature":76.34,"temperature_temp1":-42.6,"temperature_temp2":29.6}'
 Zigbee2MQTT:info  2023-04-04 07:59:16: MQTT publish: topic 'zigbee2mqtt/0xa4c138d26a7f0934', payload '{"linkquality":645,"temperature":3.34,"temperature_temp1":-432.9761,"temperature_temp2":645.38}'
 Zigbee2MQTT:info  2023-04-04 07:59:16: MQTT publish: topic 'zigbee2mqtt/0xa4c138d26a7f0934', payload '{"linkquality":16237,"temperature":76.34,"temperature_temp1":-2.91,"temperature_temp2":29.4}'
+
+
+
+
+
+Есть беспроводные датчики, каждый из них имеет уникальное имя (aka mac-адрес) в формате: 0xa4c138d24a7f0934.
+Каждый датчик передает набор измеренных параметров:
+0. label - mac-адрес, например 0xa4c138d24a7f0934.
+1. linkquality - от 0 до 254; 
+2. temperature_t1 - от -55 до +290; 
+3. temperature_t2 - от -55 до +290; 
+4. button_tamper - on/off; 
+5. button_link - on/off; 
+6. battery_voltage - от 0В до 12В; 
+7. date - YYYY-MM-DD; 
+8. time - HH:MM:SS;
+Пункты 7 и 8 это реальные дата и время, когда поступили эти данные. Следует использовать их для задания временных точек или сетки на графике по горизонтальной оси.
+Для каждого датчика изначально создается json файл с названием этого файла по mac-адресу датчика, например: 0xa4c138d24a7f0934.json.
+По мере поступления новых значений они построчно дописываются в этот файл. Датчиков, теоретически, может быть сколько угодно, и для каждого есть свой файл, в принципе можно назвать это лог-файлом.
+Необходимо создать универсальную функцию на чистом JS, которая через тег input будет принимать json файл который выбрал пользователь, парсить его из json в формат удобный для chartjs. 
+Передавать это содержимое в универсальную функци по результатам выполнения которой будут отображаться последние 69 блоков с набором параметров.
+Вот пример json документа:
+[
+    {
+    "label": 0xa4c138d24a7f0934,
+    "linkquality": 247,
+    "temperature_t1": -20.91,
+    "temperature_t2": 145.54,
+    "button_tamper": "on",
+    "button_link": "off",
+    "battery_voltage": 3.65,
+    "date": "2023-04-04",
+    "time": "07:59:16"
+    },
+    {
+    "label": 0xa4c138d24a7f0934,
+    "linkquality": 236,
+    "temperature_t1": -21.44,
+    "temperature_t2": 147.25,
+    "button_tamper": "off",
+    "button_link": "off",
+    "battery_voltage": 3.64,
+    "date": "2023-04-04",
+    "time": "08:01:16"
+    },
+    {
+    "label": 0xa4c138d24a7f0934,
+    "linkquality": 241,
+    "temperature_t1": -19.76,
+    "temperature_t2": 139.14,
+    "button_tamper": "on",
+    "button_link": "off",
+    "battery_voltage": 3.65,
+    "date": "2023-04-04",
+    "time": "08:02:16"
+    }
+]
