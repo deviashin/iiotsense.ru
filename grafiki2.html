@@ -2,146 +2,227 @@
 <html>
 
 <head>
-    <title>ChartJS Example</title>
+    <title>Chart.js Example</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <canvas id="myChart"></canvas>
-    <script>
-        const canvas = document.getElementById('myChart');
+    <div class="container">
+        <div class="mb-3">
+            <label for="start-date" class="form-label">Начальная дата:</label>
+            <input type="date" class="form-control" id="start-date">
+        </div>
+        <div class="mb-3">
+            <label for="start-time" class="form-label">Начальное время:</label>
+            <input type="time" class="form-control" id="start-time">
+        </div>
+        <div class="mb-3">
+            <label for="end-date" class="form-label">Конечная дата:</label>
+            <input type="date" class="form-control" id="end-date">
+        </div>
+        <div class="mb-3">
+            <label for="end-time" class="form-label">Конечное время:</label>
+            <input type="time" class="form-control" id="end-time">
+        </div>
+        <button class="btn btn-primary" id="update-button">Обновить</button>
 
-        const jsonData = [
+    </div>
+    <div class="container-fluid">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        let jsonData = {};
+
+        fetch('0xa4c138d22a7f0934.json')
+            .then(response => response.json())
+            .then(data => {
+                // console.log(jsonData);
+                jsonData = data;
+                const datatas = convertJsonToChartData(jsonData);
+
+                const config = {
+                    type: 'line',
+                    data: datatas,
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Графики '
+                            }
+                        }
+                    }
+                };
+                var myChart = new Chart(
+                    document.getElementById('myChart'),
+                    config
+                );
+            })
+            .catch(error => console.error(error));
+
+        function getData(filteredD) {
+            const datatas = convertJsonToChartData(filteredD);
+
+            const config = {
+                type: 'line',
+                data: datatas,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Графики '
+                        }
+                    }
+                }
+            };
+            var myChart = new Chart(
+                document.getElementById('myChart'),
+                config
+            );
+        }
+
+        const js1onData = [
             {
-                "label": 0xa4c138d24a7f0934,
+                "label": "0xa4c138d24a7f0934",
                 "linkquality": 247,
-                "temperature_t1": -20.91,
-                "temperature_t2": 145.54,
-                "button_tamper": "on",
-                "button_link": "off",
+                "temperature_t1": -0.91,
+                "temperature_t2": 45.54,
+                "button_tamper": 1,
+                "button_link": 0,
                 "battery_voltage": 3.65,
                 "date": "2023-04-04",
-                "time": "07:59:16"
+                "time": "07:50:16"
             },
             {
-                "label": 0xa4c138d24a7f0934,
-                "linkquality": 236,
+                "label": "0xa4c138d24a7f0934",
+                "linkquality": 226,
                 "temperature_t1": -21.44,
                 "temperature_t2": 147.25,
-                "button_tamper": "off",
-                "button_link": "off",
+                "button_tamper": 1,
+                "button_link": 0,
                 "battery_voltage": 3.64,
                 "date": "2023-04-04",
-                "time": "08:01:16"
+                "time": "08:11:16"
             },
             {
-                "label": 0xa4c138d24a7f0934,
+                "label": "0xa4c138d24a7f0934",
+                "linkquality": 216,
+                "temperature_t1": -1.44,
+                "temperature_t2": 47.25,
+                "button_tamper": 0,
+                "button_link": 0,
+                "battery_voltage": 3.64,
+                "date": "2023-04-04",
+                "time": "08:05:16"
+            },
+            {
+                "label": "0xa4c138d24a7f0934",
                 "linkquality": 241,
                 "temperature_t1": -19.76,
                 "temperature_t2": 139.14,
-                "button_tamper": "on",
-                "button_link": "off",
+                "button_tamper": 1,
+                "button_link": 0,
                 "battery_voltage": 3.65,
                 "date": "2023-04-04",
-                "time": "08:02:16"
+                "time": "18:06:16"
             }
         ];
 
-        drawChartFromJson(JSON.parse(jsonData), canvas);
+        //  :
+        const startDate = document.getElementById("start-date");
+        const startTime = document.getElementById('start-time');
+        const endDate = document.getElementById("end-date");
+        const endTime = document.getElementById("end-time");
 
-        function drawChartFromJson(jsonData, canvas) {
-            // Создаем массивы для каждого параметра
-            const linkqualityData = [];
-            const temperature_t1Data = [];
-            const temperature_t2Data = [];
-            const button_tamperData = [];
-            const button_linkData = [];
-            const battery_voltageData = [];
-            const timeLabels = [];
+        // :
+        function currentDateTime() {
+            const currentDate = new Date();
+            currentDate.setHours(currentDate.getHours() - 1); // отнимаем один час
+            currentDate.setMinutes(currentDate.getMinutes() - 0); // отнимаем ноль минут
+            startTime.value = currentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-            // Итерируемся по объектам в json файле
-            jsonData.forEach((obj) => {
-                // Добавляем значения параметров в соответствующие массивы
-                linkqualityData.push(obj.linkquality);
-                temperature_t1Data.push(obj.temperature_t1);
-                temperature_t2Data.push(obj.temperature_t2);
-                button_tamperData.push(obj.button_tamper);
-                button_linkData.push(obj.button_link);
-                battery_voltageData.push(obj.battery_voltage);
-
-                // Обрабатываем дату и время
-                const datetime = new Date(`${obj.date}T${obj.time}`);
-                const timeString = datetime.toLocaleTimeString([], { hour12: false });
-                timeLabels.push(timeString);
-            });
-
-            // Создаем объект графика
-            const chart = new Chart(canvas, {
-                type: 'line',
-                data: {
-                    labels: timeLabels,
-                    datasets: [
-                        {
-                            label: 'linkquality',
-                            data: linkqualityData,
-                            borderColor: 'red',
-                            fill: false,
-                        },
-                        {
-                            label: 'temperature_t1',
-                            data: temperature_t1Data,
-                            borderColor: 'blue',
-                            fill: false,
-                        },
-                        {
-                            label: 'temperature_t2',
-                            data: temperature_t2Data,
-                            borderColor: 'green',
-                            fill: false,
-                        },
-                        {
-                            label: 'button_tamper',
-                            data: button_tamperData,
-                            borderColor: 'purple',
-                            fill: false,
-                        },
-                        {
-                            label: 'button_link',
-                            data: button_linkData,
-                            borderColor: 'orange',
-                            fill: false,
-                        },
-                        {
-                            label: 'battery_voltage',
-                            data: battery_voltageData,
-                            borderColor: 'gray',
-                            fill: false,
-                        },
-                    ],
-                },
-                options: {
-                    scales: {
-                        xAxes: [
-                            {
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: 'Time',
-                                },
-                            },
-                        ],
-                        yAxes: [
-                            {
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: 'Value',
-                                },
-                            },
-                        ],
-                    },
-                },
-            });
+            startDate.value = currentDate.toISOString().slice(0, 10);
+            // startTime.value = currentDate.toTimeString().slice(0, 5);
+            endDate.value = currentDate.toISOString().slice(0, 10);
+            endTime.value = currentDate.toTimeString().slice(0, 5);
         }
 
+        // :
+        document.addEventListener("DOMContentLoaded", function () {
+            currentDateTime();
+        });
+
+        //  :
+        const updateButton = document.getElementById('update-button');
+        updateButton.addEventListener('click', function () {
+            const startDateTime = new Date(`${startDate.value}T${startTime.value}`);
+            const endDateTime = new Date(`${endDate.value}T${endTime.value}`);
+
+            const filteredData = jsonData.filter((item) => {
+                const itemDateTime = new Date(`${item.date}T${item.time}`);
+                return itemDateTime >= startDateTime && itemDateTime <= endDateTime;
+            });
+
+            const chartData = getData(filteredData);
+
+            myChart.data = chartData;
+            myChart.update();
+        });
+
+        function convertJsonToChartData(jsonData) {
+            // Создаем объект с начальными значениями
+            const data = {
+                labels: [],
+                datasets: []
+            };
+
+            // Проходим по каждому элементу массива JSON данных
+            jsonData.forEach((item, index) => {
+                // Преобразуем дату и время в объект Date
+                const datetime = new Date(item.date + 'T' + item.time);
+
+                // Добавляем метку для оси X, соединяя дату и время
+                const label = item.date + ' ' + item.time;
+                data.labels.push(label);
+
+                // Проходим по каждому свойству элемента
+                Object.keys(item).forEach((key) => {
+                    // Пропускаем свойства "label", "date" и "time"
+                    if (key === 'label' ||
+                        key === 'date' ||
+                        key === 'time' ||
+                        key === 'button_tamper' ||
+                        key === 'button_link'
+                    ) {
+                        return;
+                    }
+
+                    // // Создаем новый набор данных для каждого свойства
+                    let dataset = data.datasets.find((d) => d.label === key);
+                    if (!dataset) {
+                        dataset = {
+                            label: key,
+                            data: [],
+                            fill: false
+                        };
+                        data.datasets.push(dataset);
+                    }
+
+                    // Добавляем значение в соответствующий набор данных
+                    const datasetIndex = data.datasets.findIndex((dataset) => dataset.label === key);
+                    data.datasets[datasetIndex].data.push({ x: datetime.getTime(), y: item[key] });
+                });
+            });
+
+            return data;
+        }
     </script>
 </body>
 
