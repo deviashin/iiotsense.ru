@@ -219,42 +219,59 @@ function getInputElement(el) {
             break;
     }
 
-    generateElementKey(elem);
+    generateInputElementKey(elem);
 }
 
-function generateInputElementKey(element) {
+function getElement(element) {
     // Проверяем, что элемент существует, перед получением его атрибутов
     if (!element) {
-        console.error('Функция generateElementKey принимает несуществующий элемент');
+        console.error('Функция принимает несуществующий элемент');
         return null;
     }
 
+    return element;
+}
+
+// :
+function getElementFrom(element) {
+    let result = null;
+
+    if (getElement(element)) {
+        const form = element.closest('form');
+        const id = form.getAttribute('id');
+        const name = form.getAttribute('name');
+
+        if (form) {
+            if (id) {
+                result = id;
+            } else if (name) {
+                result = name;
+            } else {
+                result = 1;
+                console.error('У формы нет идентификатора или имени');
+            }
+        } else {
+            result = 2;
+            console.warn('Элемент не находится в форме');
+        }
+    }
+
+    return result;
+}
+
+// :
+function generateInputElementKey(element) {
+
+
     // Получаем атрибуты элемента
-    const elementForm = element.closest('form');
     const elementId = element.getAttribute('id');
     const elementName = element.getAttribute('name');
-    const elementType = element.getAttribute('type');
+    // const elementType = element.getAttribute('type');
 
     // Инициализируем ключ
     let key = '';
 
-    // Если у элемента есть родительская форма
-    if (elementForm) {
-        // Получаем идентификатор или имя формы
-        const formName = elementForm.getAttribute('id') || elementForm.getAttribute('name');
 
-        // Если у формы есть идентификатор или имя, записываем его в ключ
-        if (formName) {
-            key += formName + '_';
-        } else if (!elementId && !elementName) {
-            // Если у формы нет идентификатора и имени, возвращаем ошибку
-            console.error('У формы нет идентификатора или имени');
-            return null;
-        }
-    } else {
-        // Если у элемента нет родительской формы, выводим предупреждение
-        console.warn('Элемент не находится в форме');
-    }
 
     // 
     if (elementType === 'radio') {
@@ -278,14 +295,14 @@ function generateInputElementKey(element) {
         }
     }
 
-    // Добавляем тип элемента в ключ
-    if (elementType) {
-        key += elementType;
-    } else {
-        // Если у элемента нет типа, возвращаем ошибку
-        console.error('У элемента нет типа');
-        return;
-    }
+    // // Добавляем тип элемента в ключ
+    // if (elementType) {
+    //     key += elementType;
+    // } else {
+    //     // Если у элемента нет типа, возвращаем ошибку
+    //     console.error('У элемента нет типа');
+    //     return;
+    // }
 
     // Возвращаем сгенерированный ключ
     return key;
