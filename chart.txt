@@ -1,0 +1,6 @@
+Zigbee2MQTT:info  2023-04-04 07:59:16: MQTT publish: topic 'zigbee2mqtt/0xa4c138d26a7f0934', payload '{"linkquality":167,"temperature":12.34,"temperature_temp1":-322.7,"temperature_temp2":29.6}'
+Zigbee2MQTT:info  2023-04-04 07:59:16: MQTT publish: topic 'zigbee2mqtt/0xa4c138d22a7f0934', payload '{"linkquality":43,"temperature":26.34,"temperature_temp1":-432.3,"temperature_temp2":4.38}'
+Zigbee2MQTT:info  2023-04-04 07:59:16: MQTT publish: topic 'zigbee2mqtt/0xa4c138d23a7f0934', payload '{"linkquality":54,"temperature":65.34,"temperature_temp1":-65.9651,"temperature_temp2":29.54}'
+Zigbee2MQTT:info  2023-04-04 07:59:16: MQTT publish: topic 'zigbee2mqtt/0xa4c138d24a7f0934', payload '{"linkquality":654,"temperature":76.34,"temperature_temp1":-42.6,"temperature_temp2":29.6}'
+Zigbee2MQTT:info  2023-04-04 07:59:16: MQTT publish: topic 'zigbee2mqtt/0xa4c138d26a7f0934', payload '{"linkquality":645,"temperature":3.34,"temperature_temp1":-432.9761,"temperature_temp2":645.38}'
+Zigbee2MQTT:info  2023-04-04 07:59:16: MQTT publish: topic 'zigbee2mqtt/0xa4c138d26a7f0934', payload '{"linkquality":16237,"temperature":76.34,"temperature_temp1":-2.91,"temperature_temp2":29.4}'
