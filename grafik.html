@@ -7,40 +7,141 @@
 </head>
 
 <body>
-    <div style="width:75%;">
+    <div>
         <canvas id="myChart"></canvas>
     </div>
 
     <script>
-        // Задаем данные для графика
-        const data = {
-            labels: ['Data 1', 'Data 2', 'Data 3'],
-            datasets: [
-                {
-                    label: 'linkquality',
-                    data: [167, 645, 16237],
-                    borderColor: 'red',
-                    fill: false
-                },
-                {
-                    label: 'temperature_temp1',
-                    data: [-322.7, -432.9761, -2.91],
-                    borderColor: 'blue',
-                    fill: false
-                },
-                {
-                    label: 'temperature_temp2',
-                    data: [29.6, 645.38, 29.4],
-                    borderColor: 'green',
-                    fill: false
-                }
-            ]
-        };
 
-        // Настройки для графика
+        const jsonData = [
+            {
+                "label": 0xa4c138d24a7f0934,
+                "linkquality": 247,
+                "temperature_t1": -20.91,
+                "temperature_t2": 145.54,
+                "button_tamper": 1,
+                "button_link": 0,
+                "battery_voltage": 3.65,
+                "date": "2023-04-04",
+                "time": "07:59:16"
+            },
+            {
+                "label": 0xa4c138d24a7f0934,
+                "linkquality": 236,
+                "temperature_t1": -21.44,
+                "temperature_t2": 147.25,
+                "button_tamper": 1,
+                "button_link": 0,
+                "battery_voltage": 3.64,
+                "date": "2023-04-04",
+                "time": "08:01:16"
+            },
+            {
+                "label": 0xa4c138d24a7f0934,
+                "linkquality": 171,
+                "temperature_t1": -19.76,
+                "temperature_t2": 139.14,
+                "button_tamper": 1,
+                "button_link": 0,
+                "battery_voltage": 3.65,
+                "date": "2023-04-04",
+                "time": "08:02:16"
+            },
+            {
+                "label": 0xa4c138d24a7f0934,
+                "linkquality": 236,
+                "temperature_t1": -21.44,
+                "temperature_t2": 147.25,
+                "button_tamper": 0,
+                "button_link": 0,
+                "battery_voltage": 3.64,
+                "date": "2023-04-04",
+                "time": "08:03:16"
+            },
+            {
+                "label": 0xa4c138d24a7f0934,
+                "linkquality": 241,
+                "temperature_t1": -19.76,
+                "temperature_t2": 139.14,
+                "button_tamper": 1,
+                "button_link": 0,
+                "battery_voltage": 3.65,
+                "date": "2023-04-04",
+                "time": "08:04:16"
+            },
+            {
+                "label": 0xa4c138d24a7f0934,
+                "linkquality": 236,
+                "temperature_t1": -21.44,
+                "temperature_t2": 147.25,
+                "button_tamper": 0,
+                "button_link": 0,
+                "battery_voltage": 3.64,
+                "date": "2023-04-04",
+                "time": "08:05:16"
+            },
+            {
+                "label": 0xa4c138d24a7f0934,
+                "linkquality": 241,
+                "temperature_t1": -19.76,
+                "temperature_t2": 139.14,
+                "button_tamper": 1,
+                "button_link": 0,
+                "battery_voltage": 3.65,
+                "date": "2023-04-04",
+                "time": "08:06:16"
+            }
+        ];
+
+        function convertJsonToChartData(jsonData) {
+            // Создаем объект с начальными значениями
+            const data = {
+                labels: [],
+                datasets: []
+            };
+
+            // Проходим по каждому элементу массива JSON данных
+            jsonData.forEach((item, index) => {
+                // Добавляем метку для оси X, соединяя дату и время
+                const label = item.date + ' ' + item.time;
+                data.labels.push(label);
+
+                // Проходим по каждому свойству элемента
+                Object.keys(item).forEach((key) => {
+                    // Пропускаем свойства "label", "date" и "time"
+                    if (key === 'label' ||
+                        key === 'date' ||
+                        key === 'time' ||
+                        key === 'button_tamper' ||
+                        key === 'button_link'
+                    ) {
+                        return;
+                    }
+
+                    // Создаем новый набор данных для каждого свойства
+                    let dataset = data.datasets.find((d) => d.label === key);
+                    if (!dataset) {
+                        dataset = {
+                            label: key,
+                            data: [],
+                            fill: false
+                        };
+                        data.datasets.push(dataset);
+                    }
+
+                    // Добавляем значение свойства в набор данных
+                    dataset.data.push(item[key]);
+                });
+            });
+
+            return data;
+        }
+
+        const datatas = convertJsonToChartData(jsonData);
+
         const config = {
             type: 'line',
-            data: data,
+            data: datatas,
             options: {
                 responsive: true,
                 plugins: {
@@ -58,9 +159,6 @@
                 }
             }
         };
-
-
-        // Инициализируем график
         var myChart = new Chart(
             document.getElementById('myChart'),
             config

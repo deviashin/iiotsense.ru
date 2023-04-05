@@ -1,10 +1,32 @@
-{
-    "name": "0xa4c138d22a7f0934",
-    "data": [
-        {
-            "linkquality": 43,
-            "temperature_temp1": -432.3,
-            "temperature_temp2": 4.38
-        }
-    ]
-}
+[
+    {
+    "linkquality": 247,
+    "temperature_t1": -20.91,
+    "temperature_t2": 145.54,
+    "button_tamper": "on",
+    "button_link": "off",
+    "battery_voltage": 3.65,
+    "date": "2023-04-04",
+    "time": "07:59:16"
+    },
+    {
+    "linkquality": 236,
+    "temperature_t1": -21.44,
+    "temperature_t2": 147.25,
+    "button_tamper": "off",
+    "button_link": "off",
+    "battery_voltage": 3.64,
+    "date": "2023-04-04",
+    "time": "08:01:16"
+    },
+    {
+    "linkquality": 241,
+    "temperature_t1": -19.76,
+    "temperature_t2": 139.14,
+    "button_tamper": "on",
+    "button_link": "off",
+    "battery_voltage": 3.65,
+    "date": "2023-04-04",
+    "time": "08:02:16"
+    }
+]

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ChartJS Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <canvas id="myChart"></canvas>
+    <script>
+        const canvas = document.getElementById('myChart');
+
+        const jsonData = [
+            {
+                "label": 0xa4c138d24a7f0934,
+                "linkquality": 247,
+                "temperature_t1": -20.91,
+                "temperature_t2": 145.54,
+                "button_tamper": "on",
+                "button_link": "off",
+                "battery_voltage": 3.65,
+                "date": "2023-04-04",
+                "time": "07:59:16"
+            },
+            {
+                "label": 0xa4c138d24a7f0934,
+                "linkquality": 236,
+                "temperature_t1": -21.44,
+                "temperature_t2": 147.25,
+                "button_tamper": "off",
+                "button_link": "off",
+                "battery_voltage": 3.64,
+                "date": "2023-04-04",
+                "time": "08:01:16"
+            },
+            {
+                "label": 0xa4c138d24a7f0934,
+                "linkquality": 241,
+                "temperature_t1": -19.76,
+                "temperature_t2": 139.14,
+                "button_tamper": "on",
+                "button_link": "off",
+                "battery_voltage": 3.65,
+                "date": "2023-04-04",
+                "time": "08:02:16"
+            }
+        ];
+
+        drawChartFromJson(JSON.parse(jsonData), canvas);
+
+        function drawChartFromJson(jsonData, canvas) {
+            // Создаем массивы для каждого параметра
+            const linkqualityData = [];
+            const temperature_t1Data = [];
+            const temperature_t2Data = [];
+            const button_tamperData = [];
+            const button_linkData = [];
+            const battery_voltageData = [];
+            const timeLabels = [];
+
+            // Итерируемся по объектам в json файле
+            jsonData.forEach((obj) => {
+                // Добавляем значения параметров в соответствующие массивы
+                linkqualityData.push(obj.linkquality);
+                temperature_t1Data.push(obj.temperature_t1);
+                temperature_t2Data.push(obj.temperature_t2);
+                button_tamperData.push(obj.button_tamper);
+                button_linkData.push(obj.button_link);
+                battery_voltageData.push(obj.battery_voltage);
+
+                // Обрабатываем дату и время
+                const datetime = new Date(`${obj.date}T${obj.time}`);
+                const timeString = datetime.toLocaleTimeString([], { hour12: false });
+                timeLabels.push(timeString);
+            });
+
+            // Создаем объект графика
+            const chart = new Chart(canvas, {
+                type: 'line',
+                data: {
+                    labels: timeLabels,
+                    datasets: [
+                        {
+                            label: 'linkquality',
+                            data: linkqualityData,
+                            borderColor: 'red',
+                            fill: false,
+                        },
+                        {
+                            label: 'temperature_t1',
+                            data: temperature_t1Data,
+                            borderColor: 'blue',
+                            fill: false,
+                        },
+                        {
+                            label: 'temperature_t2',
+                            data: temperature_t2Data,
+                            borderColor: 'green',
+                            fill: false,
+                        },
+                        {
+                            label: 'button_tamper',
+                            data: button_tamperData,
+                            borderColor: 'purple',
+                            fill: false,
+                        },
+                        {
+                            label: 'button_link',
+                            data: button_linkData,
+                            borderColor: 'orange',
+                            fill: false,
+                        },
+                        {
+                            label: 'battery_voltage',
+                            data: battery_voltageData,
+                            borderColor: 'gray',
+                            fill: false,
+                        },
+                    ],
+                },
+                options: {
+                    scales: {
+                        xAxes: [
+                            {
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Time',
+                                },
+                            },
+                        ],
+                        yAxes: [
+                            {
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Value',
+                                },
+                            },
+                        ],
+                    },
+                },
+            });
+        }
+
+    </script>
+</body>
+
+</html>
