@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Log Parser</title>
+</head>
+
+<body>
+    <input type="file" id="input-file">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        function drawChart(id, data) {
+            // Проверяем, что данные являются массивом и не пусты
+            if (!Array.isArray(data) || data.length === 0) {
+                console.error('Invalid data for chart');
+                return;
+            }
+
+            // Получаем ссылку на элемент, в который нужно отрисовать график
+            const canvasElement = document.createElement('canvas');
+            canvasElement.id = id;
+            document.getElementById('chart-container').appendChild(canvasElement);
+
+            // Инициализируем объект Chart.js
+            const chart = new Chart(canvasElement, {
+                type: 'line',
+                data: {
+                    labels: data.map((item) => item.linkquality), // Используем значения linkquality в качестве меток
+                    datasets: [
+                        {
+                            label: 'Temperature Temp1',
+                            data: data.map((item) => item.temperature_temp1),
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1,
+                        },
+                        {
+                            label: 'Temperature Temp2',
+                            data: data.map((item) => item.temperature_temp2),
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [
+                            {
+                                ticks: {
+                                    beginAtZero: true,
+                                },
+                            },
+                        ],
+                    },
+                },
+            });
+        }
+
+        // Пример исходной строки внутри файла log.txt
+        // Zigbee2MQTT:info  2023-04-04 07:59:16: MQTT publish: topic 'zigbee2mqtt/0xa4c138d26a7f0934', payload '{"linkquality":167,"temperature":26.34,"temperature_temp1":-2.91,"temperature_temp2":29.38}'
+
+        // Функция для парсинга файла логов
+        function parseLogFile(logFile) {
+            const parsedData = {}; // Объект для хранения разобранной информации
+            const lines = logFile.split('\n'); // Разбиваем файл на строки
+
+            // Проходимся по каждой строке
+            lines.forEach((line) => {
+                // Ищем совпадение с шаблоном, содержащим название устройства и данные
+                const match = line.match(/.*zigbee2mqtt\/(.+)', payload '(.+)'/);
+                if (match) {
+                    // Получаем название устройства и данные
+                    const deviceName = match[1];
+                    const payload = JSON.parse(match[2]);
+
+                    // Если для данного устройства еще не создан массив, создаем его
+                    if (!parsedData[deviceName]) {
+                        parsedData[deviceName] = [];
+                    }
+
+                    // Добавляем информацию об устройстве в массив
+                    parsedData[deviceName].push({
+                        linkquality: payload.linkquality,
+                        temperature_temp1: payload.temperature_temp1,
+                        temperature_temp2: payload.temperature_temp2,
+                    });
+
+                    // Создаем элемент canvas для отрисовки графика
+                    const canvasElement = document.createElement('canvas');
+                    canvasElement.id = deviceName;
+                    document.body.appendChild(canvasElement);
+                }
+            });
+
+            return parsedData;
+        }
+
+        // Функция для сохранения данных в файл
+        function saveDataToFile(data, fileName) {
+            // Форматируем данные для сохранения
+            const formattedData = {
+                name: fileName.split('.')[0],
+                data,
+            };
+            // Создаем имя выходного файла
+            const outputFileName = `${fileName.split('.')[0]}.txt`;
+
+            // Создаем объект blob с данными
+            const blob = new Blob([JSON.stringify(formattedData)], { type: 'text/plain;charset=utf-8' });
+
+            // Создаем объект FileReader для чтения данных из blob
+            const reader = new FileReader();
+
+            // Обработчик загрузки данных из blob
+            reader.onload = function (event) {
+                // Получаем текст из FileReader
+                const text = event.target.result;
+
+                // Преобразуем текст в объект JSON
+                const json = JSON.parse(text);
+
+                // Создаем элемент pre для вывода информации на страницу
+                const pre = document.createElement('pre');
+                pre.textContent = JSON.stringify(json, null, 2);
+                document.body.appendChild(pre);
+            };
+
+            // Читаем данные из blob в объект FileReader
+            reader.readAsText(blob);
+
+            // Отрисовываем графики
+            drawChart(fileName, data[fileName]);
+        }
+
+        // Функция для обработки выбора файла
+        function handleFileSelect(evt) {
+            // Получаем выбранные файлы
+            const files = evt.target.files;
+            const file = files[0];
+
+            // Создаем объект FileReader для чтения выбранного файла
+            const reader = new FileReader();
+
+            // Обработчик загрузки файла
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Получаем текст из FileReader
+                    const logFile = e.target.result;
+
+                    // Разбираем файл логов
+                    const parsedData = parseLogFile(logFile);
+
+                    // Сохраняем данные для каждого устройства в отдельный файл
+                    for (const deviceName in parsedData) {
+                        const deviceData = parsedData[deviceName];
+                        saveDataToFile(deviceData, `${deviceName}.txt`);
+                    }
+                };
+            })(file);
+
+            // Читаем выбранный файл в объект FileReader
+            reader.readAsText(file);
+        }
+        // Получаем ссылку на элемент input с идентификатором 'input-file'
+        const inputElement = document.getElementById('input-file');
+
+        // Добавляем слушатель события 'change' на элемент input
+        // и вызываем функцию handleFileSelect при изменении значения
+        inputElement.addEventListener('change', handleFileSelect, false);
+    </script>
+
+    <script>
+        fetch('0xa4c138d26a7f0934.json')
+            .then(response => response.json())
+            .then(data => {
+                // создаем контейнер для графика
+                const canvas = document.createElement('canvas');
+                document.body.appendChild(canvas);
+
+                // получаем данные для графика
+                const chartData = data.map(item => ({
+                    x: item.linkquality,
+                    y: item.temperature_temp1
+                }));
+
+                // настройки для графика
+                const chartOptions = {
+                    type: 'line',
+                    data: {
+                        datasets: [{
+                            label: data.name,
+                            data: chartData,
+                            borderColor: 'red',
+                            backgroundColor: 'transparent'
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            xAxes: [{
+                                type: 'linear',
+                                position: 'bottom',
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                };
+
+                // создаем график на основе данных и настроек
+                const chart = new Chart(canvas, chartOptions);
+            })
+            .catch(error => console.error(error));
+
+    </script>
+</body>
+
+</html>

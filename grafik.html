@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chart.js Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div style="width:75%;">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        // Задаем данные для графика
+        const data = {
+            labels: ['Data 1', 'Data 2', 'Data 3'],
+            datasets: [
+                {
+                    label: 'linkquality',
+                    data: [167, 645, 16237],
+                    borderColor: 'red',
+                    fill: false
+                },
+                {
+                    label: 'temperature_temp1',
+                    data: [-322.7, -432.9761, -2.91],
+                    borderColor: 'blue',
+                    fill: false
+                },
+                {
+                    label: 'temperature_temp2',
+                    data: [29.6, 645.38, 29.4],
+                    borderColor: 'green',
+                    fill: false
+                }
+            ]
+        };
+
+        // Настройки для графика
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Chart.js Example'
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        };
+
+
+        // Инициализируем график
+        var myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+    </script>
+</body>
+
+</html>
