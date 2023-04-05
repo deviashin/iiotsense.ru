@@ -8,6 +8,17 @@
 
 <body>
     <div>
+        <label for="start-date">Start Date:</label>
+        <input type="date" id="start-date">
+        <label for="start-time">Start Time:</label>
+        <input type="time" id="start-time">
+        <label for="end-date">End Date:</label>
+        <input type="date" id="end-date">
+        <label for="end-time">End Time:</label>
+        <input type="time" id="end-time">
+        <button id="update-button">Update</button>
+    </div>
+    <div>
         <canvas id="myChart"></canvas>
     </div>
 
@@ -23,7 +34,7 @@
                 "button_link": 0,
                 "battery_voltage": 3.65,
                 "date": "2023-04-04",
-                "time": "07:59:16"
+                "time": "07:50:16"
             },
             {
                 "label": 0xa4c138d24a7f0934,
@@ -34,18 +45,7 @@
                 "button_link": 0,
                 "battery_voltage": 3.64,
                 "date": "2023-04-04",
-                "time": "08:01:16"
-            },
-            {
-                "label": 0xa4c138d24a7f0934,
-                "linkquality": 171,
-                "temperature_t1": -19.76,
-                "temperature_t2": 139.14,
-                "button_tamper": 1,
-                "button_link": 0,
-                "battery_voltage": 3.65,
-                "date": "2023-04-04",
-                "time": "08:02:16"
+                "time": "08:11:16"
             },
             {
                 "label": 0xa4c138d24a7f0934,
@@ -55,29 +55,7 @@
                 "button_tamper": 0,
                 "button_link": 0,
                 "battery_voltage": 3.64,
-                "date": "2023-04-04",
-                "time": "08:03:16"
-            },
-            {
-                "label": 0xa4c138d24a7f0934,
-                "linkquality": 241,
-                "temperature_t1": -19.76,
-                "temperature_t2": 139.14,
-                "button_tamper": 1,
-                "button_link": 0,
-                "battery_voltage": 3.65,
-                "date": "2023-04-04",
-                "time": "08:04:16"
-            },
-            {
-                "label": 0xa4c138d24a7f0934,
-                "linkquality": 236,
-                "temperature_t1": -21.44,
-                "temperature_t2": 147.25,
-                "button_tamper": 0,
-                "button_link": 0,
-                "battery_voltage": 3.64,
-                "date": "2023-04-04",
+                "date": "2023-04-05",
                 "time": "08:05:16"
             },
             {
@@ -88,10 +66,32 @@
                 "button_tamper": 1,
                 "button_link": 0,
                 "battery_voltage": 3.65,
-                "date": "2023-04-04",
-                "time": "08:06:16"
+                "date": "2023-04-06",
+                "time": "18:06:16"
             }
         ];
+
+        const updateButton = document.getElementById('update-button');
+        updateButton.addEventListener('click', function () {
+            const startDate = document.getElementById('start-date').value;
+            const startTime = document.getElementById('start-time').value;
+            const endDate = document.getElementById('end-date').value;
+            const endTime = document.getElementById('end-time').value;
+
+            const startDateTime = new Date(`${startDate}T${startTime}`);
+            const endDateTime = new Date(`${endDate}T${endTime}`);
+
+            const filteredData = jsonData.filter((item) => {
+                const itemDateTime = new Date(`${item.date}T${item.time}`);
+                return itemDateTime >= startDateTime && itemDateTime <= endDateTime;
+            });
+
+            const chartData = convertJsonToChartData(filteredData);
+
+            myChart.data = chartData;
+            myChart.update();
+        });
+
 
         function convertJsonToChartData(jsonData) {
             // Создаем объект с начальными значениями
