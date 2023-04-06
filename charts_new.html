@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>JSON из файла</title>
+</head>
+
+<body>
+    <script>
+fetch('fr3.txt')
+  .then(response => response.text())
+  .then(data => {
+    let lines = data.split('\n');
+    let result = {};
+    lines.forEach(line => {
+      let parts = line.split(/\s+/);
+      let topic = parts[5].replace(/'/g, '');
+      let date = parts[2];
+      let time = parts[3];
+      let payload = parts.slice(7).join(' ');
+      let payloadJson = JSON.parse(payload);
+      let item = {
+        label: topic,
+        date: date,
+        time: time,
+        linkquality: payloadJson.linkquality,
+        temperature_temp1: payloadJson.temperature_temp1,
+        temperature_temp2: payloadJson.temperature_temp2
+      };
+      if (result[topic]) {
+        result[topic].push(item);
+      } else {
+        result[topic] = [item];
+      }
+    });
+    console.log(result);
+  });
+
+    </script>
+</body>
+
+</html>
+
+{
+    "БИП-Т.В.11.2000:000182": [
+      {
+        "label": "БИП-Т.В.11.2000:000182",
+        "date": "2023-04-06",
+        "time": "07:04:26:",
+        "linkquality": 255,
+        "temperature_temp1": 290,
+        "temperature_temp2": -25.77
+      },
+      // ... другие объекты с тем же значением топика
+    ],
+    // ... другие объекты с другим значением топика
+  }
+  
