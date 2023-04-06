@@ -141,12 +141,14 @@
         // Получение контекста для работы с графиками:
         let canvas = window.document.querySelector('canvas');
         let context = canvas.getContext('2d');
+        let chart = null;
 
         // :
-        const createLineChart = (label, xData, yData) => {
+        const createLineChart = (label, xData, yData, linkquality) => {
           let gradient = context.createLinearGradient(0, 0, 0, window.screen.width / 2);
           gradient.addColorStop(0, 'rgba(32, 124, 212, 0.8)');
           gradient.addColorStop(1, 'rgba(32, 124, 212, 0.001)');
+
           let datas321 = {
             labels: xData,
             datasets: [{
@@ -158,6 +160,10 @@
               borderWidth: 2,
               borderColor: 'rgba(32, 124, 212, 1)',
               tension: 0.3 // Степень натяжения для кривой-Безье.
+            },
+            {
+              label: label,
+              data: linkquality
             }]
           }
 
@@ -202,13 +208,13 @@
               },
               plugins: {
                 legend: {
-                  display: false // Отображение легенды.
+                  display: true // Отображение легенды.
                 }
               }
             }
           }
 
-          let chart = new Chart(context, config);
+          chart = new Chart(context, config);
         }
 
         // Функции для работы с графиками:
@@ -218,6 +224,7 @@
           let datas123 = output[index].data;
           let xData = [];
           let yData = [];
+          let linkquality1 = [];
 
           // Дописываем данные, количество i - количество отображаемых записей:
           // for (let i = 0; i < datas123.length; i++) {
@@ -225,9 +232,10 @@
             // console.log(`x=${datas123[i].time}, y=${datas123[i].temperature_temp1}`);
             xData.push(`${datas123[i].date} ${datas123[i].time}`);
             yData.push(datas123[i].temperature_temp1);
+            linkquality1.push(datas123[i].linkquality);
           }
 
-          createLineChart(`${output[index].model}:${output[index].serial}`, xData, yData);
+          createLineChart(`${output[index].model}:${output[index].serial}`, xData, yData, linkquality1);
         };
 
 
