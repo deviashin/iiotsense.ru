@@ -143,17 +143,69 @@
         let context = canvas.getContext('2d');
 
         // :
-        const createLineChart = (xData, yData) => {
+        const createLineChart = (label, xData, yData) => {
+          let gradient = context.createLinearGradient(0, 0, 0, window.screen.width / 2);
+          gradient.addColorStop(0, 'rgba(32, 124, 212, 0.8)');
+          gradient.addColorStop(1, 'rgba(32, 124, 212, 0.001)');
           let datas321 = {
             labels: xData,
             datasets: [{
-              data: yData
+              label: label,
+              data: yData,
+              pointStyle: false,
+              fill: true,
+              backgroundColor: gradient,
+              borderWidth: 2,
+              borderColor: 'rgba(32, 124, 212, 1)',
+              tension: 0.3 // Степень натяжения для кривой-Безье.
             }]
+          }
+
+          // Настройки горизонтальной оси-X (дата-время):
+          let xScaleConfig = {
+            min: 0,
+            max: 50,
+            ticks: {
+              autoSkip: true, // .
+              minRotation: 15, // Минимальный наклон.
+              maxRotation: 30, // Максимальный наклон.
+              // color: 'rgba(32, 124, 212, 0.7)' // Цвет текста.
+            },
+            border: {
+              // color: 'rgba(32, 124, 212, 1)' // Цвет нижней линии.
+            },
+            grid: {
+              // color: 'rgba(32, 124, 212, 0.3)' // Цвет вертикальных линий сетки.
+            }
+          }
+
+          // Настройки всех линий данных оси-Y (может быть много):
+          let yScaleConfig = {
+            ticks: {
+              // color: 'rgba(32, 124, 212, 0.7)' // Цвет текста.
+            },
+            border: {
+              // color: 'rgba(32, 124, 212, 1)' // Цвет нижней линии.
+            },
+            grid: {
+              // color: 'rgba(32, 124, 212, 0.3)' // Цвет вертикальных линий сетки.
+            }
           }
 
           let config = {
             type: 'line',
-            data: datas321
+            data: datas321,
+            options: {
+              scales: {
+                x: xScaleConfig,
+                y: yScaleConfig
+              },
+              plugins: {
+                legend: {
+                  display: false // Отображение легенды.
+                }
+              }
+            }
           }
 
           let chart = new Chart(context, config);
@@ -161,20 +213,21 @@
 
         // Функции для работы с графиками:
         const draWWW = (index) => {
-          // console.log(output[index]);
+          console.log(output[index]);
 
           let datas123 = output[index].data;
           let xData = [];
           let yData = [];
 
-          // :
-          for (let i = 0; i < datas123.length; i++) {
-            // console.log(`x=${datas123[i].time}, y=${datas123[i].temperature_temp2}`);
-            xData.push(data[i].time);
-            yData.push(data[i].temperature_temp2);
+          // Дописываем данные, количество i - количество отображаемых записей:
+          // for (let i = 0; i < datas123.length; i++) {
+          for (let i = 0; i < 30; i++) {
+            // console.log(`x=${datas123[i].time}, y=${datas123[i].temperature_temp1}`);
+            xData.push(`${datas123[i].date} ${datas123[i].time}`);
+            yData.push(datas123[i].temperature_temp1);
           }
 
-          createLineChart(xData, yData);
+          createLineChart(`${output[index].model}:${output[index].serial}`, xData, yData);
         };
 
 
