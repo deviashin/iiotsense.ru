@@ -15,13 +15,24 @@
 </head>
 
 <body>
-  <div class="container" id="device_list"></div>
-  <div class="container-fluid" id="device_charts">
-    <canvas></canvas>
+  <div class="container-fluid">
+    <div class="row m-2 mt-4">
+      <div class="col-3">
+        <div class="card m-0 shadow">
+          <div class="m-2" id="device_list"></div>
+        </div>
+      </div>
+      <div class="col-9" id="device_charts">
+        <div class="card shadow">
+          <h3 class="m-2">Графики</h3>
+          <canvas></canvas>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
-    fetch('file.txt')
+    fetch('report-2023.04.07.txt')
       .then(response => response.text())
       .then(data => {
         // Разделяем содержимое файла на строки
@@ -146,55 +157,55 @@
         // :
         const createLineChart = (label, xData, yData, linkquality) => {
           let gradient = context.createLinearGradient(0, 0, 0, window.screen.width / 2);
-          gradient.addColorStop(0, 'rgba(32, 124, 212, 0.8)');
-          gradient.addColorStop(1, 'rgba(32, 124, 212, 0.001)');
+          gradient.addColorStop(0, 'rgba(20, 160, 200, 0.7)');
+          gradient.addColorStop(1, 'rgba(20, 160, 200, 0.001)');
 
           let datas321 = {
             labels: xData,
             datasets: [{
               label: label,
               data: yData,
-              pointStyle: false,
-              fill: true,
+              pointStyle: true,
+              fill: false,
               backgroundColor: gradient,
               borderWidth: 2,
-              borderColor: 'rgba(32, 124, 212, 1)',
-              tension: 0.3 // Степень натяжения для кривой-Безье.
+              borderColor: 'rgba(20, 160, 200, 1)',
+              tension: 0.4 // Степень натяжения для кривой-Безье.
             },
             {
               label: label,
-              data: linkquality
+              // data: linkquality
             }]
           }
 
           // Настройки горизонтальной оси-X (дата-время):
           let xScaleConfig = {
-            min: 0,
-            max: 50,
+            // min: 0,
+            // max: 50,
             ticks: {
               autoSkip: true, // .
               minRotation: 15, // Минимальный наклон.
               maxRotation: 30, // Максимальный наклон.
-              // color: 'rgba(32, 124, 212, 0.7)' // Цвет текста.
+              // color: 'rgba(20, 160, 200, 0.7)' // Цвет текста.
             },
             border: {
-              // color: 'rgba(32, 124, 212, 1)' // Цвет нижней линии.
+              // color: 'rgba(20, 160, 200, 1)' // Цвет нижней линии.
             },
             grid: {
-              // color: 'rgba(32, 124, 212, 0.3)' // Цвет вертикальных линий сетки.
+              // color: 'rgba(20, 160, 200, 0.3)' // Цвет вертикальных линий сетки.
             }
           }
 
           // Настройки всех линий данных оси-Y (может быть много):
           let yScaleConfig = {
             ticks: {
-              // color: 'rgba(32, 124, 212, 0.7)' // Цвет текста.
+              // color: 'rgba(20, 160, 200, 0.7)' // Цвет текста.
             },
             border: {
-              // color: 'rgba(32, 124, 212, 1)' // Цвет нижней линии.
+              // color: 'rgba(20, 160, 200, 1)' // Цвет нижней линии.
             },
             grid: {
-              // color: 'rgba(32, 124, 212, 0.3)' // Цвет вертикальных линий сетки.
+              // color: 'rgba(20, 160, 200, 0.3)' // Цвет вертикальных линий сетки.
             }
           }
 
@@ -228,7 +239,7 @@
 
           // Дописываем данные, количество i - количество отображаемых записей:
           // for (let i = 0; i < datas123.length; i++) {
-          for (let i = 0; i < 30; i++) {
+          for (let i = 0; i < 50; i++) {
             // console.log(`x=${datas123[i].time}, y=${datas123[i].temperature_temp1}`);
             xData.push(`${datas123[i].date} ${datas123[i].time}`);
             yData.push(datas123[i].temperature_temp1);
@@ -278,7 +289,7 @@
             deviceList.append(listItem);
           });
 
-          const deviceCount = document.createElement('div');
+          const deviceCount = document.createElement('h5');
           deviceCount.className = ''; // заменить на нормальный класс?
           deviceCount.textContent = `Количество опознанных устройств: ${modelSerials.length}`;
 
