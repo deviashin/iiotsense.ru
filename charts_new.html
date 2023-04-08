@@ -165,17 +165,18 @@
             datasets: [{
               label: label,
               data: yData,
-              pointStyle: true,
+              pointStyle: false,
               fill: false,
               backgroundColor: gradient,
               borderWidth: 2,
               borderColor: 'rgba(20, 160, 200, 1)',
               tension: 0.4 // Степень натяжения для кривой-Безье.
             },
-            {
-              label: label,
-              // data: linkquality
-            }]
+            // {
+            //   label: label,
+            //   data: linkquality
+            // }
+            ]
           }
 
           // Настройки горизонтальной оси-X (дата-время):
@@ -184,8 +185,8 @@
             // max: 50,
             ticks: {
               autoSkip: true, // .
-              minRotation: 15, // Минимальный наклон.
-              maxRotation: 30, // Максимальный наклон.
+              minRotation: 30, // Минимальный наклон.
+              maxRotation: 60, // Максимальный наклон.
               // color: 'rgba(20, 160, 200, 0.7)' // Цвет текста.
             },
             border: {
@@ -238,15 +239,21 @@
           let linkquality1 = [];
 
           // Дописываем данные, количество i - количество отображаемых записей:
-          // for (let i = 0; i < datas123.length; i++) {
-          for (let i = 0; i < 50; i++) {
+          // for (let i = 0; i < 100; i++) {
+          for (let i = 0; i < datas123.length; i++) {
             // console.log(`x=${datas123[i].time}, y=${datas123[i].temperature_temp1}`);
-            xData.push(`${datas123[i].date} ${datas123[i].time}`);
+            // xData.push(`${datas123[i].date} ${datas123[i].time}`);
+            xData.push(`${datas123[i].time}`);
             yData.push(datas123[i].temperature_temp1);
             linkquality1.push(datas123[i].linkquality);
           }
 
-          createLineChart(`${output[index].model}:${output[index].serial}`, xData, yData, linkquality1);
+          createLineChart(
+            `${output[index].model}:${output[index].serial}`,
+            xData,
+            yData,
+            linkquality1
+          );
         };
 
 
