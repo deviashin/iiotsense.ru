@@ -34,7 +34,6 @@ Zigbee2MQTT:info  2023-04-07 14:43:44: MQTT publish: topic 'zigbee2mqtt/БИП-�
 Zigbee2MQTT:info  2023-04-07 14:44:02: MQTT publish: topic 'zigbee2mqtt/БИП-Т.В.11.2000:000182', payload '{"linkquality":193,"temperature_temp1":290,"temperature_temp2":16.85}'
 Zigbee2MQTT:info  2023-04-07 14:44:13: MQTT publish: topic 'zigbee2mqtt/БИП-Т.П.11.2000:000181', payload '{"linkquality":193,"temperature_temp1":16.71}'
 Zigbee2MQTT:info  2023-04-07 14:44:23: MQTT publish: topic 'zigbee2mqtt/БИП-Т.П.11.2000:000110', payload '{"linkquality":182,"temperature_temp1":23.62}'
-Zigbee2MQTT:info  2023-04-07 14:44:51: MQTT publish: topic 'zigbee2mqtt/bridge/event', payload '{"data":{"friendly_name":"БИП-Т.П.11.2000:000099","ieee_address":"0xa4c13861df8b8ea4"},"type":"device_announce"}'
 Zigbee2MQTT:info  2023-04-07 14:45:02: MQTT publish: topic 'zigbee2mqtt/БИП-Т.В.11.2000:000182', payload '{"linkquality":196,"temperature_temp1":290,"temperature_temp2":13.87}'
 Zigbee2MQTT:info  2023-04-07 14:45:13: MQTT publish: topic 'zigbee2mqtt/БИП-Т.П.11.2000:000181', payload '{"linkquality":189,"temperature_temp1":14.15}'
 Zigbee2MQTT:info  2023-04-07 14:45:23: MQTT publish: topic 'zigbee2mqtt/БИП-Т.П.11.2000:000110', payload '{"linkquality":182,"temperature_temp1":23.65}'
@@ -79,7 +78,6 @@ Zigbee2MQTT:info  2023-04-07 14:56:13: MQTT publish: topic 'zigbee2mqtt/БИП-�
 Zigbee2MQTT:info  2023-04-07 14:56:25: MQTT publish: topic 'zigbee2mqtt/БИП-Т.П.11.2000:000110', payload '{"linkquality":182,"temperature_temp1":23.84}'
 Zigbee2MQTT:info  2023-04-07 14:57:03: MQTT publish: topic 'zigbee2mqtt/БИП-Т.В.11.2000:000182', payload '{"linkquality":185,"temperature_temp1":290,"temperature_temp2":-17.22}'
 Zigbee2MQTT:info  2023-04-07 14:57:13: MQTT publish: topic 'zigbee2mqtt/БИП-Т.П.11.2000:000181', payload '{"linkquality":204,"temperature_temp1":-10.89}'
-Zigbee2MQTT:info  2023-04-07 14:57:14: MQTT publish: topic 'zigbee2mqtt/bridge/event', payload '{"data":{"friendly_name":"БИП-Т.П.11.2000:000099","ieee_address":"0xa4c13861df8b8ea4"},"type":"device_announce"}'
 Zigbee2MQTT:info  2023-04-07 14:57:25: MQTT publish: topic 'zigbee2mqtt/БИП-Т.П.11.2000:000110', payload '{"linkquality":185,"temperature_temp1":23.85}'
 Zigbee2MQTT:info  2023-04-07 14:57:45: MQTT publish: topic 'zigbee2mqtt/БИП-Т.П.11.2000:000099', payload '{"linkquality":167,"temperature_temp1":-13.4}'
 Zigbee2MQTT:info  2023-04-07 14:58:03: MQTT publish: topic 'zigbee2mqtt/БИП-Т.В.11.2000:000182', payload '{"linkquality":185,"temperature_temp1":290,"temperature_temp2":-18.68}'
@@ -110,7 +108,6 @@ Zigbee2MQTT:info  2023-04-07 15:04:04: MQTT publish: topic 'zigbee2mqtt/БИП-�
 Zigbee2MQTT:info  2023-04-07 15:04:12: MQTT publish: topic 'zigbee2mqtt/БИП-Т.П.11.2000:000181', payload '{"linkquality":207,"temperature_temp1":-19.78}'
 Zigbee2MQTT:info  2023-04-07 15:04:26: MQTT publish: topic 'zigbee2mqtt/БИП-Т.П.11.2000:000110', payload '{"linkquality":185,"temperature_temp1":23.98}'
 Zigbee2MQTT:info  2023-04-07 15:04:44: MQTT publish: topic 'zigbee2mqtt/БИП-Т.П.11.2000:000099', payload '{"linkquality":149,"temperature_temp1":-22.31}'
-
 Zigbee2MQTT:info  2023-04-07 15:05:04: MQTT publish: topic 'zigbee2mqtt/БИП-Т.В.11.2000:000182', payload '{"linkquality":185,"temperature_temp1":290,"temperature_temp2":-27.11}'
 Zigbee2MQTT:info  2023-04-07 15:05:12: MQTT publish: topic 'zigbee2mqtt/БИП-Т.П.11.2000:000181', payload '{"linkquality":207,"temperature_temp1":-20.82}'
 Zigbee2MQTT:info  2023-04-07 15:05:26: MQTT publish: topic 'zigbee2mqtt/БИП-Т.П.11.2000:000110', payload '{"linkquality":182,"temperature_temp1":23.99}'
