@@ -14,17 +14,17 @@
     crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body class="bg-light-subtle">
   <div class="container-fluid">
     <div class="row m-2 mt-4">
       <div class="col-3">
-        <div class="card m-0 shadow">
-          <div class="m-2" id="device_list"></div>
+        <div class="card m-0 shadow border-0 rounded-4 p-3">
+          <div class="" id="device_list"></div>
         </div>
       </div>
       <div class="col-9" id="device_charts">
-        <div class="card shadow">
-          <h3 class="m-2">Графики</h3>
+        <div class="card shadow border-0 rounded-4 p-3">
+          <h3 class="ms-2">Графики</h3>
           <canvas></canvas>
         </div>
       </div>
@@ -78,12 +78,9 @@
               result[model].serial[serial].linkquality.push(payload.linkquality);
               result[model].serial[serial].temperature_temp1.push(payload.temperature_temp1);
 
-
-
               if (payload.temperature_temp2) {
                 result[model].serial[serial].temperature_temp2.push(payload.temperature_temp2);
               }
-
 
               if (payload.zalupa) {
                 result[model].serial[serial].zalupa.push(payload.zalupa);
@@ -118,6 +115,7 @@
               }
               return datum;
             });
+
             output.push({
               model: modelData.model,
               serial: serialNumber,
@@ -145,14 +143,10 @@
         // console.log(count);
         // console.log(modelSerials);
 
-
-
-
-
         // Получение контекста для работы с графиками:
         let canvas = window.document.querySelector('canvas');
         let context = canvas.getContext('2d');
-        let chart = null;
+        var chart = null;
 
         // :
         const createLineChart = (label, xData, yData, linkquality) => {
@@ -226,6 +220,11 @@
             }
           }
 
+          if (chart != null) {
+            chart.destroy();
+            chart = null;
+          }
+
           chart = new Chart(context, config);
         }
 
@@ -264,13 +263,53 @@
           );
         };
 
+        const updateChart = (index) => {
+          console.log(output[index]);
+
+          let datas123 = output[index].data;
+          let xData = [];
+          let yData = [];
+          let linkquality1 = [];
+
+          // Дописываем данные, количество i - количество отображаемых записей:
+          // for (let i = 0; i < 100; i++) {
+          for (let i = 0; i < datas123.length; i++) {
+            // console.log(`x=${datas123[i].time}, y=${datas123[i].temperature_temp1}`);
+            // xData.push(`${datas123[i].date} ${datas123[i].time}`);
+            xData.push(`${datas123[i].time}`);
+
+            // Костыль из-за программной ошибки на стороне датчика. Если смотреть слева-направо, то в текущей ситуации первый датчик находится справа, а второй слева. 
+            if (datas123[i].temperature_temp2) {
+              yData.push(datas123[i].temperature_temp2);
+            }
+            else {
+              yData.push(datas123[i].temperature_temp1);
+            }
+
+            linkquality1.push(datas123[i].linkquality);
+          }
 
 
 
+          createLineChart(
+            `${output[index].model}:${output[index].serial}`,
+            xData,
+            yData,
+            linkquality1
+          );
+        };
 
-
-
-
+        window.addEventListener('DOMContentLoaded', (event) => {
+          const deviceList = document.querySelector('.list-group');
+          const radios = deviceList.querySelectorAll('input[type="radio"]');
+          let selectedDeviceIndex = null;
+          radios.forEach((radio) => {
+            radio.addEventListener('change', (event) => {
+              selectedDeviceIndex = event.target.value;
+              updateChart(selectedDeviceIndex);
+            });
+          });
+        });
 
 
 
@@ -292,9 +331,10 @@
             radioInput.type = 'radio';
             radioInput.name = 'device';
             radioInput.value = index;
-            radioInput.className = 'form-check-input';
+            radioInput.className = 'form-check-input me-3';
 
-            radioInput.addEventListener('click', () => draWWW(index));
+            // radioInput.addEventListener('click', () => draWWW(index));
+            radioInput.addEventListener('click', () => updateChart(index));
 
             const label = document.createElement('label');
             label.className = 'form-check-label';
@@ -304,8 +344,8 @@
             deviceList.append(listItem);
           });
 
-          const deviceCount = document.createElement('h5');
-          deviceCount.className = ''; // заменить на нормальный класс?
+          const deviceCount = document.createElement('h6');
+          deviceCount.className = 'mb-3'; // заменить на нормальный класс?
           deviceCount.textContent = `Количество опознанных устройств: ${modelSerials.length}`;
 
           const container = document.getElementById('device_list');
@@ -315,7 +355,6 @@
         createDeviceList(modelSerials);
       })
       .catch(error => console.error(error));
-
   </script>
 </body>
 
