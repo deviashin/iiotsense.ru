@@ -149,27 +149,36 @@
         var chart = null;
 
         // :
-        const createLineChart = (label, xData, yData, linkquality) => {
+        const createLineChart = (label, time, temperature_0, linkquality) => {
           let gradient = context.createLinearGradient(0, 0, 0, window.screen.width / 2);
-          gradient.addColorStop(0, 'rgba(20, 160, 200, 0.7)');
-          gradient.addColorStop(1, 'rgba(20, 160, 200, 0.001)');
+          gradient.addColorStop(0, 'red');
+          gradient.addColorStop(1, 'blue');
+
+          
 
           let datas321 = {
-            labels: xData,
+            labels: time,
             datasets: [{
-              label: label,
-              data: yData,
+              label: 'Температура 1',
+              data: temperature_0,
               pointStyle: false,
               fill: false,
               backgroundColor: gradient,
               borderWidth: 2,
-              borderColor: 'rgba(20, 160, 200, 1)',
+              borderColor: gradient,
               tension: 0.4 // Степень натяжения для кривой-Безье.
             },
-              // {
-              //   label: label,
-              //   data: linkquality
-              // }
+            {
+              label: 'Качество связи',
+              data: linkquality,
+              hidden: true,
+              pointStyle: false,
+              fill: false,
+              backgroundColor: 'red',
+              borderWidth: 2,
+              borderColor: 'red',
+              tension: 0.4
+            }
             ]
           }
 
@@ -233,33 +242,33 @@
           console.log(output[index]);
 
           let datas123 = output[index].data;
-          let xData = [];
-          let yData = [];
-          let linkquality1 = [];
+          let chart_time = [];
+          let chart_temperature_0 = [];
+          let chart_linkquality = [];
 
           // Дописываем данные, количество i - количество отображаемых записей:
           // for (let i = 0; i < 100; i++) {
           for (let i = 0; i < datas123.length; i++) {
             // console.log(`x=${datas123[i].time}, y=${datas123[i].temperature_temp1}`);
-            // xData.push(`${datas123[i].date} ${datas123[i].time}`);
-            xData.push(`${datas123[i].time}`);
+            // chart_time.push(`${datas123[i].date} ${datas123[i].time}`);
+            chart_time.push(`${datas123[i].time}`);
 
             // Костыль из-за программной ошибки на стороне датчика. Если смотреть слева-направо, то в текущей ситуации первый датчик находится справа, а второй слева. 
             if (datas123[i].temperature_temp2) {
-              yData.push(datas123[i].temperature_temp2);
+              chart_temperature_0.push(datas123[i].temperature_temp2);
             }
             else {
-              yData.push(datas123[i].temperature_temp1);
+              chart_temperature_0.push(datas123[i].temperature_temp1);
             }
 
-            linkquality1.push(datas123[i].linkquality);
+            chart_linkquality.push(datas123[i].linkquality);
           }
 
           createLineChart(
             `${output[index].model}:${output[index].serial}`,
-            xData,
-            yData,
-            linkquality1
+            chart_time,
+            chart_temperature_0,
+            chart_linkquality
           );
         };
 
@@ -267,35 +276,33 @@
           console.log(output[index]);
 
           let datas123 = output[index].data;
-          let xData = [];
-          let yData = [];
-          let linkquality1 = [];
+          let chart_time = [];
+          let chart_temperature_0 = [];
+          let chart_linkquality = [];
 
           // Дописываем данные, количество i - количество отображаемых записей:
           // for (let i = 0; i < 100; i++) {
           for (let i = 0; i < datas123.length; i++) {
             // console.log(`x=${datas123[i].time}, y=${datas123[i].temperature_temp1}`);
-            // xData.push(`${datas123[i].date} ${datas123[i].time}`);
-            xData.push(`${datas123[i].time}`);
+            // chart_time.push(`${datas123[i].date} ${datas123[i].time}`);
+            chart_time.push(`${datas123[i].time}`);
 
             // Костыль из-за программной ошибки на стороне датчика. Если смотреть слева-направо, то в текущей ситуации первый датчик находится справа, а второй слева. 
             if (datas123[i].temperature_temp2) {
-              yData.push(datas123[i].temperature_temp2);
+              chart_temperature_0.push(datas123[i].temperature_temp2);
             }
             else {
-              yData.push(datas123[i].temperature_temp1);
+              chart_temperature_0.push(datas123[i].temperature_temp1);
             }
 
-            linkquality1.push(datas123[i].linkquality);
+            chart_linkquality.push(datas123[i].linkquality);
           }
-
-
 
           createLineChart(
             `${output[index].model}:${output[index].serial}`,
-            xData,
-            yData,
-            linkquality1
+            chart_time,
+            chart_temperature_0,
+            chart_linkquality
           );
         };
 
