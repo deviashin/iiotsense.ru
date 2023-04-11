@@ -206,16 +206,14 @@ fetch('report-2023.04.07.txt')
                 }
             ]
 
-            // :
-            let excludeDataset2 = false;
 
-            if (!excludeDataset2) {
-                document.getElementById('chart-title').textContent = '2';
-            }
-
-            const filteredDatasets = datasets1.filter(dataset => {
-                return !excludeDataset2 || dataset.label !== 'Температура 1';
-            });
+            // Список параметров, которые требуется исключить из передачи в массив данных:
+            const excludeLabels = [
+                // 'Температура 1',
+                // 'Температура 2',
+                // 'Качество связи'
+            ];
+            const filteredDatasets = datasets1.filter(dataset => !excludeLabels.includes(dataset.label));
 
             let datas321 = {
                 labels: time,
@@ -253,8 +251,6 @@ fetch('report-2023.04.07.txt')
                 }
             }
 
-
-
             // :
             let config = {
                 type: 'line',
@@ -269,6 +265,26 @@ fetch('report-2023.04.07.txt')
                         legend: {
                             display: true, // Отображение легенды.
                             // position: 'right',
+                            onClick: (e, legendItem, legend) => {
+                                const index = legendItem.datasetIndex;
+                                const chart = legend.chart;
+                                const meta = chart.getDatasetMeta(index);
+                                const visible = !meta.hidden;
+
+                                meta.hidden = visible;
+                                chart.update();
+
+                                // Получаем массив скрытых лейблов
+                                const hiddenLabels = [];
+                                meta.controller.chart.data.datasets.forEach((dataset, index) => {
+                                    if (meta.controller.getDatasetMeta(index).hidden) {
+                                        hiddenLabels.push(dataset.label);
+                                    }
+                                });
+
+                                // Сохраняем массив в Local Storage
+                                localStorage.setItem('hiddenLabels', JSON.stringify(hiddenLabels));
+                            }
                         },
                         // title: {
                         //   display: true,
@@ -277,7 +293,7 @@ fetch('report-2023.04.07.txt')
                         // },
                         pan: {
                             enabled: true,
-                            mode: 'x',
+                            mode: 'y',
                             speed: 10,
                             threshold: 10,
                         },
@@ -407,6 +423,17 @@ function currentDateTime() {
 // :
 document.addEventListener("DOMContentLoaded", function () {
     currentDateTime();
+
+    // Получаем массив скрытых лейблов из Local Storage
+    const hiddenLabels = JSON.parse(localStorage.getItem('hiddenLabels')) || [];
+    console.log(hiddenLabels);
+    // Применяем массив к графику
+    chart.data.datasets.forEach((dataset, index) => {
+        const meta = chart.getDatasetMeta(index);
+        meta.hidden = hiddenLabels.includes(dataset.label);
+    });
+
+    chart.update();
 });
 
 //  :
