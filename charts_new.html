@@ -67,19 +67,19 @@
             <input type="time" class="form-control" id="end-time" disabled->
           </div>
           <button type="button" class="btn btn-primary shadow border-0 rounded-3 mt-3" id="update-button"
-            disabled->Обновить график</button>
+            disabled>Обновить график</button>
         </div>
       </div>
       <div class="col-9" id="device_charts">
         <div class="card shadow border-0 rounded-4 p-3 h-100">
           <div class="d-flex justify-content-between align-items-center">
             <h4 class="card-title mt-2 mb-3">
-              <strong>График температуры - канал 2</strong>
+              <strong>График температуры - канал <span id="chart-title"></span></strong>
             </h4>
             <button type="button" class="btn btn-outline-secondary rounded-3" id="reset-zoom-btn">Сбросить
               масштабирование</button>
           </div>
-          <canvas></canvas>
+          <canvas class=""></canvas>
         </div>
       </div>
     </div>

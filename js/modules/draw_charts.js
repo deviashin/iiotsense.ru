@@ -38,22 +38,28 @@ fetch('report-2023.04.07.txt')
                             linkquality: [],
                             temperature_temp1: [],
                             temperature_temp2: [],
-                            zalupa: []
+                            new_param: []
                         };
                     }
 
                     // Добавляем данные в объект
                     result[model].serial[serial].date.push(date);
                     result[model].serial[serial].time.push(time);
+
                     result[model].serial[serial].linkquality.push(payload.linkquality);
-                    result[model].serial[serial].temperature_temp1.push(payload.temperature_temp1);
+
+                    if (payload.temperature_temp1) {
+                        result[model].serial[serial].temperature_temp1.push(payload.temperature_temp1);
+                        // document.getElementById('chart-title').textContent = '1';
+                    }
 
                     if (payload.temperature_temp2) {
                         result[model].serial[serial].temperature_temp2.push(payload.temperature_temp2);
+                        // document.getElementById('chart-title').textContent = '2';
                     }
 
-                    if (payload.zalupa) {
-                        result[model].serial[serial].zalupa.push(payload.zalupa);
+                    if (payload.new_param) {
+                        result[model].serial[serial].new_param.push(payload.new_param);
                     }
                 } catch (error) {
                     console.log(`Ошибка парсинга JSON в строке "${line}": ${error.message}`);
@@ -67,21 +73,27 @@ fetch('report-2023.04.07.txt')
             for (const [serialNumber, serialData] of Object.entries(modelData.serial)) {
                 const data = serialData.date.map((date, index) => {
                     const datum = { date };
+
                     if (serialData.time && serialData.time[index]) {
                         datum.time = serialData.time[index];
                     }
+
                     if (serialData.linkquality && serialData.linkquality[index]) {
                         datum.linkquality = serialData.linkquality[index];
                     }
+
                     if (serialData.temperature_temp1 && serialData.temperature_temp1[index]) {
                         datum.temperature_temp1 = serialData.temperature_temp1[index];
                     }
+
                     if (serialData.temperature_temp2 && serialData.temperature_temp2[index]) {
                         datum.temperature_temp2 = serialData.temperature_temp2[index];
                     }
-                    if (serialData.zalupa && serialData.zalupa[index]) {
-                        datum.zalupa = serialData.zalupa[index];
+
+                    if (serialData.new_param && serialData.new_param[index]) {
+                        datum.new_param = serialData.new_param[index];
                     }
+
                     return datum;
                 });
 
@@ -117,7 +129,7 @@ fetch('report-2023.04.07.txt')
         let context = canvas.getContext('2d');
 
         // :
-        const createLineChart = (label, time, temperature_0, linkquality) => {
+        const createLineChart = (model, serial, date, time, temperature_0, temperature_1, linkquality) => {
             let gradient1 = context.createLinearGradient(0, 0, 0, window.screen.width / 2);
             gradient1.addColorStop(0, 'red');
             gradient1.addColorStop(1, 'blue');
@@ -139,26 +151,47 @@ fetch('report-2023.04.07.txt')
                 return gradient;
             }
 
-            let datas321 = {
-                labels: time,
-                datasets: [{
+            // Костыль для инвертирования каналов температуры:
+            let invert_temp = null;
+            if (model === 'БИП-Т.В.11.2000') {
+                invert_temp = true;
+            } else {
+                invert_temp = false;
+            }
+
+            const datasets1 = [
+                {
                     label: 'Температура 1',
                     data: temperature_0,
+                    hidden: invert_temp,
                     pointStyle: false,
                     fill: false,
-                    backgroundColor: gradient1,
+                    backgroundColor: 'red', // gradient1,
                     borderWidth: 2,
-                    borderColor: function (context) {
-                        const chart = context.chart;
-                        const { ctx, chartArea } = chart;
+                    borderColor: 'red',
+                    // borderColor: function (context) {
+                    //     const chart = context.chart;
+                    //     const { ctx, chartArea } = chart;
 
-                        if (!chartArea) {
-                            // This case happens on initial chart load
-                            return;
-                        }
-                        return getGradient(ctx, chartArea, temperature_0);
-                    },
+                    //     if (!chartArea) {
+                    //         // This case happens on initial chart load
+                    //         return;
+                    //     }
+                    //     return getGradient(ctx, chartArea, temperature_0);
+                    // },
                     tension: 0.4 // Степень натяжения для кривой-Безье.
+                },
+                {
+                    label: 'Температура 2',
+                    data: temperature_1,
+                    hidden: !invert_temp,
+                    pointStyle: false,
+                    fill: false,
+                    backgroundColor: 'orange',
+                    borderWidth: 2,
+                    borderColor: 'orange',
+                    tension: 0.4
+
                 },
                 {
                     label: 'Качество связи',
@@ -166,12 +199,27 @@ fetch('report-2023.04.07.txt')
                     hidden: true,
                     pointStyle: false,
                     fill: false,
-                    backgroundColor: 'red',
+                    backgroundColor: 'purple',
                     borderWidth: 2,
-                    borderColor: 'red',
+                    borderColor: 'purple',
                     tension: 0.4
                 }
-                ]
+            ]
+
+            // :
+            let excludeDataset2 = false;
+
+            if (!excludeDataset2) {
+                document.getElementById('chart-title').textContent = '2';
+            }
+
+            const filteredDatasets = datasets1.filter(dataset => {
+                return !excludeDataset2 || dataset.label !== 'Температура 1';
+            });
+
+            let datas321 = {
+                labels: time,
+                datasets: filteredDatasets
             }
 
             // Настройки горизонтальной оси-X (дата-время):
@@ -205,6 +253,8 @@ fetch('report-2023.04.07.txt')
                 }
             }
 
+
+
             // :
             let config = {
                 type: 'line',
@@ -217,7 +267,7 @@ fetch('report-2023.04.07.txt')
                     responsive: true,
                     plugins: {
                         legend: {
-                            display: false, // Отображение легенды.
+                            display: true, // Отображение легенды.
                             // position: 'right',
                         },
                         // title: {
@@ -225,6 +275,12 @@ fetch('report-2023.04.07.txt')
                         //   text: 'Chart Title',
                         //   align: 'start'
                         // },
+                        pan: {
+                            enabled: true,
+                            mode: 'x',
+                            speed: 10,
+                            threshold: 10,
+                        },
                         zoom: {
                             zoom: {
                                 wheel: {
@@ -253,39 +309,37 @@ fetch('report-2023.04.07.txt')
 
         // получаем ссылку на элемент кнопки
         document.getElementById('reset-zoom-btn').addEventListener('click', () => {
-            console.log('fdsfsdfsdf');
             chart.resetZoom();
         });
 
         const updateChart = (index) => {
-            // console.log(output[index]);
-
             let datas123 = output[index].data;
+            let chart_date = [];
             let chart_time = [];
             let chart_temperature_0 = [];
+            let chart_temperature_1 = [];
             let chart_linkquality = [];
 
             // Дописываем данные, количество i - количество отображаемых записей:
-            // for (let i = 0; i < 100; i++) {
             for (let i = 0; i < datas123.length; i++) {
-                // chart_time.push(`${datas123[i].date} ${datas123[i].time}`);
-                chart_time.push(`${datas123[i].time}`);
+                chart_date.push(datas123[i].date);
+                chart_time.push(datas123[i].time);
 
-                // Костыль из-за программной ошибки на стороне датчика. Если смотреть слева-направо, то в текущей ситуации первый датчик находится справа, а второй слева. 
-                if (datas123[i].temperature_temp2) {
-                    chart_temperature_0.push(datas123[i].temperature_temp2);
-                }
-                else {
-                    chart_temperature_0.push(datas123[i].temperature_temp1);
-                }
+                // Только для БИП-Т.В показания каналов инвертированы, исправить когда изменится прошивка.
+                chart_temperature_0.push(datas123[i].temperature_temp1);
+                chart_temperature_1.push(datas123[i].temperature_temp2);
 
                 chart_linkquality.push(datas123[i].linkquality);
             }
 
+            // :
             createLineChart(
-                `${output[index].model}:${output[index].serial}`,
+                output[index].model,
+                output[index].serial,
+                chart_date,
                 chart_time,
                 chart_temperature_0,
+                chart_temperature_1,
                 chart_linkquality
             );
         };
