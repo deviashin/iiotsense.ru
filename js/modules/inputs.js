@@ -197,7 +197,7 @@ document.querySelectorAll('input').forEach((input) => {
     // Добавляем обработчик события input
     input.addEventListener('input', () => {
         // Вызываем функцию getPupa и передаем ей элемент input
-        getPupa(input);
+        //getPupa(input);
         // Логируем сообщение об изменении input
         console.log('Изменен элемент: ', input.id);
         // Оставляем пустую строку между сообщениями

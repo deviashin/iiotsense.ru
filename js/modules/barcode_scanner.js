@@ -23,11 +23,6 @@ input.addEventListener('input', (event) => {
 
 
 
-
-
-
-
-
 // Этот метод активирует разрешения пользователя:
 Html5Qrcode.getCameras().then(devices => {
     // Устройства (камеры) будут массивом объектов типа: { id: "id", label: "label" }.
