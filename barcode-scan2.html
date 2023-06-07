@@ -699,14 +699,14 @@
 
                         // Добавляем элемент li в список
                         cameraList.appendChild(li);
+
+                        console.log("Доступные камеры: ", device.id);
+                        alert("Доступные камеры: ", device.id);
                     });
 
-                    var cameraId = devices[0].id;
+                    var cameraId = devices[1].id;
 
                     barcode_scanner_start(cameraId);
-
-                    console.log("Доступные камеры: ", devices);
-                    alert("Доступные камеры: ", devices);
                 }
             }).catch(err => {
                 console.log("Доступные камеры не найдены!");
@@ -754,6 +754,8 @@
 
                     parseBarcodeOne(decodedText); // Передаём распознанный текст в функцию парсера.
                     interfaceRender(true); // Отрисовываем интерфейс.
+
+                    alert("текст: ", decodedText);
                 },
                 (errorMessage) => {
                     // parse error, ignore it.
