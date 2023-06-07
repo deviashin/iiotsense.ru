@@ -1,8 +1,8 @@
 // To use Html5QrcodeScanner (more info below)
-import { Html5QrcodeScanner } from "html5-qrcode";
+// import { Html5QrcodeScanner } from "html5-qrcode";
 
 // To use Html5Qrcode (more info below)
-import { Html5Qrcode } from "html5-qrcode";
+// import { Html5Qrcode } from "html5-qrcode";
 
 // Конфигурация сканера:
 const barcode_scanner_config = {
@@ -11,7 +11,7 @@ const barcode_scanner_config = {
     },
     // rememberLastUsedCamera: true,
     focusMode: "continuous",
-    fps: storedValue,
+    fps: 5,
     qrbox: {
         width: 250,
         height: 250
@@ -30,20 +30,27 @@ const barcode_scanner_config = {
     // ],
 };
 
-// This method will trigger user permissions
-Html5Qrcode.getCameras().then(devices => {
-    /**
-     * devices would be an array of objects of type:
-     * { id: "id", label: "label" }
-     */
-    if (devices && devices.length) {
-        var cameraId = devices[0].id;
-        console.log("Доступные камеры: ", devices);
-        barcode_scanner_start(cameraId);
-    }
-}).catch(err => {
-    // handle err
-});
+function barcode_scanner_init() {
+    // This method will trigger user permissions
+    Html5Qrcode.getCameras().then(devices => {
+        /**
+         * devices would be an array of objects of type:
+         * { id: "id", label: "label" }
+         */
+        if (devices && devices.length) {
+            var cameraId = devices[0].id;
+
+            barcode_scanner_start(cameraId);
+
+            console.log("Доступные камеры: ", devices);
+            alert("Доступные камеры: ", devices);
+        }
+    }).catch(err => {
+        console.log("Доступные камеры не найдены!");
+        alert("Доступные камеры не найдены!");
+    });
+}
+barcode_scanner_init();
 
 const html5QrCode = new Html5Qrcode("reader");
 
