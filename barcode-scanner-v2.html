@@ -2,162 +2,201 @@
 <html>
 
 <head>
-    <title>Barcode Scanner</title>
+    <title>Сканер QR-кода</title>
     <style>
-        /* Добавьте пользовательские CSS стили здесь */
         #reader {
             width: 600px;
-            height: 400px;
-            border: 1px solid #ccc;
-            margin-bottom: 16px;
+            height: 600px;
+            border: 2px solid black;
+            position: relative;
+            display: none;
         }
 
-        .error-message {
-            color: red;
-            margin-bottom: 16px;
+        #scanner-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: white;
         }
 
-        .scanner-overlay {
+        #scan-button {
             position: fixed;
-            bottom: 16px;
-            right: 16px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            padding: 8px;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ffffff;
+            padding: 10px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
         }
+
+        #camera-list {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        .camera-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .camera-item input[type="radio"] {
+            margin-right: 5px;
+        }
     </style>
 </head>
 
 <body>
-    <h2>Начните сканирование прямо сейчас!</h2>
-    <div id="cameras"></div>
+    <h2>Начните сканирование прямо !</h2>
     <div id="reader" width="600px"></div>
-    <div id="result"></div>
-    <div class="scanner-overlay" id="scannerOverlay">
-        <span id="scanButtonIcon">▶</span>
+    <div id="scanner-overlay">
+        <div id="result-container"></div>
     </div>
+    <div id="scan-button">&#9654;</div>
 
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const camerasContainer = document.getElementById('cameras');
-            const readerContainer = document.getElementById('reader');
-            const resultContainer = document.getElementById('result');
-            const scannerOverlay = document.getElementById('scannerOverlay');
-            const scanButtonIcon = document.getElementById('scanButtonIcon');
+        const scannerOverlay = document.getElementById('scanner-overlay');
+        const resultContainer = document.getElementById('result-container');
+        const scanButton = document.getElementById('scan-button');
+        const cameraList = document.getElementById('camera-list');
+        const reader = document.getElementById('reader');
+        const html5QrCode = new Html5Qrcode('reader');
+        let selectedCameraId = null;
 
-            let html5QrCode;
-            let selectedCameraId;
-
-            function showError(message) {
-                const errorElement = document.createElement('p');
-                errorElement.className = 'error-message';
-                errorElement.textContent = message;
-                camerasContainer.appendChild(errorElement);
-            }
-
-            function requestCameraPermission() {
-                return Html5Qrcode.getCameras()
+        function requestCameraPermission() {
+            return new Promise((resolve, reject) => {
+                Html5Qrcode.getCameras()
                     .then((devices) => {
                         if (devices && devices.length) {
-                            return devices;
+                            resolve(devices);
                         } else {
-                            throw new Error('Камеры не найдены.');
+                            reject(new Error('Камеры не найдены.'));
                         }
                     })
                     .catch((err) => {
-                        showError('Ошибка получения доступа к камере.');
-                        console.error(err);
+                        reject(err);
                     });
-            }
+            });
+        }
 
-            function displayCameras(devices) {
-                devices.forEach((device) => {
-                    const radioBtn = document.createElement('input');
-                    radioBtn.type = 'radio';
-                    radioBtn.name = 'camera';
-                    radioBtn.value = device.deviceId;
-                    radioBtn.addEventListener('change', function () {
-                        selectedCameraId = this.value;
-                    });
+        function displayCameras(devices) {
+            cameraList.innerHTML = '';
 
-                    const label = document.createElement('label');
-                    label.textContent = device.label;
+            devices.forEach((device) => {
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'camera';
+                radio.value = device.id;
 
-                    const cameraItem = document.createElement('div');
-                    cameraItem.appendChild(radioBtn);
-                    cameraItem.appendChild(label);
-
-                    camerasContainer.appendChild(cameraItem);
-                });
-            }
-
-            function startScanner() {
-                if (!selectedCameraId) {
-                    showError('Пожалуйста, выберите камеру для сканирования.');
-                    return;
+                if (selectedCameraId === device.id) {
+                    radio.checked = true;
                 }
 
-                scannerOverlay.style.display = 'none';
-                scanButtonIcon.textContent = '▶';
+                const label = document.createElement('label');
+                label.textContent = device.label;
 
-                html5QrCode = new Html5Qrcode();
-                html5QrCode
-                    .start(
-                        selectedCameraId,
-                        { fps: 10, qrbox: 250 },
-                        (decodedText, decodedResult) => {
-                            html5QrCode.stop().then(() => {
-                                resultContainer.textContent = `Результат: ${decodedText}`;
-                                scannerOverlay.style.display = 'flex';
-                                scanButtonIcon.textContent = '▶';
-                            });
-                        },
-                        (errorMessage) => {
-                            console.error(errorMessage);
-                            if (errorMessage.includes('NotFoundError')) {
-                                showError('Камера не найдена.');
-                            } else if (errorMessage.includes('NotAllowedError')) {
-                                showError('Отказано в доступе к камере.');
-                            } else if (errorMessage.includes('NotSupportedError')) {
-                                showError('Браузер не поддерживает API камеры.');
-                            } else {
-                                showError('Произошла ошибка при сканировании.');
-                            }
-                            scannerOverlay.style.display = 'flex';
-                            scanButtonIcon.textContent = '▶';
-                        },
-                        13000 // Тайм-аут сканирования в 13 секунд
-                    )
-                    .catch((err) => {
-                        console.error(err);
-                    });
-            }
+                const cameraItem = document.createElement('div');
+                cameraItem.classList.add('camera-item');
+                cameraItem.appendChild(radio);
+                cameraItem.appendChild(label);
 
-            scannerOverlay.addEventListener('click', function () {
-                if (html5QrCode.isScanning()) {
-                    html5QrCode.stop().then(() => {
-                        scannerOverlay.style.display = 'flex';
-                        scanButtonIcon.textContent = '▶';
-                    });
-                } else {
-                    startScanner();
-                }
+                cameraList.appendChild(cameraItem);
             });
 
+            if (devices.length > 0) {
+                const radioButtons = document.querySelectorAll('input[name="camera"]');
+                radioButtons.forEach((radio) => {
+                    radio.addEventListener('change', function () {
+                        selectedCameraId = this.value;
+                    });
+                });
+            }
+        }
+
+        function showError(message) {
+            resultContainer.innerHTML = '';
+            const errorText = document.createElement('p');
+            errorText.textContent = message;
+            resultContainer.appendChild(errorText);
+        }
+
+        function showResult(result) {
+            resultContainer.innerHTML = '';
+            const resultText = document.createElement('p');
+            resultText.textContent = result;
+            resultContainer.appendChild(resultText);
+        }
+
+        function startScanner() {
+            scannerOverlay.style.display = 'flex';
+            reader.style.display = 'block';
+
+            html5QrCode.start(
+                selectedCameraId,
+                {
+                    fps: 10,
+                    qrbox: { width: 250, height: 250 }
+                },
+                (decodedText) => {
+                    html5QrCode.stop();
+                    scannerOverlay.style.display = 'none';
+                    showResult(decodedText);
+                },
+                (errorMessage) => {
+                    showError(errorMessage);
+                }
+            ).catch((err) => {
+                showError('Не удалось начать сканирование.');
+            });
+        }
+
+        function stopScanner() {
+            html5QrCode.stop();
+            scannerOverlay.style.display = 'none';
+            reader.style.display = 'none';
+            resultContainer.innerHTML = '';
+        }
+
+        scanButton.addEventListener('click', function () {
+            if (html5QrCode.isScanning()) {
+                stopScanner();
+                this.innerHTML = '&#9654;'; // Play icon
+            } else {
+                startScanner();
+                this.innerHTML = '&#9632;'; // Stop icon
+            }
+        });
+
+        function init() {
             requestCameraPermission()
                 .then((devices) => {
                     displayCameras(devices);
+                    if (selectedCameraId) {
+                        const selectedRadio = document.querySelector(`input[value="${selectedCameraId}"]`);
+                        if (selectedRadio) {
+                            selectedRadio.checked = true;
+                        }
+                    }
+                    startScanner();
                 })
                 .catch((err) => {
-                    console.error(err);
+                    showError(err.message);
                 });
-        });
+        }
+
+        init();
     </script>
 </body>
 
