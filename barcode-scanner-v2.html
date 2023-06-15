@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Barcode Scanner</title>
+    <style>
+        /* Добавьте пользовательские CSS стили здесь */
+        #reader {
+            width: 600px;
+            height: 400px;
+            border: 1px solid #ccc;
+            margin-bottom: 16px;
+        }
+
+        .error-message {
+            color: red;
+            margin-bottom: 16px;
+        }
+
+        .scanner-overlay {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Начните сканирование прямо сейчас!</h2>
+    <div id="cameras"></div>
+    <div id="reader" width="600px"></div>
+    <div id="result"></div>
+    <div class="scanner-overlay" id="scannerOverlay">
+        <span id="scanButtonIcon">▶</span>
+    </div>
+
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const camerasContainer = document.getElementById('cameras');
+            const readerContainer = document.getElementById('reader');
+            const resultContainer = document.getElementById('result');
+            const scannerOverlay = document.getElementById('scannerOverlay');
+            const scanButtonIcon = document.getElementById('scanButtonIcon');
+
+            let html5QrCode;
+            let selectedCameraId;
+
+            function showError(message) {
+                const errorElement = document.createElement('p');
+                errorElement.className = 'error-message';
+                errorElement.textContent = message;
+                camerasContainer.appendChild(errorElement);
+            }
+
+            function requestCameraPermission() {
+                return Html5Qrcode.getCameras()
+                    .then((devices) => {
+                        if (devices && devices.length) {
+                            return devices;
+                        } else {
+                            throw new Error('Камеры не найдены.');
+                        }
+                    })
+                    .catch((err) => {
+                        showError('Ошибка получения доступа к камере.');
+                        console.error(err);
+                    });
+            }
+
+            function displayCameras(devices) {
+                devices.forEach((device) => {
+                    const radioBtn = document.createElement('input');
+                    radioBtn.type = 'radio';
+                    radioBtn.name = 'camera';
+                    radioBtn.value = device.deviceId;
+                    radioBtn.addEventListener('change', function () {
+                        selectedCameraId = this.value;
+                    });
+
+                    const label = document.createElement('label');
+                    label.textContent = device.label;
+
+                    const cameraItem = document.createElement('div');
+                    cameraItem.appendChild(radioBtn);
+                    cameraItem.appendChild(label);
+
+                    camerasContainer.appendChild(cameraItem);
+                });
+            }
+
+            function startScanner() {
+                if (!selectedCameraId) {
+                    showError('Пожалуйста, выберите камеру для сканирования.');
+                    return;
+                }
+
+                scannerOverlay.style.display = 'none';
+                scanButtonIcon.textContent = '▶';
+
+                html5QrCode = new Html5Qrcode();
+                html5QrCode
+                    .start(
+                        selectedCameraId,
+                        { fps: 10, qrbox: 250 },
+                        (decodedText, decodedResult) => {
+                            html5QrCode.stop().then(() => {
+                                resultContainer.textContent = `Результат: ${decodedText}`;
+                                scannerOverlay.style.display = 'flex';
+                                scanButtonIcon.textContent = '▶';
+                            });
+                        },
+                        (errorMessage) => {
+                            console.error(errorMessage);
+                            if (errorMessage.includes('NotFoundError')) {
+                                showError('Камера не найдена.');
+                            } else if (errorMessage.includes('NotAllowedError')) {
+                                showError('Отказано в доступе к камере.');
+                            } else if (errorMessage.includes('NotSupportedError')) {
+                                showError('Браузер не поддерживает API камеры.');
+                            } else {
+                                showError('Произошла ошибка при сканировании.');
+                            }
+                            scannerOverlay.style.display = 'flex';
+                            scanButtonIcon.textContent = '▶';
+                        },
+                        13000 // Тайм-аут сканирования в 13 секунд
+                    )
+                    .catch((err) => {
+                        console.error(err);
+                    });
+            }
+
+            scannerOverlay.addEventListener('click', function () {
+                if (html5QrCode.isScanning()) {
+                    html5QrCode.stop().then(() => {
+                        scannerOverlay.style.display = 'flex';
+                        scanButtonIcon.textContent = '▶';
+                    });
+                } else {
+                    startScanner();
+                }
+            });
+
+            requestCameraPermission()
+                .then((devices) => {
+                    displayCameras(devices);
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        });
+    </script>
+</body>
+
+</html>
