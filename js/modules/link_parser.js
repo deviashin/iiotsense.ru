@@ -1,28 +1,45 @@
-// 
-function parseBarcodeOne(str) {
-    // Создание и добавление элементов списка с параметрами изделия:
-    document.querySelector('#collapseFirst').innerHTML = '';
-    function addElementsList(name, addr, hr = 1) {
-        let spanName = document.createElement('span');
-        spanName.className = "fw-bold";
-        spanName.innerText = name;
-        document.querySelector('#collapseFirst').append(spanName);
+window.onload = function () {
+    var inputElement = document.getElementById('manual_device_input');
 
-        let spanAddr = document.createElement('span');
-        spanAddr.className = "card-text";
-        spanAddr.innerText = addr;
-        document.querySelector('#collapseFirst').append(spanAddr);
-
-        if (hr) {
-            let hr = document.createElement('hr');
-            hr.className = "border opacity-50";
-            document.querySelector('#collapseFirst').append(hr);
+    inputElement.addEventListener('keypress', function (event) {
+        if (event.key === 'Enter') {
+            var inputValue = inputElement.value;
+            parseBarcodeOne(inputValue);
         }
+    });
+};
+
+// Создание и добавление элементов списка с параметрами изделия:
+function addElementsList(name, addr, hr = 1) {
+    let spanName = document.createElement('span');
+    spanName.className = "fw-bold";
+    spanName.innerText = name;
+    document.querySelector('#collapseFirst').append(spanName);
+
+    let spanAddr = document.createElement('span');
+    spanAddr.className = "card-text";
+    spanAddr.innerText = addr;
+    document.querySelector('#collapseFirst').append(spanAddr);
+
+    if (hr) {
+        let hr = document.createElement('hr');
+        hr.className = "border opacity-50";
+        document.querySelector('#collapseFirst').append(hr);
+    }
+}
+
+// Функция разбора исходной строки из запроса к серверу:
+function parseBarcodeOne(str) {
+    document.querySelector('#collapseFirst').innerHTML = '';
+
+    // На случай, если исходная строка начинается с 'P?':
+    if (str[0] + str[1] === "P?") {
+        str = str.slice(str.split('?')[0].length + 1);
     }
 
-    // :
+    // Получаем ссылку на базу данных обо всех устройствах:
     let jsonLink = 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-all.json';
-    str = str.slice(str.split('?')[0].length + 1);
+
     switch (str[0] + str[1]) {
         case 'CC':
             jsonLink = 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-tk.json';
@@ -37,7 +54,8 @@ function parseBarcodeOne(str) {
         default:
             break;
     }
-    // console.log('Получен документ: ' + jsonLink);
+
+    console.log('Получен документ: ' + jsonLink);
 
     // :
     get_json_data(jsonLink).then(data => {
@@ -52,6 +70,7 @@ function parseBarcodeOne(str) {
         for (let i = 3; i < 10; i++) { SerialN += str[i]; }
         document.getElementById('SN').innerText = `${SerialN}`;
 
+        //--------------------------------------------------------------------------------------------------------------------------------//
         // БИП-Т . К . XX . X   X   X   X   X . X
         //       (Мд).(АМ).(И1)(И2)(И3)(И4)(И5).(СИ) 
         // let bipTK = '{\"(Мд)\": \"Модель устройства: \",\"(АМ)\": \"Аппаратная модификация устройства: \",\"(И1)\": \"Исполнение по измерению: \",\"(И2)\": \"Исполнение по типу монтажной части (1): \",\"(И3)\": \"Исполнение по типу монтажной части (2): \",\"(И4)\": \"Исполнение по антенне: \",\"(И5)\": \"Исполнение по электропитанию: \",\"(СИ)\": \"Код специсполнения: \",}';
@@ -65,7 +84,7 @@ function parseBarcodeOne(str) {
                 "И5": "Исполнение по электропитанию: ",
                 "СИ": "Код специсполнения: "
             }`;
-        // console.log(JSON.parse(bipTK));
+
         // http://IIOTSENSE.RU/P?CC0000026901112204046
         // CC - 0, 1
         // 00000269 - 2, 3, 4, 5, 6, 7, 8, 9
@@ -73,7 +92,10 @@ function parseBarcodeOne(str) {
         // 11220 - 12, 13, 14, 15, 16
         // 4046 - 17, 18, 19, 20
 
+        // console.log(JSON.parse(bipTK));
+        //--------------------------------------------------------------------------------------------------------------------------------//
 
+        //--------------------------------------------------------------------------------------------------------------------------------//
         // БИП-Т . В . XX . X   X   X   X  . X
         //       (Мд).(АМ).(И1)(И2)(И3)(И4).(СИ)
         const bipTV = `{
@@ -85,9 +107,18 @@ function parseBarcodeOne(str) {
                 "И4": "Исполнение по электропитанию: ",
                 "СИ": "Код специсполнения: "
             }`;
+
+        // http://IIOTSENSE.RU/P?
+        //  - 
+        //  - 
+        //  - 
+        //  - 
+        //  - 
+
         // console.log(JSON.parse(bipTV));
+        //--------------------------------------------------------------------------------------------------------------------------------//
 
-
+        //--------------------------------------------------------------------------------------------------------------------------------//
         // БИП-У . 1 . XX . X   X   X   X  . X
         //       (Мд).(АМ).(И1)(И2)(И3)(И4).(СИ)
         const bipU = `{
@@ -99,7 +130,7 @@ function parseBarcodeOne(str) {
                 "И4": "Исполнение по электропитанию: ",
                 "СИ": "Код специсполнения: "
             }`;
-        // console.log(JSON.parse(bipU));
+
         // http://IIOTSENSE.RU/P?D00000019910110114629
         // D0 - 0, 1
         // 00000199 - 2, 3, 4, 5, 6, 7, 8, 9
@@ -108,7 +139,10 @@ function parseBarcodeOne(str) {
         // 1011 - 13, 14, 15, 16
         // 4629 - 17, 18, 19, 20
 
+        // console.log(JSON.parse(bipU));
+        //--------------------------------------------------------------------------------------------------------------------------------//
 
+        //--------------------------------------------------------------------------------------------------------------------------------//
         // БИП-G . X . XX . X   X   X   X  . X
         //       (Мд).(АМ).(И1)(И2)(И3)(И4).(СИ)
         const bipG = `{
@@ -120,7 +154,7 @@ function parseBarcodeOne(str) {
                 "И4": "Исполнение по электропитанию: ",
                 "СИ": "Код специсполнения: "
             }`;
-        // console.log(JSON.parse(bipG));
+
         // http://IIOTSENSE.RU/P?D10000034710111105871
         // D1 - 0, 1
         // 00000347 - 2, 3, 4, 5, 6, 7, 8, 9
@@ -128,6 +162,9 @@ function parseBarcodeOne(str) {
         // 01 - 11, 12
         // 1110 - 13, 14, 15, 16
         // 5871 - 17, 18, 19, 20
+
+        // console.log(JSON.parse(bipG));
+        //--------------------------------------------------------------------------------------------------------------------------------//
 
         // 
         // function listInfo(arr, el) {
@@ -196,54 +233,6 @@ function parseBarcodeOne(str) {
     });
 }
 
-                // // <input type="checkbox" id="1" class="box">checkbox1</input><br>
-            // // <input type="checkbox" id="2" class="box">checkbox2</input><br>
-            // // <input type="checkbox" id="3" class="box">checkbox3</input><br>
-            // // <input type="checkbox" id="4" class="box">checkbox4</input><br>
-            // // <input type="checkbox" id="5" class="box">checkbox5</input><br>
-            // // <input type="checkbox" id="6" class="box">checkbox6</input><br>
-            // // Локальное хранилище для сохранения настроек приложения:
-            // let boxes = document.getElementsByClassName('box').length;
-            // function save() {
-            //     for (let i = 1; i <= boxes; i++) {
-            //         var checkbox = document.getElementById(String(i));
-            //         localStorage.setItem("checkbox" + String(i), checkbox.checked);
-            //     }
-            // }
-            // for (let i = 1; i <= boxes; i++) {
-            //     if (localStorage.length > 0) {
-            //         var checked = JSON.parse(localStorage.getItem("checkbox" + String(i)));
-            //         document.getElementById(String(i)).checked = checked;
-            //     }
-            // }
-            // window.addEventListener('change', save);
-
-    // function parseBarcodeTwo(str) {
-    //     const strDash = decodedText.split('-');
-    //     const strDot = strDash[1].split('.');
-
-    //     if (strDash[0] == 'device-line') {
-    //         if (strDot[0] == 'G') {
-    //             jsonLink = 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-g.json';
-    //         }
-    //         else { }
-    //     }
-    //     parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');
-    //     get_json_data(jsonLink)
-    //         .then(data => {
-    //             document.getElementById('Наименование').innerText = `${data.Наименование}`;
-    //             document.getElementById('device-line').innerText = `${data.Серия}`;
-    //             document.getElementById('МД').innerText = `${data.Модель.МД[strDot[0] + strDot[1]].Имя}`;
-    //             document.getElementById('АМ').innerText = `${data.Модель.АМ}`;
-    //             document.getElementById('И1').innerText = `${data.Модель.МД.G1.И1[strDot[3][0]]}`;
-    //             document.getElementById('И2').innerText = `${data.Модель.МД.G1.И2[strDot[3][1]]}`;
-    //             document.getElementById('И3').innerText = `${data.Модель.И3[strDot[3][2]]}`;
-    //             document.getElementById('И4').innerText = `${data.Модель.И4[strDot[3][3]]}`;
-    //             document.getElementById('СИ').innerText = `${data.Модель.СИ['0']}`;
-    //         });
-    // }
-
-    // interfaceRender();
-    // parseBarcodeOne('IIOTSENSE.RU/P?CC0000026901112204046');
-    // parseBarcodeOne('IIOTSENSE.RU/P?D00000019910110114629');
-    // parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');
+// parseBarcodeOne('IIOTSENSE.RU/P?CC0000026901112204046');
+// parseBarcodeOne('IIOTSENSE.RU/P?D00000019910110114629');
+// parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');

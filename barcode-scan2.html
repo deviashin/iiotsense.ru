@@ -321,20 +321,115 @@
                 </div>
                 <div class="offcanvas-body p-4 pt-0 p-lg-0">
                     <hr class="d-lg-none text-white-50">
-                    <ul class="navbar-nav flex-row flex-wrap ms-md-auto d-block d-lg-none">
-                        <li class="nav-item col col-lg-auto">
-                            <a class="nav-link py-2 px-0 px-lg-2" href="barcode-scan.html" target="_blank"
-                                rel="noopener">
-                                <i class="fa-regular fa-qrcode fa-2xl"></i>
-                                <span class="d-lg-none ms-2">Проверка продукции</span>
-                            </a>
+                    <ul class="navbar-nav flex-row flex-wrap ms-md-auto d-block d-lg-none text-white">
+                        <li class="list-group-item bg-transparent mb-0 pb-0 border-0">
+                            <h5>Сканирование:</h5>
+                        </li>
+                        <li class="list-group-item bg-transparent mt-4 ms-1">
+                            <div class="dropdown">
+                                <button class="btn btn-success dropdown-toggle w-100 border-0 shadow rounded-3"
+                                    type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                    data-bs-auto-close="true" aria-haspopup="true" aria-expanded="false">
+                                    Выбрать источник для распознавания:
+                                </button>
+                                <form id="camerass">
+                                    <ul class="dropdown-menu mt-3 w-100 border-0 shadow-lg rounded-4 p-1"
+                                        aria-labelledby="dropdownMenuButton" id="camera-list">
+                                        <li class="ps-3 pt-1">
+                                            <figure>
+                                                <blockquote class="blockquote mb-0">
+                                                    <span>Список доступных источников:</span>
+                                                </blockquote>
+                                                <span class="text-muted">* Не все камеры могут быть доступны!</span>
+                                            </figure>
+                                        </li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li class="form-check m-3">
+                                            <input data-save="true" class="form-check-input rounded-5" type="radio"
+                                                name="flexRadioDefault" id="localImageSource"
+                                                style="transform: scale(1.5);">
+                                            <label class="form-check-label ms-2" for="localImageSource">Выбрать на
+                                                устройстве</label>
+                                        </li>
+                                        <!-- <li class="form-check m-3">
+                                            <input data-save="true" class="form-check-input rounded-5" type="radio" name="flexRadioDefault"
+                                                id="fake-id-camera1" style="transform: scale(1.5);">
+                                            <label class="form-check-label ms-2" for="fake-id-camera1">Fake camera 1 (344f:5h39)</label>
+                                        </li>
+                                        <li class="form-check m-3">
+                                            <input data-save="true" class="form-check-input rounded-5" type="radio" name="flexRadioDefault"
+                                                id="fake-id-camera2" style="transform: scale(1.5);">
+                                            <label class="form-check-label ms-2" for="fake-id-camera2">Fake camera 2 (ba34:ff32)</label>
+                                        </li> -->
+                                    </ul>
+                                </form>
+                            </div>
+                        </li>
+                        <li class="list-group-item bg-transparent mt-4 ms-1">
+                            <div class="form-check form-switch">
+                                <input data-save="true" class="form-check-input border-0 shadow" type="checkbox"
+                                    role="switch" id="barcode_scanner_remember_devices" style="transform: scale(1.4);">
+                                <label class="form-check-label ms-2" for="barcode_scanner_remember_devices">
+                                    Запоминать источник изображения
+                                </label>
+                            </div>
+                        </li>
+                        <li class="list-group-item bg-transparent mt-4 ms-1">
+                            <div class="form-check form-switch">
+                                <input data-save="true" class="form-check-input border-0 shadow" type="checkbox"
+                                    role="switch" id="checkbox2" style="transform: scale(1.4);" disabled>
+                                <label class="form-check-label ms-2" for="checkbox2">
+                                    Автоматическая фокусировка
+                                </label>
+                            </div>
+                        </li>
+                        <li class="list-group-item bg-transparent mt-4 ms-0">
+                            <div class="form-check ps-0">
+                                <label for="rangeValueFps" class="form-label">
+                                    Количество кадров в секунду -
+                                    <span id="rangeTextFps">
+                                        5
+                                    </span>
+                                    fps
+                                </label>
+                                <input data-save="true" type="range" class="form-range mt-2" min="0" max="10" step="1"
+                                    id="rangeValueFps">
+                            </div>
+                        </li>
+                        <li class="list-group-item bg-transparent mt-3 ms-1">
+                            <div class="form-check form-switch">
+                                <input data-save="true" class="form-check-input border-0 shadow" type="checkbox"
+                                    role="switch" id="checkbox3" style="transform: scale(1.4);" disabled>
+                                <label class="form-check-label ms-2" for="checkbox3">
+                                    Автоматическое масшабирование
+                                </label>
+                            </div>
+                        </li>
+                        <hr class="d-lg-none my-4 text-white-50">
+                        <li class="list-group-item bg-transparent my-3 mb-0 pb-0 border-0">
+                            <h5>Экспериментальные:</h5>
+                        </li>
+                        <li class="list-group-item bg-transparent mt-4 ms-1">
+                            <div class="form-check form-switch">
+                                <input data-save="true" class="form-check-input border-0 shadow" type="checkbox"
+                                    role="switch" id="useBarCodeDetectorIfSupported" style="transform: scale(1.4);"
+                                    disabled>
+                                <label class="form-check-label ms-2" for="useBarCodeDetectorIfSupported">
+                                    API BarcodeDetector
+                                </label>
+                            </div>
                         </li>
                     </ul>
-                    <ul class="navbar-nav flex-row flex-wrap">
+                    <ul class="navbar-nav flex-row flex-wrap text-white">
                         <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
-                            <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+                            <div class="vr d-none d-lg-flex h-100 mx-lg-2"></div>
                             <hr class="d-lg-none my-2 text-white-50">
                         </li>
+                        <!-- <li class="nav-item">
+                            <h5>Отображение:</h5>
+                        </li> -->
                         <li class="nav-item dropdown">
                             <button
                                 class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center"
@@ -344,7 +439,7 @@
                                     <use href="#sun-fill"></use>
                                 </svg>
                                 <!-- <i class="fa-regular fa-sun-bright fa-2xl my-1"></i> -->
-                                <span class="d-lg-none ms-2">Переключить тему</span>
+                                <span class="d-lg-none ms-2">Переключить тему оформления</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme"
                                 style="--bs-dropdown-min-width: 8rem;">
@@ -401,7 +496,14 @@
 
     <div class="container-fluid m-0 p-0 mb-4" id="reader"></div>
 
-    <div class="container-fluid d-none" id="scan-info">
+    <div class="container-fluid">
+        <h1 class="d-flex justify-content-between align-items-center mt-4 mb-3 ps-1 py-1">
+            <span class="text-success">Ручной ввод кода изделия:</span>
+        </h1>
+        <input type="text" id="manual_device_input" class="form-control">
+    </div>
+
+    <div class="container-fluid d- none" id="scan-info">
         <h1 class="d-flex justify-content-between align-items-center my-4 ps-1 py-1">
             <span class="text-success">Информация о изделии:</span>
         </h1>
@@ -478,65 +580,12 @@
             сканирование</button>
     </div> -->
 
-
-
-
-
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item bg-transparent mb-0 pb-0 border-0">
-            <h5>Сканирование:</h5>
-        </li>
-        <li class="list-group-item bg-transparent">
-            <div class="form-check form-switch my-2">
-                <input data-save="true" class="form-check-input border-0 shadow" type="checkbox" role="switch"
-                    id="barcode_scanner_remember_devices" style="transform: scale(1.4);">
-                <label class="form-check-label ms-2" for="barcode_scanner_remember_devices">Запоминать источник
-                    изображения</label>
-            </div>
-        </li>
-        <li class="list-group-item bg-transparent">
-            <div class="form-check form-switch my-2">
-                <input data-save="true" class="form-check-input border-0 shadow" type="checkbox" role="switch"
-                    id="checkbox2" style="transform: scale(1.4);" disabled>
-                <label class="form-check-label ms-2" for="checkbox2">Автоматическая фокусировка</label>
-            </div>
-        </li>
-        <li class="list-group-item bg-transparent">
-            <div class="form-check my-2 ps-0">
-                <label for="rangeValueFps" class="form-label">
-                    Количество кадров в секунду -
-                    <span id="rangeTextFps">5</span> fps
-                </label>
-                <input data-save="true" type="range" class="form-range my-2" min="0" max="10" step="1"
-                    id="rangeValueFps">
-            </div>
-        </li>
-        <li class="list-group-item bg-transparent">
-            <div class="form-check form-switch my-2">
-                <input data-save="true" class="form-check-input border-0 shadow" type="checkbox" role="switch"
-                    id="checkbox3" style="transform: scale(1.4);" disabled>
-                <label class="form-check-label ms-2" for="checkbox3">Автоматическое масшабирование</label>
-            </div>
-        </li>
-        <li class="list-group-item bg-transparent mt-3 mb-0 pb-0 border-0">
-            <h5>Экспериментальные функции1:</h5>
-        </li>
-        <li class="list-group-item bg-transparent">
-            <div class="form-check form-switch my-2">
-                <input data-save="true" class="form-check-input border-0 shadow" type="checkbox" role="switch"
-                    id="useBarCodeDetectorIfSupported" style="transform: scale(1.4);" disabled>
-                <label class="form-check-label ms-2" for="useBarCodeDetectorIfSupported">API BarcodeDetector</label>
-            </div>
-        </li>
-    </ul>
-
-
     <div class="container-fluid p-2" id="">
-        <div class="dropdown">
+        <!-- <div class="dropdown">
             <button class="btn btn-success dropdown-toggle w-100 border-0 shadow rounded-3" type="button"
                 id="dropdownMenuButton" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-haspopup="true"
                 aria-expanded="false">
-                Выбрать источник для распознавания33
+                Выбрать источник для распознавания:
             </button>
             <form id="camerass">
                 <ul class="dropdown-menu mt-3 w-100 border-0 shadow-lg rounded-4 p-1"
@@ -557,7 +606,7 @@
                             id="localImageSource" style="transform: scale(1.5);">
                         <label class="form-check-label ms-2" for="localImageSource">Выбрать на устройстве</label>
                     </li>
-                    <!-- <li class="form-check m-3">
+                    <li class="form-check m-3">
                         <input data-save="true" class="form-check-input rounded-5" type="radio" name="flexRadioDefault"
                             id="fake-id-camera1" style="transform: scale(1.5);">
                         <label class="form-check-label ms-2" for="fake-id-camera1">Fake camera 1 (344f:5h39)</label>
@@ -566,10 +615,10 @@
                         <input data-save="true" class="form-check-input rounded-5" type="radio" name="flexRadioDefault"
                             id="fake-id-camera2" style="transform: scale(1.5);">
                         <label class="form-check-label ms-2" for="fake-id-camera2">Fake camera 2 (ba34:ff32)</label>
-                    </li> -->
+                    </li>
                 </ul>
             </form>
-        </div>
+        </div> -->
 
         <div class="mobile-only">
             <style>
@@ -622,7 +671,7 @@
     <script src="js/crypto-js.min@4.1.1.js"></script>
 
     <!-- Сохранение и восстановления <input> элементов из Local Storage -->
-    <script src="js/modules/inputs.js"></script>
+    <!-- <script src="js/modules/inputs.js"></script> -->
 
     <!-- Проверка и рассчет MD5 суммы с использованием собственного форматирования -->
     <script src="js/modules/link_md5_hash.js"></script>
@@ -701,7 +750,7 @@
                         cameraList.appendChild(li);
 
                         console.log("Доступные камеры: ", device.id);
-                        alert("Доступные камеры: ", device.id);
+                        // alert("Доступные камеры: ", device.id);
                     });
 
                     var cameraId = devices[1].id;
@@ -710,7 +759,7 @@
                 }
             }).catch(err => {
                 console.log("Доступные камеры не найдены!");
-                alert("Доступные камеры не найдены!");
+                // alert("Доступные камеры не найдены!");
             });
         }
 
@@ -755,7 +804,7 @@
                     parseBarcodeOne(decodedText); // Передаём распознанный текст в функцию парсера.
                     interfaceRender(true); // Отрисовываем интерфейс.
 
-                    alert("текст: ", decodedText);
+                    // alert("текст: ", decodedText);
                 },
                 (errorMessage) => {
                     // parse error, ignore it.
