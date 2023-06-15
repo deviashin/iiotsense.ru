@@ -4,7 +4,7 @@ window.onload = function () {
     inputElement.addEventListener('keypress', function (event) {
         if (event.key === 'Enter') {
             var inputValue = inputElement.value;
-            parseBarcodeOne(inputValue);
+            parseString(inputValue);
         }
     });
 };
@@ -28,14 +28,85 @@ function addElementsList(name, addr, hr = 1) {
     }
 }
 
+
+// :
+function parseString(str) {
+    if (str.length === 10 || str.length === 21) {
+        var prefix = str.substring(0, 2);
+
+        if (isValidPrefix(prefix)) {
+            if (str.length === 10) {
+                console.log("Данные успешно обработаны. Обратитесь к производителю.");
+            } else if (str.length === 21) {
+                parseBarcodeOne(str);
+            }
+
+            // Завершаем выполнение функции, так как уже обработали данные
+            return;
+        } else {
+            console.error("Ошибка: Неверный префикс!");
+            return;
+        }
+    }
+
+    // Проверяем наличие подстроки "P?"
+    var startIndex = str.indexOf("P?");
+
+    if (startIndex !== -1) {
+        var truncatedString = str.substring(startIndex + 2);
+    } 
+    // else {
+    //     console.error("Ошибка: Не найден ключ 'P?'!");
+    // }
+
+    var prefix = truncatedString.substring(0, 2); ////////тут ошибка, нужно посмотреть историю с зеленым, там где то было правильно
+    
+
+    if (isValidPrefix(prefix)) {
+        var suffix = truncatedString.substring(2);
+
+        if (suffix.length < 19) {
+            console.error("Ошибка: Недостаточно символов после префикса!");
+        } else {
+            var resultString = prefix + suffix.substring(0, 19);
+            parseBarcodeOne(resultString);
+        }
+    } else {
+        console.error("Ошибка: Неверный префикс!");
+    }
+}
+
+function isValidPrefix(prefix) {
+    var validPrefixes = ["D0", "D1", "CC", "CB", "CD"];
+    var isValid = false;
+
+    validPrefixes.forEach(function (validPrefix) {
+        if (prefix === validPrefix) {
+            isValid = true;
+        }
+    });
+
+    return isValid;
+}
+
+
+
+
+
+
+
+// parseBarcodeOne('IIOTSENSE.RU/P?CC0000026901112204046');
+// parseBarcodeOne('IIOTSENSE.RU/P?D00000019910110114629');
+// parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');
+
 // Функция разбора исходной строки из запроса к серверу:
 function parseBarcodeOne(str) {
     document.querySelector('#collapseFirst').innerHTML = '';
 
     // На случай, если исходная строка начинается с 'P?':
-    if (str[0] + str[1] === "P?") {
-        str = str.slice(str.split('?')[0].length + 1);
-    }
+    // if (str[0] + str[1] === "P?") {
+    //     str = str.slice(str.split('?')[0].length + 1);
+    // }
 
     // Получаем ссылку на базу данных обо всех устройствах:
     let jsonLink = 'https://raw.githubusercontent.com/deviashin/iiotsense.ru/main/db/bip-all.json';
@@ -232,7 +303,3 @@ function parseBarcodeOne(str) {
         }
     });
 }
-
-// parseBarcodeOne('IIOTSENSE.RU/P?CC0000026901112204046');
-// parseBarcodeOne('IIOTSENSE.RU/P?D00000019910110114629');
-// parseBarcodeOne('IIOTSENSE.RU/P?D10000034710111105871');
