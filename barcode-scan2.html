@@ -497,7 +497,13 @@
     <div class="container-fluid m-0 p-0 mb-4" id="reader"></div>
 
     <div class="container-fluid">
-        <div id="result123"></div>
+        <div id="error-container"></div>
+
+        <p>
+            IIOTSENSE.RU/P?CC0000026901112204046</br>
+            IIOTSENSE.RU/P?D00000019910110114629</br>
+            IIOTSENSE.RU/P?D10000034710111105871
+        </p>
         <h1 class="d-flex justify-content-between align-items-center mt-4 mb-3 ps-1 py-1">
             <span class="text-success">Ручной ввод кода изделия:</span>
         </h1>
@@ -608,10 +614,10 @@
     </div>
 
     <!-- Испытательный скриптовый полигон -->
-    <script>
+    <!-- <script>
         // localStorage.clear();
         for (var key in localStorage) { if (localStorage.hasOwnProperty(key)) { console.log(key + ': ' + localStorage.getItem(key)); } }
-    </script>
+    </script> -->
 
     <!-- Асинхронный обработчик JSON документов -->
     <script>
@@ -635,8 +641,8 @@
     <!-- Сохранение и восстановления <input> элементов из Local Storage -->
     <!-- <script src="js/modules/inputs.js"></script> -->
 
-    <!-- Проверка и рассчет MD5 суммы с использованием собственного форматирования -->
-    <script src="js/modules/link_md5_hash.js"></script>
+    <!-- УСТАРЕЛО!!! Проверка и рассчет MD5 суммы с использованием собственного форматирования -->
+    <!-- <script src="js/modules/link_md5_hash.js"></script> -->
 
     <!-- Парсер для отсканированной ссылки из QR-кода -->
     <script src="js/modules/link_parser.js"></script>
@@ -769,7 +775,7 @@
                     document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`; // .
                     document.querySelector('#reader').classList.add('d-none'); // .
 
-                    parseBarcodeOne(decodedText); // Передаём распознанный текст в функцию парсера.
+                    parse_barcode_one(decodedText); // Передаём распознанный текст в функцию парсера.
                     interfaceRender(true); // Отрисовываем интерфейс.
 
                     // alert("текст: ", decodedText);

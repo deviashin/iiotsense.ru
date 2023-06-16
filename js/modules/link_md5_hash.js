@@ -4,11 +4,15 @@ function getHashFromQRCode(qrCodeString) {
 
     // 1. Забираем исходную строку полученную из QR-кода.
     // Например, "IIOTSENSE.RU/P?D10000021410111103607".
-    if (debug) { console.log('qrCodeString: ', qrCodeString); }
+    if (debug) {
+        console.log('qrCodeString: ', qrCodeString);
+    }
 
     // 2. Отсекаем ссылку на сайт "IIOTSENSE.RU/P?":
     const originalString = qrCodeString.substring("IIOTSENSE.RU/P?".length);
-    if (debug) { console.log('originalString: ', originalString); }
+    if (debug) {
+        console.log('originalString: ', originalString);
+    }
 
     // 3. Отсекаем оригинальный хеш "3607" - последние 4 символа исходной строки:
     const originalHash = originalString.substring(originalString.length - 4);
@@ -21,23 +25,33 @@ function getHashFromQRCode(qrCodeString) {
     // 4. Конкатенируем отсеченную строку с "солью":
     const salt = 'iaaiOdy78sfLkj1vhIe,,,,h2la49\r\n';
     const originalStringWithSalt = originalStringWithoutHash + salt;
-    if (debug) { console.log('originalStringWithSalt: ', originalStringWithSalt); }
+    if (debug) {
+        console.log('originalStringWithSalt: ', originalStringWithSalt);
+    }
 
     // 5. Получаем MD5 хеш от полученной строки:
     const md5Hash = CryptoJS.MD5(originalStringWithSalt).toString();
-    if (debug) { console.log('md5Hash: ', md5Hash); }
+    if (debug) {
+        console.log('md5Hash: ', md5Hash);
+    }
 
     // 6. Забираем 7 последних символов от MD5 хеша (7 - зависимость от числа int64, но без учёта знака):
     const truncatedMd5Hash = md5Hash.substring(md5Hash.length - 7);
-    if (debug) { console.log('truncatedMd5Hash: ', truncatedMd5Hash); }
+    if (debug) {
+        console.log('truncatedMd5Hash: ', truncatedMd5Hash);
+    }
 
     // 7. Переводим их в десятичную систему счисления:
     const truncatedMd5HashDecimal = parseInt(truncatedMd5Hash, 16);
-    if (debug) { console.log('truncatedMd5HashDecimal: ', truncatedMd5HashDecimal); }
+    if (debug) {
+        console.log('truncatedMd5HashDecimal: ', truncatedMd5HashDecimal);
+    }
 
     // 8. Забираем последние 4 символа - это и есть получившийся хеш:
     const finalHash = truncatedMd5HashDecimal.toString().substring(truncatedMd5HashDecimal.toString().length - 4);
-    if (debug) { console.log('finalHash: ', finalHash); }
+    if (debug) {
+        console.log('finalHash: ', finalHash);
+    }
 
     // 9. Сравниваем с исходным числом из п.3:
     if (finalHash === originalHash) {
@@ -63,7 +77,9 @@ function removeLinkPrefix(str) {
     var startIndex = originalString.indexOf(substring);
 
     // Если подстрока не найдена - метод "indexOf" вернет "-1":
-    if (startIndex !== -1) { var result = originalString.substring(startIndex); }
+    if (startIndex !== -1) {
+        var result = originalString.substring(startIndex);
+    }
 
     // Вызов функции проверки хеша из полученной строки:
     getHashFromQRCode(result);
