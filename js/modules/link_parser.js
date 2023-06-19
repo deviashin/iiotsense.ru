@@ -104,29 +104,21 @@ function is_numeric_string(str) {
  * @returns {number} - Возвращает 0 в случае успеха или числовой код ошибки в случае исключения.
  */
 function parse_string(str) {
-    let start_index = str.indexOf("P?");  // Находим индекс начала подстроки "P?" в исходной строке.
     let data = str.toUpperCase();  // Инициализируем строку в верхнем регистре со значением исходной строки по умолчанию.
+    let start_index = data.indexOf("P?");  // Находим индекс начала подстроки "P?" в исходной строке.
     let report = CODES.SUCCESS_PARSE_DATA;  // Инициализируем код ошибки нулем (нет ошибок).
 
     if (start_index !== -1) {
-        data = str.substring(start_index + 2);  // Если найдена подстрока "P?", обрезаем строку, начиная с двух символов после нее.
+        data = data.substring(start_index + 2);  // Если найдена подстрока "P?", обрезаем строку, начиная с двух символов после нее.
     }
 
     let product_code = data.substring(0, 2);  // Из обрезанной строки берем первые два символа - код изделия.
     let product_data = data.substring(2);  // Из обрезанной строки берем остальную часть - данные об изделии.
 
-
-
-
-    //с хэшем надо че то делать, выводит сообщение с ошибкой если вбить один символ в поле на странице
-    if (get_hash_from_qr_code(data)) {
-        report = CODES.INVALID_DATA_MD5_HASH;  // Проверяем сходится ли MD5 хеш-сумма полученной строки.
+    if (product_data.length !== 19 && product_data.length !== 8) {
+        report = CODES.INVALID_DATA_LENGTH;  // Проверяем длину данных об изделии.
     }
-
-
-
-
-    if (!/^[0-9A-F]+$/.test(product_code)) {
+    else if (!/^[0-9A-F]+$/.test(product_code)) {
         report = CODES.INVALID_PRODUCT_TYPE_FORMAT;  // Проверяем формат кода изделия (символы 0-9 и A-F).
     }
     else if (!is_valid_prefix(product_code)) {
@@ -135,11 +127,11 @@ function parse_string(str) {
     else if (!is_numeric_string(product_data)) {
         report = CODES.INVALID_DATA_FORMAT;  // Проверяем формат данных об изделии.
     }
-    else if (product_data.length !== 19 && product_data.length !== 8) {
-        report = CODES.INVALID_DATA_LENGTH;  // Проверяем длину данных об изделии.
-    }
     else if (product_data.length === 8) {
         report = CODES.INVALID_PRODUCT_LEGACY;  // Проверяем неполные данные (поддержка легаси устройств).
+    }
+    else if (get_hash_from_qr_code(data)) {
+        report = CODES.INVALID_DATA_MD5_HASH;  // Проверяем сходится ли MD5 хеш-сумма полученной строки.
     }
 
     // Если код ошибки равен нулю (отсутствуют ошибки), передаем обрезанную строку в функцию parse_barcode_one для разбора:
@@ -177,7 +169,7 @@ window.onload = function () {
 
     inputElement.addEventListener('keypress', function (event) {
         if (event.key === 'Enter') {
-            // document.getElementById("error-container").textContent = '';
+            document.getElementById("error-container").textContent = '';
             var inputValue = inputElement.value;
             let report = parse_string(inputValue);
             if (!report) {
