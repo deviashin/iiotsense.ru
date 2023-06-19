@@ -497,14 +497,16 @@
     <div class="container-fluid m-0 p-0 mb-4" id="reader"></div>
 
     <div class="container-fluid">
-        <h1 class="d-flex justify-content-between align-items-center mt-4 mb-3 ps-1 py-1">
-            <span class="text-success">Ручной ввод кода изделия:</span>
-        </h1>
-        <input type="text" id="manual_device_input" class="form-control" placeholder="">
-        <p class="ps-1 text-muted">
-            Например: IIOTSENSE.RU/P?XX12345678xxxxxxxxxxx или XX12345678.
-        </p>
-        <div id="error-container"></div>
+        <div class="card m-0 shadow-lg border-0 rounded-4 p-3 pt-2">
+            <h1 class="d-flex justify-content-between align-items-center mt-4 mb-3 ps-1 py-1">
+                <span class="text-success">Ручной ввод кода изделия:</span>
+            </h1>
+            <input type="text" id="manual_device_input" class="form-control shadow border -0 mb-3" placeholder="">
+            <p class="ps-1 text-muted">
+                Например: IIOTSENSE.RU/P?XX12345678xxxxxxxxxxx или XX12345678.
+            </p>
+            <div id="error-container"></div>
+        </div>
     </div>
 
     <div class="container-fluid d-none" id="scan-info">
@@ -676,6 +678,18 @@
             // ],
         };
 
+        function interfaceRender(state) {
+            document.querySelectorAll('#scan-info').forEach((slider) => {
+                if (state) {
+                    slider.classList.remove('d-none');
+                    slider.classList.add('d-block');
+                } else {
+                    slider.classList.remove('d-block');
+                    slider.classList.add('d-none');
+                }
+            });
+        }
+
         function barcode_scanner_init() {
             // This method will trigger user permissions
             Html5Qrcode.getCameras().then(devices => {
@@ -771,7 +785,7 @@
                     document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`; // .
                     document.querySelector('#reader').classList.add('d-none'); // .
 
-                    parse_barcode_one(decodedText); // Передаём распознанный текст в функцию парсера.
+                    parse_string(decodedText); // Передаём распознанный текст в функцию парсера.
                     interfaceRender(true); // Отрисовываем интерфейс.
 
                     // alert("текст: ", decodedText);
