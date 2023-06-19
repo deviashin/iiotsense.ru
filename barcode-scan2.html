@@ -497,20 +497,17 @@
     <div class="container-fluid m-0 p-0 mb-4" id="reader"></div>
 
     <div class="container-fluid">
-        <div id="error-container"></div>
-
-        <p>
-            IIOTSENSE.RU/P?CC0000026901112204046</br>
-            IIOTSENSE.RU/P?D00000019910110114629</br>
-            IIOTSENSE.RU/P?D10000034710111105871
-        </p>
         <h1 class="d-flex justify-content-between align-items-center mt-4 mb-3 ps-1 py-1">
             <span class="text-success">Ручной ввод кода изделия:</span>
         </h1>
-        <input type="text" id="manual_device_input" class="form-control">
+        <input type="text" id="manual_device_input" class="form-control" placeholder="">
+        <p class="ps-1 text-muted">
+            Например: IIOTSENSE.RU/P?XX12345678xxxxxxxxxxx или XX12345678.
+        </p>
+        <div id="error-container"></div>
     </div>
 
-    <div class="container-fluid d- none" id="scan-info">
+    <div class="container-fluid d-none" id="scan-info">
         <h1 class="d-flex justify-content-between align-items-center my-4 ps-1 py-1">
             <span class="text-success">Информация о изделии:</span>
         </h1>
@@ -607,8 +604,8 @@
             <label
                 style="display: flex; align-items: center; justify-content: center; width: 4rem; height: 4rem; border: none; border-radius: 50%; 
             background-color: var(--bs-green); color: #fff; opacity: .90; user-select: none; z-index: 9999 !important;">
-                <input data-save="true" type="checkbox" id="barcode_scanner_start_button" style="display: none;">
-                <i id="barcode_scanner_start_button_icon" class="fa-regular fa-qrcode fa-2x5"></i>
+                <input data-save="true" type="checkbox" id="barcodeScannerStartButton" style="display: none;">
+                <i id="barcodeScannerStartButtonIcon" class="fa-regular fa-qrcode fa-2x5"></i>
             </label>
         </div>
     </div>
@@ -681,52 +678,51 @@
 
         function barcode_scanner_init() {
             // This method will trigger user permissions
-            Html5Qrcode.getCameras()
-                .then(devices => {
-                    /**
-                     * devices would be an array of objects of type:
-                     * { id: "id", label: "label" }
-                     */
-                    if (devices && devices.length) {
-                        // Получаем ссылку на элемент ul, в котором будут располагаться элементы списка
-                        const cameraList = document.querySelector('#camera-list');
+            Html5Qrcode.getCameras().then(devices => {
+                /**
+                 * devices would be an array of objects of type:
+                 * { id: "id", label: "label" }
+                 */
+                if (devices && devices.length) {
+                    // Получаем ссылку на элемент ul, в котором будут располагаться элементы списка
+                    const cameraList = document.querySelector('#camera-list');
 
-                        // Проходимся по массиву устройств и создаем для каждого чекбокс
-                        devices.forEach((device, index) => {
-                            // Создаем элемент li, который будет содержать чекбокс и метку
-                            const li = document.createElement("li");
-                            li.classList.add("form-check", "m-3");
+                    // Проходимся по массиву устройств и создаем для каждого чекбокс
+                    devices.forEach((device, index) => {
+                        // Создаем элемент li, который будет содержать чекбокс и метку
+                        const li = document.createElement("li");
+                        li.classList.add("form-check", "m-3");
 
-                            // Создаем чекбокс и задаем его атрибуты
-                            const input = document.createElement("input");
-                            input.classList.add("form-check-input", "rounded-5");
-                            input.type = "radio";
-                            input.name = "radio_camera_list";
-                            input.id = device.id;
-                            input.style.transform = "scale(1.5)";
+                        // Создаем чекбокс и задаем его атрибуты
+                        const input = document.createElement("input");
+                        input.classList.add("form-check-input", "rounded-5");
+                        input.type = "radio";
+                        input.name = "radio_camera_list";
+                        input.id = device.id;
+                        input.style.transform = "scale(1.5)";
 
-                            // Создаем метку для чекбокса и задаем ей текст
-                            const label = document.createElement("label");
-                            label.classList.add("form-check-label", "ms-2");
-                            label.setAttribute("for", device.id);
-                            label.textContent = device.label;
+                        // Создаем метку для чекбокса и задаем ей текст
+                        const label = document.createElement("label");
+                        label.classList.add("form-check-label", "ms-2");
+                        label.setAttribute("for", device.id);
+                        label.textContent = device.label;
 
-                            // Добавляем чекбокс и метку в элемент li
-                            li.appendChild(input);
-                            li.appendChild(label);
+                        // Добавляем чекбокс и метку в элемент li
+                        li.appendChild(input);
+                        li.appendChild(label);
 
-                            // Добавляем элемент li в список
-                            cameraList.appendChild(li);
+                        // Добавляем элемент li в список
+                        cameraList.appendChild(li);
 
-                            console.log("Доступные камеры: ", device.id);
-                            // alert("Доступные камеры: ", device.id);
-                        });
+                        console.log("Доступные камеры: ", device.id);
+                        // alert("Доступные камеры: ", device.id);
+                    });
 
-                        var cameraId = devices[1].id;
+                    var cameraId = devices[1].id;
 
-                        barcode_scanner_start(cameraId);
-                    }
-                })
+                    barcode_scanner_start(cameraId);
+                }
+            })
                 .catch(err => {
                     console.log("Доступные камеры не найдены!");
                     // alert("Доступные камеры не найдены!");
@@ -796,7 +792,7 @@
         var barcode_scanner_start_button_state = localStorage.getItem('barcode_scanner_start_button_state') === 'true';
 
         // Обновляем состояние: кнопки и работы сканера:
-        updateButtonState(barcode_scanner_start_button_state);
+        // updateButtonState(barcode_scanner_start_button_state);
 
         // Отслеживаем нажатие, меняем в хранилище и обновляем на странице состояние кнопки:
         barcode_scanner_start_button.addEventListener('click', () => {
@@ -828,7 +824,7 @@
                 barcode_scanner_start_button_icon.classList.replace('fa-duotone', 'fa-regular');
                 barcode_scanner_start_button_icon.classList.replace('fa-pause', 'fa-qrcode');
             }
-            // console.log(barcode_scanner_start_button_state);
+            console.log(barcode_scanner_start_button_state);
         }
 
         // Весь код, который должен быть выполнен после загрузки всех ресурсов на странице: 
