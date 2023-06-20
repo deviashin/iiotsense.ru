@@ -1,204 +1,156 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Сканер QR-кода</title>
-    <style>
-        #reader {
-            width: 600px;
-            height: 600px;
-            border: 2px solid black;
-            position: relative;
-            display: none;
-        }
-
-        #scanner-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            color: white;
-        }
-
-        #scan-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #ffffff;
-            padding: 10px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        #camera-list {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 20px;
-        }
-
-        .camera-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .camera-item input[type="radio"] {
-            margin-right: 5px;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barcode Scanner</title>
 </head>
 
 <body>
-    <h2>Начните сканирование прямо1ы !</h2>
-    <div id="reader" width="600px"></div>
-    <div id="scanner-overlay"></div>
-    <div id="result-container"></div>
-    <div id="scan-button">&#9654;</div>
+    <div id="reader"></div>
+    <button id="scanner_button">Начать сканирование</button>
 
-    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <!-- Подключение библиотеки Html5Qrcode -->
+    <script src="js/html5-qrcode.min@2.3.8.js"></script>
+
+    <!-- Подключение JavaScript-кода для управления сканером -->
     <script>
-        const scannerOverlay = document.getElementById('scanner-overlay');
-        const resultContainer = document.getElementById('result-container');
-        const scanButton = document.getElementById('scan-button');
-        const cameraList = document.getElementById('camera-list');
-        const reader = document.getElementById('reader');
-        const html5QrCode = new Html5Qrcode('reader');
-        let selectedCameraId = null;
+        const html5_qr_code = new Html5Qrcode(/* element id */ "reader");
+        let scanner_state = Html5QrcodeScannerState.NOT_STARTED;
+        let button_press_start_time = null;
+        let long_press_timeout_id = null;
 
-        function requestCameraPermission() {
-            return new Promise((resolve, reject) => {
-                Html5Qrcode.getCameras()
-                    .then((devices) => {
-                        if (devices && devices.length) {
-                            resolve(devices);
-                        } else {
-                            reject(new Error('Камеры не найдены.'));
-                        }
+        function toggle_scanner() {
+            if (scanner_state === Html5QrcodeScannerState.NOT_STARTED) {
+                html5_qr_code.start(
+                    { facingMode: "environment" },
+                    {
+                        qrbox: calculate_qr_box_size(),
+                    },
+                    (qr_code_message) => {
+                        // Обработка найденного QR-кода
+                        console.log("Найден QR-код:", qr_code_message);
+                        // Ваша логика обработки найденного QR-кода
+                    }
+                )
+                    .then(() => {
+                        scanner_state = Html5QrcodeScannerState.SCANNING;
+                        console.log("Сканер успешно запущен");
+                        // Обновление интерфейса или выполнение других операций после успешного запуска сканера
+                        // show_reader();
                     })
-                    .catch((err) => {
-                        reject(err);
+                    .catch((error) => {
+                        console.log("Ошибка при запуске сканера:", error);
+                        // Обработка ошибки запуска сканера
                     });
-            });
-        }
-
-        function displayCameras(devices) {
-            cameraList.innerHTML = '';
-
-            devices.forEach((device) => {
-                const radio = document.createElement('input');
-                radio.type = 'radio';
-                radio.name = 'camera';
-                radio.value = device.id;
-
-                if (selectedCameraId === device.id) {
-                    radio.checked = true;
-                }
-
-                const label = document.createElement('label');
-                label.textContent = device.label;
-
-                const cameraItem = document.createElement('div');
-                cameraItem.classList.add('camera-item');
-                cameraItem.appendChild(radio);
-                cameraItem.appendChild(label);
-
-                cameraList.appendChild(cameraItem);
-            });
-
-            if (devices.length > 0) {
-                const radioButtons = document.querySelectorAll('input[name="camera"]');
-                radioButtons.forEach((radio) => {
-                    radio.addEventListener('change', function () {
-                        selectedCameraId = this.value;
-                    });
-                });
+            } else if (scanner_state === Html5QrcodeScannerState.SCANNING) {
+                html5_qr_code.pause();
+                scanner_state = Html5QrcodeScannerState.PAUSED;
+                console.log("Сканер приостановлен");
+                // Обновление интерфейса или выполнение других операций после успешной паузы сканера
+                hide_reader();
+            } else if (scanner_state === Html5QrcodeScannerState.PAUSED) {
+                html5_qr_code.resume();
+                scanner_state = Html5QrcodeScannerState.SCANNING;
+                console.log("Сканер возобновлен");
+                // Обновление интерфейса или выполнение других операций после успешного возобновления сканера
+                show_reader();
             }
         }
 
-        function showError(message) {
-            resultContainer.innerHTML = '';
-            const errorText = document.createElement('p');
-            errorText.textContent = message;
-            resultContainer.appendChild(errorText);
+        function calculate_qr_box_size() {
+            const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            const qrBoxWidth = screenWidth >= 500 ? 500 : Math.floor(screenWidth * 0.9);
+            return qrBoxWidth;
         }
 
-        function showResult(result) {
-            resultContainer.innerHTML = '';
-            const resultText = document.createElement('p');
-            resultText.textContent = result;
-            resultContainer.appendChild(resultText);
-        }
-
-        function startScanner() {
-            scannerOverlay.style.display = 'flex';
-            reader.style.display = 'block';
-
-            html5QrCode.start(
-                selectedCameraId,
-                {
-                    fps: 10,
-                    qrbox: {
-                        width: 250,
-                        height: 250
-                    }
-                },
-                (decodedText) => {
-                    html5QrCode.stop();
-                    scannerOverlay.style.display = 'none';
-                    showResult(decodedText);
-                },
-                (errorMessage) => {
-                    showError(errorMessage);
+        function stop_scanner() {
+            show_reader();
+            return new Promise((resolve, reject) => {
+                if (scanner_state === Html5QrcodeScannerState.NOT_STARTED) {
+                    reject("Сканер не запущен");
+                    return;
                 }
-            ).catch((err) => {
-                showError('Не удалось начать сканирование.');
+                html5_qr_code.stop()
+                    .then(() => {
+                        scanner_state = Html5QrcodeScannerState.NOT_STARTED;
+                        resolve();
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    });
             });
         }
 
-        function stopScanner() {
-            html5QrCode.stop();
-            scannerOverlay.style.display = 'none';
-            reader.style.display = 'none';
-            resultContainer.innerHTML = '';
+        function start_long_press_timeout() {
+            long_press_timeout_id = setTimeout(() => {
+                if (scanner_state === Html5QrcodeScannerState.SCANNING || scanner_state === Html5QrcodeScannerState.PAUSED) {
+                    stop_scanner()
+                        .then(() => {
+                            console.log("Сканер полностью остановлен после долгого нажатия");
+                            // Обновление интерфейса или выполнение других операций после успешной остановки сканера
+                            hide_reader();
+                        })
+                        .catch((error) => {
+                            console.log("Ошибка при остановке сканера:", error);
+                            // Обработка ошибки остановки сканера
+                        });
+                }
+            }, 3000); // 3 секунды
         }
 
-        scanButton.addEventListener('click', function () {
-            if (html5QrCode.isScanning()) {
-                stopScanner();
-                this.innerHTML = '&#9654;'; // Play icon
-            } else {
-                startScanner();
-                this.innerHTML = '&#9632;'; // Stop icon
+
+        function clear_long_press_timeout() {
+            clearTimeout(long_press_timeout_id);
+        }
+
+        function show_reader() {
+            const reader = document.getElementById("reader");
+            reader.style.display = "block";
+        }
+
+        function hide_reader() {
+            const reader = document.getElementById("reader");
+            reader.style.display = "none";
+        }
+
+        const scanner_button = document.getElementById("scanner_button");
+        scanner_button.addEventListener("mousedown", (event) => {
+            if (event.button === 0) {
+                button_press_start_time = Date.now();
+                start_long_press_timeout();
             }
         });
 
-        function init() {
-            requestCameraPermission()
-                .then((devices) => {
-                    displayCameras(devices);
-                    if (selectedCameraId) {
-                        const selectedRadio = document.querySelector(`input[value="${selectedCameraId}"]`);
-                        if (selectedRadio) {
-                            selectedRadio.checked = true;
-                        }
-                    }
-                    startScanner();
-                })
-                .catch((err) => {
-                    showError(err.message);
-                });
-        }
+        scanner_button.addEventListener("mouseup", () => {
+            clear_long_press_timeout();
+            const press_duration = Date.now() - button_press_start_time;
+            if (press_duration >= 3000) {
+                // Прошло более 3 секунд, обработка долгого нажатия
+                html5_qr_code.stop();
+                scanner_state = Html5QrcodeScannerState.NOT_STARTED;
+                console.log("Сканер полностью остановлен после долгого нажатия");
+                // Обновление интерфейса или выполнение других операций после успешной остановки сканера
+                hide_reader();
+            } else {
+                // Обычное нажатие
+                toggle_scanner();
+            }
+        });
 
-        init();
+        scanner_button.addEventListener("mouseout", () => {
+            clear_long_press_timeout();
+        });
+
+        // Инициализация размеров видоискателя при загрузке страницы
+        window.addEventListener("load", () => {
+            const qrBoxWidth = calculate_qr_box_size();
+            const reader = document.getElementById("reader");
+            reader.style.width = qrBoxWidth + "px";
+            reader.style.height = qrBoxWidth + "px";
+        });
+
     </script>
 </body>
 
