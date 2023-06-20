@@ -334,7 +334,7 @@
                                 </button>
                                 <form id="camerass">
                                     <ul class="dropdown-menu mt-3 w-100 border-0 shadow-lg rounded-4 p-1"
-                                        aria-labelledby="dropdownMenuButton" id="camera-list">
+                                        aria-labelledby="dropdownMenuButton" id="deviceList">
                                         <li class="ps-3 pt-1">
                                             <figure>
                                                 <blockquote class="blockquote mb-0">
@@ -370,8 +370,8 @@
                         <li class="list-group-item bg-transparent mt-4 ms-1">
                             <div class="form-check form-switch">
                                 <input data-save="true" class="form-check-input border-0 shadow" type="checkbox"
-                                    role="switch" id="barcode_scanner_remember_devices" style="transform: scale(1.4);">
-                                <label class="form-check-label ms-2" for="barcode_scanner_remember_devices">
+                                    role="switch" id="rememberDevices" style="transform: scale(1.4);">
+                                <label class="form-check-label ms-2" for="rememberDevices">
                                     Запоминать источник изображения
                                 </label>
                             </div>
@@ -501,7 +501,7 @@
             <h1 class="d-flex justify-content-between align-items-center mt-4 mb-3 ps-1 py-1">
                 <span class="text-success">Ручной ввод кода изделия:</span>
             </h1>
-            <input type="text" id="manual_device_input" class="form-control shadow border -0 mb-3" placeholder="">
+            <input type="text" id="manual_device_input" class="form-control shadow border-0 mb-3" placeholder="">
             <p class="ps-1 text-muted">
                 Например: IIOTSENSE.RU/P?XX12345678xxxxxxxxxxx или XX12345678.
             </p>
@@ -653,31 +653,6 @@
     <script src="js/html5-qrcode.min@2.3.8.js"></script>
     <!-- <script src="js/modules/barcode-scanner@2.0.0.js"></script> -->
     <script>
-        const barcode_scanner_config = {
-            experimentalFeatures: {
-                useBarCodeDetectorIfSupported: true
-            },
-            // rememberLastUsedCamera: true,
-            focusMode: "continuous",
-            fps: 5,
-            qrbox: {
-                width: 250,
-                height: 250
-            },
-            // qrbox: qrboxFunction,
-            showTorchButtonIfSupported: true,
-            showZoomSliderIfSupported: true,
-            defaultZoomValueIfSupported: 1,
-            // supportedScanTypes: [
-            //     Html5QrcodeScanType.SCAN_TYPE_CAMERA,
-            //     Html5QrcodeScanType.SCAN_TYPE_FILE
-            // ],
-            // formatsToSupport: [
-            //     Html5QrcodeSupportedFormats.QR_CODE,
-            //     Html5QrcodeSupportedFormats.DATA_MATRIX
-            // ],
-        };
-
         function interfaceRender(state) {
             document.querySelectorAll('#scan-info').forEach((slider) => {
                 if (state) {
@@ -692,63 +667,65 @@
 
         function barcode_scanner_init() {
             // This method will trigger user permissions
-            Html5Qrcode.getCameras().then(devices => {
-                /**
-                 * devices would be an array of objects of type:
-                 * { id: "id", label: "label" }
-                 */
-                if (devices && devices.length) {
-                    // Получаем ссылку на элемент ul, в котором будут располагаться элементы списка
-                    const cameraList = document.querySelector('#camera-list');
+            Html5Qrcode.getCameras()
+                .then(devices => {
+                    /**
+                     * devices would be an array of objects of type:
+                     * { id: "id", label: "label" }
+                     */
+                    if (devices && devices.length) {
+                        // Получаем ссылку на элемент ul, в котором будут располагаться элементы списка
+                        const cameraList = document.querySelector('#deviceList');
 
-                    // Проходимся по массиву устройств и создаем для каждого чекбокс
-                    devices.forEach((device, index) => {
-                        // Создаем элемент li, который будет содержать чекбокс и метку
-                        const li = document.createElement("li");
-                        li.classList.add("form-check", "m-3");
+                        // Проходимся по массиву устройств и создаем для каждого чекбокс
+                        devices.forEach((device, index) => {
+                            // Создаем элемент li, который будет содержать чекбокс и метку
+                            const li = document.createElement("li");
+                            li.classList.add("form-check", "m-3");
 
-                        // Создаем чекбокс и задаем его атрибуты
-                        const input = document.createElement("input");
-                        input.classList.add("form-check-input", "rounded-5");
-                        input.type = "radio";
-                        input.name = "radio_camera_list";
-                        input.id = device.id;
-                        input.style.transform = "scale(1.5)";
+                            // Создаем чекбокс и задаем его атрибуты
+                            const input = document.createElement("input");
+                            input.classList.add("form-check-input", "rounded-5");
+                            input.type = "radio";
+                            input.name = "radio_camera_list";
+                            input.id = device.id;
+                            input.style.transform = "scale(1.5)";
 
-                        // Создаем метку для чекбокса и задаем ей текст
-                        const label = document.createElement("label");
-                        label.classList.add("form-check-label", "ms-2");
-                        label.setAttribute("for", device.id);
-                        label.textContent = device.label;
+                            // Создаем метку для чекбокса и задаем ей текст
+                            const label = document.createElement("label");
+                            label.classList.add("form-check-label", "ms-2");
+                            label.setAttribute("for", device.id);
+                            label.textContent = device.label;
 
-                        // Добавляем чекбокс и метку в элемент li
-                        li.appendChild(input);
-                        li.appendChild(label);
+                            // Добавляем чекбокс и метку в элемент li
+                            li.appendChild(input);
+                            li.appendChild(label);
 
-                        // Добавляем элемент li в список
-                        cameraList.appendChild(li);
+                            // Добавляем элемент li в список
+                            cameraList.appendChild(li);
 
-                        console.log("Доступные камеры: ", device.id);
-                        // alert("Доступные камеры: ", device.id);
-                    });
+                            console.log("Доступные камеры: ", device.id);
+                        });
 
-                    var cameraId = devices[1].id;
+                        // var cameraId = devices[0].id;
 
-                    barcode_scanner_start(cameraId);
-                }
-            })
+                        // barcode_scanner_start(cameraId);
+                    }
+                })
                 .catch(err => {
                     console.log("Доступные камеры не найдены!");
                     // alert("Доступные камеры не найдены!");
                 });
         }
 
-        const html5QrCode = new Html5Qrcode("reader");
+        // const html5QrCode = new Html5Qrcode(/* element id */ "reader", /* verbose= */ true);
+        const html5QrCode = new Html5Qrcode(/* element id */ "reader");
 
         function barcode_scanner_stop() {
             html5QrCode.stop()
                 .then((ignore) => {
                     // QR Code scanning is stopped.
+                    document.querySelector('#reader').classList.add('d-none'); // .
                 })
                 .catch((err) => {
                     // Stop failed, handle it.
@@ -756,6 +733,31 @@
         }
 
         function barcode_scanner_start(camera_id) {
+            const barcode_scanner_config = {
+                experimentalFeatures: {
+                    useBarCodeDetectorIfSupported: true
+                },
+                // rememberLastUsedCamera: true,
+                focusMode: "continuous",
+                fps: 5,
+                qrbox: {
+                    width: 250,
+                    height: 250
+                },
+                // qrbox: qrboxFunction,
+                showTorchButtonIfSupported: true,
+                showZoomSliderIfSupported: true,
+                defaultZoomValueIfSupported: 1,
+                // supportedScanTypes: [
+                //     Html5QrcodeScanType.SCAN_TYPE_CAMERA,
+                //     Html5QrcodeScanType.SCAN_TYPE_FILE
+                // ],
+                // formatsToSupport: [
+                //     Html5QrcodeSupportedFormats.QR_CODE,
+                //     Html5QrcodeSupportedFormats.DATA_MATRIX
+                // ],
+            };
+
             // Ручной выбор источника видеозахвата:
             // html5QrCode.start({ deviceId: { exact: barcode_scanner_camera_id } }, config, qrCodeSuccessCallback);
 
@@ -771,6 +773,8 @@
             // Выберите заднюю камеру или завершите работу с ошибкой "OverconstrainedError":
             // html5QrCode.start({ facingMode: { exact: "environment" } }, config, qrCodeSuccessCallback);
 
+            document.querySelector('#reader').classList.remove('d-none'); // .
+
             html5QrCode.start(
                 {
                     deviceId: {
@@ -783,7 +787,6 @@
                     barcode_scanner_stop();
                     document.getElementById('text').innerText = `${decodedText}`; // .
                     document.getElementById('result').innerText = `${decodedResult.result.format.formatName}`; // .
-                    document.querySelector('#reader').classList.add('d-none'); // .
 
                     parse_string(decodedText); // Передаём распознанный текст в функцию парсера.
                     interfaceRender(true); // Отрисовываем интерфейс.
@@ -797,6 +800,37 @@
                     // Start failed, handle it.
                 });
         }
+
+
+
+
+
+        // Сохраняем состояние чекбокса "rememberDevices" в localStorage при его изменении
+        const rememberDevicesCheckbox = document.getElementById('rememberDevices');
+        rememberDevicesCheckbox.addEventListener('change', (event) => {
+            localStorage.setItem('rememberDevices', event.target.checked);
+        });
+
+        // Загружаем состояние чекбокса "rememberDevices" из localStorage при загрузке страницы
+        const rememberDevices = JSON.parse(localStorage.getItem('rememberDevices'));
+        if (rememberDevices !== null) {
+            rememberDevicesCheckbox.checked = rememberDevices;
+        }
+
+        // Обработчик клика на элемент списка устройств
+        var cameraId;
+        deviceList.addEventListener('click', function (e) {
+            cameraId = e.target.getAttribute('data-id');
+            cameraLable = e.target.getAttribute('data-label');
+
+            console.log(cameraId, ' | ', cameraLable);
+
+            // Сохраняем выбранное значение "deviceId" в localStorage, если чекбокс "rememberDevices" включен
+            if (rememberDevices) {
+                localStorage.setItem('selectedDeviceId', JSON.stringify(deviceId));
+
+            }
+        });
 
         // Работа с кнопкой старт/стоп сканирование:
         const barcode_scanner_start_button = document.querySelector('#barcodeScannerStartButton');
@@ -816,6 +850,8 @@
         });
 
         function updateButtonState(state) {
+            let camera_state = html5QrCode.getState();
+            console.log();
             if (state) {
                 barcode_scanner_start_button.classList.add('active');
                 barcode_scanner_start_button_icon.classList.replace('fa-regular', 'fa-duotone');
@@ -833,10 +869,12 @@
                     barcode_scanner_start(cameraId);
                 }
             } else {
-                barcode_scanner_stop();
-                barcode_scanner_start_button.classList.remove('active');
-                barcode_scanner_start_button_icon.classList.replace('fa-duotone', 'fa-regular');
-                barcode_scanner_start_button_icon.classList.replace('fa-pause', 'fa-qrcode');
+                if (camera_state !== 1) {
+                    barcode_scanner_stop();
+                    barcode_scanner_start_button.classList.remove('active');
+                    barcode_scanner_start_button_icon.classList.replace('fa-duotone', 'fa-regular');
+                    barcode_scanner_start_button_icon.classList.replace('fa-pause', 'fa-qrcode');
+                }
             }
             console.log(barcode_scanner_start_button_state);
         }
