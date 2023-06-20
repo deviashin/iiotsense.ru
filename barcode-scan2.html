@@ -667,8 +667,9 @@
             showZoomSliderIfSupported: true,
             defaultZoomValueIfSupported: 1,
         };
+
         const cameraList = document.querySelector('#deviceList');
-        let scanner_camera_id;
+        let scanner_camera_id = null;
 
         function barcode_scanner_init() {
             Html5Qrcode.getCameras()
@@ -716,6 +717,7 @@
         }
 
         const html5QrCode = new Html5Qrcode(/* element id */ "reader");
+        let camera_state = html5QrCode.getState();
 
         function barcode_scanner_stop() {
             html5QrCode.stop()
@@ -750,6 +752,20 @@
                 });
         }
 
+        function barcode_scanner_state(state) {
+            camera_state = html5QrCode.getState();
+            console.log("camera_state: ", camera_state);
+
+            if (state && camera_state === 1) {
+                barcode_scanner_start();
+            }
+            else if (!state && camera_state === 1) {
+                barcode_scanner_stop();
+            }
+            else {
+                console.error("!");
+            }
+        }
 
 
 
@@ -779,21 +795,19 @@
         const barcode_scanner_start_button_icon = document.querySelector('#barcodeScannerStartButtonIcon');
 
         // Получаем последнее состояние кнопки из хранилища при загрузке страницы:
-        var barcode_scanner_start_button_state = true;
-        barcode_scanner_start_button_state = localStorage.getItem('barcode_scanner_start_button_state');
+        var barcode_scanner_start_button_state = localStorage.getItem('barcode_scanner_start_button_state');
         // var barcode_scanner_start_button_state = localStorage.getItem('barcode_scanner_start_button_state') === 'true';
+        console.log("barcode_scanner_start_button_state: ", barcode_scanner_start_button_state);
 
         // Обновляем состояние: кнопки и работы сканера:
         // updateButtonState(barcode_scanner_start_button_state);
 
         // Отслеживаем нажатие, меняем в хранилище и обновляем на странице состояние кнопки:
         barcode_scanner_start_button.addEventListener('click', () => {
-            barcode_scanner_start_button_state = !barcode_scanner_start_button_state;
-            localStorage.setItem('barcode_scanner_start_button_state', barcode_scanner_start_button_state);
             updateButtonState(barcode_scanner_start_button_state);
         });
 
-        let camera_state = 2;
+
         function updateButtonState(state) {
 
             console.log("состояние кнопки", state);
@@ -827,6 +841,8 @@
                     barcode_scanner_start_button_icon.classList.replace('fa-pause', 'fa-qrcode');
                 }
             }
+            barcode_scanner_start_button_state = !barcode_scanner_start_button_state;
+            localStorage.setItem('barcode_scanner_start_button_state', barcode_scanner_start_button_state);
             console.log(barcode_scanner_start_button_state);
         }
 
