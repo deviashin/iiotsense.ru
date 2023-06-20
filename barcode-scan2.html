@@ -770,19 +770,152 @@
 
 
 
-        // Сохраняем состояние чекбокса "rememberDevices" в localStorage при его изменении
-        const rememberDevicesCheckbox = document.getElementById('rememberDevices');
-        rememberDevicesCheckbox.addEventListener('change', (event) => {
-            localStorage.setItem('rememberDevices', event.target.checked);
-            // console.log("popa: ", event.target.checked);
-        });
+        // // Сохраняем состояние чекбокса "rememberDevices" в localStorage при его изменении
+        // const barcode_scanner_remember_device_checkbox = document.getElementById('rememberDevices');
+        // barcode_scanner_remember_device_checkbox.addEventListener('change', (event) => {
+        //     localStorage.setItem('rememberDevices', event.target.checked);
+        //     // console.log("popa: ", event.target.checked);
+        // });
 
-        // Загружаем состояние чекбокса "rememberDevices" из localStorage при загрузке страницы
-        const rememberDevices = JSON.parse(localStorage.getItem('rememberDevices'));
-        if (rememberDevices !== null) {
-            rememberDevicesCheckbox.checked = rememberDevices;
-            // console.log("pepa: ", rememberDevices);
+        // // Загружаем состояние чекбокса "rememberDevices" из localStorage при загрузке страницы
+        // const rememberDevices = JSON.parse(localStorage.getItem('rememberDevices'));
+        // if (rememberDevices !== null) {
+        //     barcode_scanner_remember_device_checkbox.checked = rememberDevices;
+        //     // console.log("pepa: ", rememberDevices);
+        // }
+
+        const barcode_scanner_remember_device_checkbox = document.getElementById('rememberDevices');
+        const barcode_scanner_remember_device_key = 'rememberDevices';
+        let rememberDevices = false;
+
+        // Проверяем поддержку LocalStorage
+        if (typeof Storage !== 'undefined') {
+            // Загружаем состояние чекбокса "rememberDevices" из LocalStorage при загрузке страницы
+            try {
+                rememberDevices = JSON.parse(localStorage.getItem(barcode_scanner_remember_device_key));
+            } catch (error) {
+                console.error('Ошибка при загрузке состояния чекбокса из LocalStorage:', error);
+            }
+
+            if (rememberDevices !== null) {
+                barcode_scanner_remember_device_checkbox.checked = rememberDevices;
+            }
+
+            // Сохраняем состояние чекбокса "rememberDevices" в LocalStorage при его изменении
+            barcode_scanner_remember_device_checkbox.addEventListener('change', (event) => {
+                rememberDevices = event.target.checked;
+
+                try {
+                    localStorage.setItem(barcode_scanner_remember_device_key, JSON.stringify(rememberDevices));
+                } catch (error) {
+                    console.error('Ошибка при сохранении состояния чекбокса в LocalStorage:', error);
+                }
+            });
+        } else {
+            console.log('LocalStorage не поддерживается в этом браузере.');
         }
+
+
+        // // Массив настроек сканера штрих-кода
+        // const barcode_scanner_settings = [
+        //     // {
+        //     //     id: 'barcode_scanner_NAME_checkbox',
+        //     //     key: 'barcode_scanner_NAME_key',
+        //     //     default_value: false
+        //     // },
+        //     {
+        //         id: 'barcode_scanner_remember_device_checkbox', // Идентификатор чекбокса
+        //         key: 'barcode_scanner_remember_device_key', // Ключ для сохранения в LocalStorage
+        //         default_value: false // Значение по умолчанию
+        //     }];
+
+        // function find_missing_checkboxes() {
+        //     const page_checkboxes = Array.from(document.querySelectorAll('input[type="checkbox"]'));
+        //     const missing_checkboxes = page_checkboxes.filter((checkbox) => !barcode_scanner_settings.some((setting) => setting.id === checkbox.id));
+
+        //     const missing_found = missing_checkboxes.length > 0;
+
+        //     if (missing_found) {
+        //         console.log('Найдены чекбоксы, которых нет в массиве barcode_scanner_settings:');
+        //         missing_checkboxes.forEach((checkbox) => console.log(checkbox.id));
+        //     } else {
+        //         console.error('На странице отсутствуют чекбоксы, которых нет в массиве barcode_scanner_settings.');
+        //     }
+
+        //     return {
+        //         missing_checkboxes: missing_found ? missing_checkboxes : null,
+        //         missing_found
+        //     };
+        // }
+
+        // // Вызываем функцию для поиска недостающих чекбоксов
+        // // const {
+        // //     missing_checkboxes,
+        // //     missing_found
+        // // } = find_missing_checkboxes();
+
+
+
+        // const is_storage_supported = typeof Storage !== 'undefined';
+
+        // // Загрузка значения настройки из LocalStorage
+        // const load_setting_value = (setting) => {
+        //     let value = setting.default_value;
+
+        //     if (is_storage_supported) {
+        //         try {
+        //             const stored_value = JSON.parse(localStorage.getItem(setting.key));
+        //             if (stored_value !== null) {
+        //                 value = stored_value;
+        //             }
+        //         } catch (error) {
+        //             console.error(`Ошибка при загрузке состояния чекбокса ${setting.id} из LocalStorage:`, error);
+        //         }
+        //     } else {
+        //         console.error('LocalStorage не поддерживается в этом браузере.');
+        //     }
+
+        //     return value;
+        // };
+
+        // // Сохранение значения настройки в LocalStorage
+        // const save_setting_value = (setting, value) => {
+        //     if (is_storage_supported) {
+        //         try {
+        //             localStorage.setItem(setting.key, JSON.stringify(value));
+        //         } catch (error) {
+        //             console.error(`Ошибка при сохранении состояния чекбокса ${setting.id} в LocalStorage:`, error);
+        //         }
+        //     } else {
+        //         console.error('LocalStorage не поддерживается в этом браузере.');
+        //     }
+        // };
+
+        // // Обработка каждой настройки сканера штрих-кода
+        // barcode_scanner_settings.forEach((setting) => {
+        //     const checkbox = document.getElementById(setting.id); // Получаем элемент чекбокса по идентификатору
+        //     console.log(checkbox);
+        //     // Проверяем, существует ли элемент чекбокса на странице
+        //     if (checkbox) {
+        //         let value = load_setting_value(setting); // Загружаем значение настройки из LocalStorage
+
+        //         // Установка значения чекбокса в соответствии с загруженным значением настройки
+        //         checkbox.checked = value;
+
+        //         // Обработчик события изменения состояния чекбокса
+        //         checkbox.addEventListener('change', (event) => {
+        //             value = event.target.checked;
+        //             save_setting_value(setting, value); // Сохраняем новое значение настройки в LocalStorage
+        //         });
+        //     } else {
+        //         console.error(`Элемент с идентификатором ${setting.id} не найден на странице.`);
+        //     }
+        // });
+
+
+
+
+
 
 
 
@@ -817,7 +950,7 @@
             console.log("состояние камеры", camera_state);
 
             if (state) {
-                scanner_interface_render(false);
+                // scanner_interface_render(false);
                 barcode_scanner_start_button.classList.add('active');
                 barcode_scanner_start_button_icon.classList.replace('fa-regular', 'fa-duotone');
                 barcode_scanner_start_button_icon.classList.replace('fa-qrcode', 'fa-pause');
@@ -826,11 +959,11 @@
                 if (rememberDevices) {
                     const selectedDeviceId = localStorage.getItem('selectedDeviceId');
                     if (selectedDeviceId) {
-                        console.log('df', selectedDeviceId);
+                        // console.log('df', selectedDeviceId);
                         barcode_scanner_start(selectedDeviceId);
                     }
                 } else {
-                    console.log('камера ID', scanner_camera_id);
+                    // console.log('камера ID', scanner_camera_id);
                     barcode_scanner_start(scanner_camera_id);
                 }
             } else {
@@ -841,9 +974,10 @@
                     barcode_scanner_start_button_icon.classList.replace('fa-pause', 'fa-qrcode');
                 }
             }
+            
             barcode_scanner_start_button_state = !barcode_scanner_start_button_state;
             localStorage.setItem('barcode_scanner_start_button_state', barcode_scanner_start_button_state);
-            console.log(barcode_scanner_start_button_state);
+            console.log("123start btn state:", barcode_scanner_start_button_state);
         }
 
         // Весь код, который должен быть выполнен после загрузки всех ресурсов на странице: 
