@@ -1240,6 +1240,88 @@
     // removeLinkPrefix('IIOTSENSE.RU/P?D00000019910110114629');
     // removeLinkPrefix('http://IIOTSENSE.RU/P?D10000034710111105871');
     // removeLinkPrefix('IIOTSENSE.RU/P?D10000021410111103607');
+
+
+
+
+
+
+
+
+
+
+
+
+    // Новая функция для генерации QR-кода на основе исходных констант:
+function generateQRCodeString(siteLink, parsingKey, serialNumber, numericData) {
+    const debug = true;
+
+    // 1. Объединяем все аргументы в оригинальную строку:
+    const originalString = `${siteLink}${parsingKey}${serialNumber}${numericData}`;
+
+    if (debug) {
+        console.log('originalString: ', originalString);
+    }
+
+    // 2. Конкатенируем отсеченную строку с "солью":
+    const salt = 'iaaiOdy78sfLkj1vhIe,,,,h2la49\r\n';
+    const originalStringWithSalt = originalString + salt;
+
+    if (debug) {
+        console.log('originalStringWithSalt: ', originalStringWithSalt);
+    }
+
+    // 3. Получаем MD5 хеш от полученной строки:
+    const md5Hash = CryptoJS.MD5(originalStringWithSalt).toString();
+
+    if (debug) {
+        console.log('md5Hash: ', md5Hash);
+    }
+
+    // 4. Забираем 7 последних символов от MD5 хеша (7 - зависимость от числа int64, но без учёта знака):
+    const truncatedMd5Hash = md5Hash.substring(md5Hash.length - 7);
+
+    if (debug) {
+        console.log('truncatedMd5Hash: ', truncatedMd5Hash);
+    }
+
+    // 5. Переводим их в десятичную систему счисления:
+    const truncatedMd5HashDecimal = parseInt(truncatedMd5Hash, 16);
+
+    if (debug) {
+        console.log('truncatedMd5HashDecimal: ', truncatedMd5HashDecimal);
+    }
+
+    // 6. Забираем последние 4 символа - это и есть получившийся хеш:
+    const finalHash = truncatedMd5HashDecimal.toString().substring(truncatedMd5HashDecimal.toString().length - 4);
+
+    if (debug) {
+        console.log('finalHash: ', finalHash);
+    }
+
+    // 7. Собираем окончательную строку с хешем:
+    const qrCodeString = `${siteLink}${parsingKey}${serialNumber}${numericData}${finalHash}`;
+
+    if (debug) {
+        console.log('qrCodeString: ', qrCodeString);
+    }
+
+    return qrCodeString;
+}
+
+// Исходные константы:
+const siteLink = "https://mysite.com/";
+const parsingKey = "P?";
+const serialNumber = "D5000203";
+const numericData = "12345";
+
+// Генерация QR-кода:
+const generatedQRCodeString = generateQRCodeString(siteLink, parsingKey, serialNumber, numericData);
+console.log('Generated QR Code String: ', generatedQRCodeString);
+
+// Проверка с использованием исходной функции:
+const result = getHashFromQRCode(generatedQRCodeString);
+console.log('Verification Result: ', result);
 </script>
 
 </html>
