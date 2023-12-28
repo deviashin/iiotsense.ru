@@ -413,115 +413,356 @@ function parse_barcode_one(str) {
     });
 }
 
-function get_hash_from_qr_code(qrCodeString) {
-    const debug = false; // if (debug) { console.log(); }.
-    let result = 0; // Переменная для хранения результата выполнения функции.
+// Массив разрешенных ссылок
+const allowed_links = [
+    "http://iiotsense.ru/",
+    "https://iiotsense.ru/"
+];
 
-    // 1. Забираем исходную строку полученную из QR-кода.
-    // Например, "IIOTSENSE.RU/P?D10000021410111103607".
-    if (debug) {
-        console.log('qrCodeString: ', qrCodeString);
+// Массив символов команды
+const special_chars = [
+    "P?",
+    "Q?",
+    "R?"
+];
+
+
+const salt = 'iaaiOdy78sfLkj1vhIe,,,,h2la49\r\n'; // Строка "соль".
+const debug = true; // Включить отладочную информацию в консоль браузера.
+
+// Функция отсечения ссылки вместе с символами команды
+function truncate_link(qr_code_string, allowed_link) {
+    return qr_code_string.substring(allowed_link.length);
+}
+
+// Функция проверки наличия разрешенной ссылки и отсечения лишнего
+function is_allowed_link(qr_code_string) {
+    for (const link of allowed_links) {
+        if (qr_code_string.toUpperCase().includes(link.toUpperCase())) {
+            return link;
+        }
     }
+    throw new Error('Ошибка! Не найдена ссылка из "белого списка" в исходной строке.');
+}
 
-    // ДОБАВИТЬ УСЛОВИЕ, ОТСЕКАТЬ ИЛИ НЕ ОТСЕКАТЬ ССЫЛКУ, ТАК КАК ЭТО УЖЕ ЕСТЬ В ФУНКЦИИ ПАРСЕРА
-    // 2. Отсекаем ссылку на сайт "IIOTSENSE.RU/P?":
-    // const originalString = qrCodeString.substring("IIOTSENSE.RU/P?".length);
-    const originalString = qrCodeString; // Временная заглушка. Так как работает хорошо, скорее всего так и останется.
-    if (debug) {
-        console.log('originalString: ', originalString);
+// Функция проверки наличия символов команды
+function check_special_chars(qr_code_string) {
+    for (const char of special_chars) {
+        if (qr_code_string.includes(char)) {
+            return char;
+        }
     }
+    throw new Error('Ошибка! Не найдены символы команды P?, Q?, R? в исходной строке.');
+}
 
-    // 3. Отсекаем оригинальный хеш "3607" - последние 4 символа исходной строки:
-    const originalHash = originalString.substring(originalString.length - 4);
-    const originalStringWithoutHash = originalString.substring(0, originalString.length - 4);
+// Функция отсечения символов команды
+function truncate_special_chars(string, command) {
+    return string.substring(command.length);
+}
+
+// 3. Отсекаем оригинальный хеш - последние 4 символа исходной строки.
+// Получаем оригинальны хеш:
+function original_string_hash(string) {
+    const result = string.substring(string.length - 4);
     if (debug) {
-        console.log('originalHash: ', originalHash);
-        console.log('originalStringWithoutHash: ', originalStringWithoutHash);
+        console.log('original_string_hash: ', result);
     }
+    return result;
+}
 
-    // 4. Конкатенируем отсеченную строку с "солью":
-    const salt = 'iaaiOdy78sfLkj1vhIe,,,,h2la49\r\n';
-    const originalStringWithSalt = originalStringWithoutHash + salt;
+// Получаем строку без оригинального хеша:
+function original_string_without_hash(string) {
+    const result = string.substring(0, string.length - 4);
     if (debug) {
-        console.log('originalStringWithSalt: ', originalStringWithSalt);
+        console.log('original_string_truncated_hash: ', result);
     }
+    return result;
+}
 
-    // 5. Получаем MD5 хеш от полученной строки:
-    const md5Hash = CryptoJS.MD5(originalStringWithSalt).toString();
+// 4. Конкатенируем отсеченную строку с "солью":
+function original_string_with_salt(string) {
+    const result = string + salt;
     if (debug) {
-        console.log('md5Hash: ', md5Hash);
+        console.log('original_string_with_salt: ', result);
     }
+    return result;
+}
 
-    // 6. Забираем 7 последних символов от MD5 хеша (7 - зависимость от числа int64, но без учёта знака):
-    const truncatedMd5Hash = md5Hash.substring(md5Hash.length - 7);
+// 5. Получаем MD5 хеш от полученной строки:
+function md5_result_string(string) {
+    const result = CryptoJS.MD5(string).toString();
     if (debug) {
-        console.log('truncatedMd5Hash: ', truncatedMd5Hash);
+        console.log('md5_result_string: ', result);
     }
+    return result;
+}
 
-    // 7. Переводим их в десятичную систему счисления:
-    const truncatedMd5HashDecimal = parseInt(truncatedMd5Hash, 16);
+// 6. Забираем 7 последних символов от MD5 хеша (7 - зависимость от числа int64, но без учёта знака):
+function md5_string_truncate_hash(string) {
+    const result = string.substring(string.length - 7);
     if (debug) {
-        console.log('truncatedMd5HashDecimal: ', truncatedMd5HashDecimal);
+        console.log('md5_string_truncate_hash: ', result);
     }
+    return result;
+}
 
-    // 8. Забираем последние 4 символа - это и есть получившийся хеш:
-    const finalHash = truncatedMd5HashDecimal.toString().substring(truncatedMd5HashDecimal.toString().length - 4);
+// 7. Переводим их в десятичную систему счисления:
+function md5_truncate_hash_to_decimal(string) {
+    const result = parseInt(string, 16);
     if (debug) {
-        console.log('finalHash: ', finalHash);
+        console.log('md5_truncate_hash_to_decimal: ', result);
     }
+    return result;
+}
 
-    // 9. Сравниваем с исходным числом из п.3:
-    if (finalHash === originalHash) {
+// 8. Забираем последние 4 символа - это и есть получившийся хеш:
+function md5_result_hash(string) {
+    const result = string.toString().substring(string.toString().length - 4);
+    if (debug) {
+        console.log('md5_result_hash: ', result);
+    }
+    return result;
+}
+
+// 9. Сравниваем с исходным числом из п.3:
+function compare_hash(original_hash, result_hash) {
+    let result = 0;
+    if (original_hash === result_hash) {
         if (debug) {
-            console.log('finalHash: ', finalHash + ' === ', 'originalHash: ', originalHash);
+            console.log('result_hash: ', result_hash + ' === ', 'original_hash: ', original_hash);
             console.log('Проверка хеша пройдена успешно!\r\n\r\n');
         }
     } else {
         result = 1;
         if (debug) {
-            console.log('finalHash: ', finalHash + ' !=== ', 'originalHash: ', originalHash);
+            console.log('result_hash: ', result_hash + ' !=== ', 'original_hash: ', original_hash);
             console.log('Ошибка! Хеш не соответствует исходному числу.\r\n\r\n');
         }
     }
-
     return result;
 }
 
-// Отсечение любых символов до исходной строки:
-function removeLinkPrefix(str) {
-    var originalString = str; // Исходная строка.
-    var substring = "IIOTSENSE.RU/P?"; // До какой подстроки необходимо отсечь лишнее.
-    var startIndex = originalString.indexOf(substring);
+// Основная функция
+function get_hash_from_qr_code(qr_code_string) {
 
-    // Если подстрока не найдена - метод "indexOf" вернет "-1":
-    if (startIndex !== -1) {
-        var result = originalString.substring(startIndex);
+
+    if (debug) {
+        console.log('qr_code_string: ', qr_code_string);
     }
 
-    // Вызов функции проверки хеша из полученной строки:
-    getHashFromQRCode(result);
+    try {
+        // Проверяем наличие разрешенной ссылки
+        const allowed_link = is_allowed_link(qr_code_string);
+        console.log('allowed_link: ', allowed_link);
+
+        // Отсекаем лишнее, если найдена разрешенная ссылка
+        const truncated_string_after_link = truncate_link(qr_code_string, allowed_link);
+        console.log('truncated_string_after_link: ', truncated_string_after_link);
+
+        // Проверяем символы команды
+        const special_char = check_special_chars(truncated_string_after_link);
+        console.log('special_char: ', special_char);
+
+        // Отсекаем символы команды
+        const truncated_string_after_special_chars = truncate_special_chars(truncated_string_after_link, special_char);
+        console.log('truncated_string_after_special_chars: ', truncated_string_after_special_chars);
+
+        // Расчет хеша и остальные операции
+        const original_hash = original_string_hash(truncated_string_after_special_chars);
+
+
+        const original_string_truncated_hash = original_string_without_hash(truncated_string_after_special_chars);
+
+
+        const string_with_salt = original_string_with_salt(original_string_truncated_hash);
+
+
+        const md5_string = md5_result_string(string_with_salt);
+
+
+        const md5_string_truncated_hash = md5_string_truncate_hash(md5_string);
+
+
+        const md5_truncated_hash_to_decimal = md5_truncate_hash_to_decimal(md5_string_truncated_hash);
+
+
+        const md5_resulted_hash = md5_result_hash(md5_truncated_hash_to_decimal);
+
+
+        const compared_hash = compare_hash(original_hash, md5_resulted_hash);
+        console.log('compared_hash: ', compared_hash);
+    } catch (error) {
+        console.error('Ошибка: ', error.message);
+        // Дополнительные действия при ошибке, если нужно
+    }
 }
 
-// Может не работать, если файл находится на другом домене из-за политики безопасности Same Origin Policy.
-// Преобразование TXT-файла в массив:
-function convertTxtToArray(str) {
-    fetch(str)
-        .then(response => response.text())
-        .then(text => {
-            const array = []; // Массив для хранения строк.
-            const lines = text.split(/\r?\n/); // Разбиваем текст на строки.
+// HTTPS://IIOTSENSE.RU/P?D50000012410200007207
+// Исходные константы:
+const site_link = "HTTP://IIOTSENSE.RU/";
+const parsing_key = "P?";
+const serial_number = "D500000124";
+const numeric_data = "1020000";
+const hash = "7207";
 
-            // Проверяем строки на наличие символов "БИП-"
-            for (let i = 0; i < lines.length; i++) {
-                if (lines[i].includes('БИП-')) {
-                    const line = lines[i].trim(); // Удаляем начальные и конечные пробелы с помощью метода "trim".
-                    array.push(line); // Добавляем каждую строку в массив.
-                }
-            }
-            array.forEach(removeLinkPrefix); // Выводим результат.
-        })
-        .catch(error => console.error(error));
-}
+const min_original_string = `${site_link}${parsing_key}${serial_number}${numeric_data}${hash}`;
+const result = get_hash_from_qr_code(min_original_string);
+
+// // Отсечение любых символов до исходной строки:
+// function remove_link_prefix(str) {
+//     var original_string = str; // Исходная строка.
+//     var substring = "IIOTSENSE.RU/P?"; // До какой подстроки необходимо отсечь лишнее.
+//     var start_index = original_string.indexOf(substring);
+
+//     // Если подстрока не найдена - метод "indexOf" вернет "-1":
+//     if (start_index !== -1) {
+//         var result = original_string.substring(start_index);
+//     }
+
+//     // Вызов функции проверки хеша из полученной строки:
+//     get_hash_from_qr_code(result);
+// }
+
+// // Может не работать, если файл находится на другом домене из-за политики безопасности Same Origin Policy.
+// // Преобразование TXT-файла в массив:
+// function convert_txt_to_array(str) {
+//     fetch(str)
+//         .then(response => response.text())
+//         .then(text => {
+//             const array = []; // Массив для хранения строк.
+//             const lines = text.split(/\r?\n/); // Разбиваем текст на строки.
+
+//             // Проверяем строки на наличие символов "БИП-"
+//             for (let i = 0; i < lines.length; i++) {
+//                 if (lines[i].includes('БИП-')) {
+//                     const line = lines[i].trim(); // Удаляем начальные и конечные пробелы с помощью метода "trim".
+//                     array.push(line); // Добавляем каждую строку в массив.
+//                 }
+//             }
+//             array.forEach(remove_link_prefix); // Выводим результат.
+//         })
+//         .catch(error => console.error(error));
+// }
+
+// Иммитация настоящих данных, для тестирования:
+// convert_txt_to_array('БИП - G 29.09.2022.txt');
+// convert_txt_to_array('БИП-К.2 26.10.2021.txt');
+// convert_txt_to_array('БИП-Т.П 22.10.2021.txt');
+
+// remove_link_prefix('IIOTSENSE.RU/P?CC0000026901112204046');
+// remove_link_prefix('IIOTSENSE.RU/P?D00000019910110114629');
+// remove_link_prefix('http://IIOTSENSE.RU/P?D10000034710111105871');
+// remove_link_prefix('IIOTSENSE.RU/P?D10000021410111103607');
+
+// function get_hash_from_qr_code(qrCodeString) {
+//     const debug = false; // if (debug) { console.log(); }.
+//     let result = 0; // Переменная для хранения результата выполнения функции.
+
+//     // 1. Забираем исходную строку полученную из QR-кода.
+//     // Например, "IIOTSENSE.RU/P?D10000021410111103607".
+//     if (debug) {
+//         console.log('qrCodeString: ', qrCodeString);
+//     }
+
+//     // ДОБАВИТЬ УСЛОВИЕ, ОТСЕКАТЬ ИЛИ НЕ ОТСЕКАТЬ ССЫЛКУ, ТАК КАК ЭТО УЖЕ ЕСТЬ В ФУНКЦИИ ПАРСЕРА
+//     // 2. Отсекаем ссылку на сайт "IIOTSENSE.RU/P?":
+//     // const originalString = qrCodeString.substring("IIOTSENSE.RU/P?".length);
+//     const originalString = qrCodeString; // Временная заглушка. Так как работает хорошо, скорее всего так и останется.
+//     if (debug) {
+//         console.log('originalString: ', originalString);
+//     }
+
+//     // 3. Отсекаем оригинальный хеш "3607" - последние 4 символа исходной строки:
+//     const originalHash = originalString.substring(originalString.length - 4);
+//     const originalStringWithoutHash = originalString.substring(0, originalString.length - 4);
+//     if (debug) {
+//         console.log('originalHash: ', originalHash);
+//         console.log('originalStringWithoutHash: ', originalStringWithoutHash);
+//     }
+
+//     // 4. Конкатенируем отсеченную строку с "солью":
+//     const salt = 'iaaiOdy78sfLkj1vhIe,,,,h2la49\r\n';
+//     const originalStringWithSalt = originalStringWithoutHash + salt;
+//     if (debug) {
+//         console.log('originalStringWithSalt: ', originalStringWithSalt);
+//     }
+
+//     // 5. Получаем MD5 хеш от полученной строки:
+//     const md5Hash = CryptoJS.MD5(originalStringWithSalt).toString();
+//     if (debug) {
+//         console.log('md5Hash: ', md5Hash);
+//     }
+
+//     // 6. Забираем 7 последних символов от MD5 хеша (7 - зависимость от числа int64, но без учёта знака):
+//     const truncatedMd5Hash = md5Hash.substring(md5Hash.length - 7);
+//     if (debug) {
+//         console.log('truncatedMd5Hash: ', truncatedMd5Hash);
+//     }
+
+//     // 7. Переводим их в десятичную систему счисления:
+//     const truncatedMd5HashDecimal = parseInt(truncatedMd5Hash, 16);
+//     if (debug) {
+//         console.log('truncatedMd5HashDecimal: ', truncatedMd5HashDecimal);
+//     }
+
+//     // 8. Забираем последние 4 символа - это и есть получившийся хеш:
+//     const finalHash = truncatedMd5HashDecimal.toString().substring(truncatedMd5HashDecimal.toString().length - 4);
+//     if (debug) {
+//         console.log('finalHash: ', finalHash);
+//     }
+
+//     // 9. Сравниваем с исходным числом из п.3:
+//     if (finalHash === originalHash) {
+//         if (debug) {
+//             console.log('finalHash: ', finalHash + ' === ', 'originalHash: ', originalHash);
+//             console.log('Проверка хеша пройдена успешно!\r\n\r\n');
+//         }
+//     } else {
+//         result = 1;
+//         if (debug) {
+//             console.log('finalHash: ', finalHash + ' !=== ', 'originalHash: ', originalHash);
+//             console.log('Ошибка! Хеш не соответствует исходному числу.\r\n\r\n');
+//         }
+//     }
+
+//     return result;
+// }
+
+// // Отсечение любых символов до исходной строки:
+// function removeLinkPrefix(str) {
+//     var originalString = str; // Исходная строка.
+//     var substring = "IIOTSENSE.RU/P?"; // До какой подстроки необходимо отсечь лишнее.
+//     var startIndex = originalString.indexOf(substring);
+
+//     // Если подстрока не найдена - метод "indexOf" вернет "-1":
+//     if (startIndex !== -1) {
+//         var result = originalString.substring(startIndex);
+//     }
+
+//     // Вызов функции проверки хеша из полученной строки:
+//     getHashFromQRCode(result);
+// }
+
+// // Может не работать, если файл находится на другом домене из-за политики безопасности Same Origin Policy.
+// // Преобразование TXT-файла в массив:
+// function convertTxtToArray(str) {
+//     fetch(str)
+//         .then(response => response.text())
+//         .then(text => {
+//             const array = []; // Массив для хранения строк.
+//             const lines = text.split(/\r?\n/); // Разбиваем текст на строки.
+
+//             // Проверяем строки на наличие символов "БИП-"
+//             for (let i = 0; i < lines.length; i++) {
+//                 if (lines[i].includes('БИП-')) {
+//                     const line = lines[i].trim(); // Удаляем начальные и конечные пробелы с помощью метода "trim".
+//                     array.push(line); // Добавляем каждую строку в массив.
+//                 }
+//             }
+//             array.forEach(removeLinkPrefix); // Выводим результат.
+//         })
+//         .catch(error => console.error(error));
+// }
 
 // Иммитация настоящих данных, для тестирования:
 // convertTxtToArray('БИП-G 29.09.2022.txt');
